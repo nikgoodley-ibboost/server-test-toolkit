@@ -71,6 +71,7 @@ public class SshTask implements Callable<OperationResult<String, String>> {
 		channelExec.setErrStream(System.err);
 		channelExec.setInputStream(null);
 		channelExec.connect();
+
 		return channelExec;
 	}
 
