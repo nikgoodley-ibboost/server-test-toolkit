@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
-import org.test.toolkit.server.user.ServerUser;
+import org.test.toolkit.server.common.user.ServerUser;
 import org.test.toolkit.util.IoUtil;
 
 public abstract class AbstractRemoteStroage implements RemoteStorage {

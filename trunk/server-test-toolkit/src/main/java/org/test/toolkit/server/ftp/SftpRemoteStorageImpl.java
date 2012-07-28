@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.test.toolkit.server.user.SshUser;
+import org.test.toolkit.server.common.user.SshUser;
 
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
