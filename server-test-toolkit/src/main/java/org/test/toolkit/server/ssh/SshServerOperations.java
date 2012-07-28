@@ -15,10 +15,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
-import org.test.toolkit.server.ssh.exception.CommandExecuteException;
-import org.test.toolkit.server.ssh.exception.ServerConnectionException;
-import org.test.toolkit.server.ssh.exception.ServerTimeoutException;
-import org.test.toolkit.server.ssh.exception.UncheckedServerOperationException;
+import org.test.toolkit.server.exception.CommandExecuteException;
+import org.test.toolkit.server.exception.ServerConnectionException;
+import org.test.toolkit.server.exception.ServerTimeoutException;
+import org.test.toolkit.server.exception.UncheckedServerOperationException;
 import org.test.toolkit.server.user.SshUser;
 import org.test.toolkit.util.CollectionUtil;
 import org.test.toolkit.util.ValidationUtil;
