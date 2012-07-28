@@ -12,11 +12,11 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
-public class SftpStorageImpl extends AbstractRemoteStroage {
+public class SftpRemoteStorageImpl extends AbstractRemoteStroage {
 
 	private Session session;
 
-	public SftpStorageImpl(SshUser sshUser) {
+	public SftpRemoteStorageImpl(SshUser sshUser) {
 		super(sshUser);
 
 	}

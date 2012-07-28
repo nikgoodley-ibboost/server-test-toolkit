@@ -8,11 +8,11 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.ftp.FTPClient;
 import org.test.toolkit.server.user.FtpUser;
 
-public class FtpStorageImpl extends AbstractRemoteStroage {
+public class FtpRemoteStorageImpl extends AbstractRemoteStroage {
 
 	private FTPClient ftpClient;
 
-	public FtpStorageImpl(FtpUser ftpUser) {
+	public FtpRemoteStorageImpl(FtpUser ftpUser) {
 		super(ftpUser);
 	}
 
