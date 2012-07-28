@@ -6,11 +6,11 @@ import java.util.concurrent.TimeoutException;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.test.toolkit.ssh.ServerOperations;
-import org.test.toolkit.ssh.SshServerOperations;
-import org.test.toolkit.ssh.SshUser;
-import org.test.toolkit.ssh.command.Ls;
-import org.test.toolkit.ssh.exception.UncheckedServerOperationException;
+import org.test.toolkit.server.ssh.ServerOperations;
+import org.test.toolkit.server.ssh.SshServerOperations;
+import org.test.toolkit.server.ssh.command.Ls;
+import org.test.toolkit.server.ssh.exception.UncheckedServerOperationException;
+import org.test.toolkit.server.user.SshUser;
 
 
 public class SshServerOperationsTest {
@@ -79,7 +79,7 @@ public class SshServerOperationsTest {
  		}
 		Assert.assertNotNull(e);
  	}
-	
+
 	@Test
 	public void testExecuteInnerGetLineCommand() throws UncheckedServerOperationException, TimeoutException {
 		SshUser sshUserOne = new SshUser("10.224.57.207", 333, "root", "Aa1234");
@@ -89,7 +89,7 @@ public class SshServerOperationsTest {
 		System.out.println(lsResult);
 		Assert.assertNotNull(lsResult);
 	}
-	
+
 	@Test
 	public void testExecuteInnerGrepCommand() throws UncheckedServerOperationException, TimeoutException {
 		SshUser sshUserOne = new SshUser("10.224.57.207", 333, "root", "Aa1234");
