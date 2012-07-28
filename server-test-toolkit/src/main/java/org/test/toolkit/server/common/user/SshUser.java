@@ -1,4 +1,4 @@
-package org.test.toolkit.server.user;
+package org.test.toolkit.server.common.user;
 
 public class SshUser extends ServerUser {
 

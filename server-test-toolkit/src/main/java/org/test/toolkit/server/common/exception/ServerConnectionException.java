@@ -1,4 +1,4 @@
-package org.test.toolkit.server.exception;
+package org.test.toolkit.server.common.exception;
 
 /**
  * @author fu.jian

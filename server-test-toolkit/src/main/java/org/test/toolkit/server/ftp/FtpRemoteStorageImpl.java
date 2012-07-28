@@ -6,7 +6,7 @@ import java.net.SocketException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.ftp.FTPClient;
-import org.test.toolkit.server.user.FtpUser;
+import org.test.toolkit.server.common.user.FtpUser;
 
 public class FtpRemoteStorageImpl extends AbstractRemoteStroage {
 

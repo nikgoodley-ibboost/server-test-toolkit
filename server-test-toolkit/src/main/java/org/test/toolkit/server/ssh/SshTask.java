@@ -6,9 +6,9 @@ import java.util.concurrent.Callable;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.test.toolkit.server.exception.CommandExecuteException;
-import org.test.toolkit.server.exception.ContentOverSizeException;
-import org.test.toolkit.server.exception.UncheckedServerOperationException;
+import org.test.toolkit.server.common.exception.CommandExecuteException;
+import org.test.toolkit.server.common.exception.ContentOverSizeException;
+import org.test.toolkit.server.common.exception.UncheckedServerOperationException;
 import org.test.toolkit.util.MemoryUtil;
 import org.test.toolkit.util.ValidationUtil;
 
@@ -120,7 +120,7 @@ public class SshTask implements Callable<OperationResult<String, String>> {
 		IOUtils.closeQuietly(inputStream);
 		IOUtils.closeQuietly(errStream);
 		if (channel != null)
-			channel.disconnect();
+ 			channel.disconnect();
 	}
 
 	@Override
