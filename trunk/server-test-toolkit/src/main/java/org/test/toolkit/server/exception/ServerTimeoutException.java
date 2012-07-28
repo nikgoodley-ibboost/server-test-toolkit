@@ -1,4 +1,4 @@
-package org.test.toolkit.server.ssh.exception;
+package org.test.toolkit.server.exception;
 
 /**
  * @author fu.jian

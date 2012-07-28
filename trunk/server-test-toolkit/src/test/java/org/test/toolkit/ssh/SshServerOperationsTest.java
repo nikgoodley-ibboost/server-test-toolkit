@@ -6,10 +6,10 @@ import java.util.concurrent.TimeoutException;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.test.toolkit.server.exception.UncheckedServerOperationException;
 import org.test.toolkit.server.ssh.ServerOperations;
 import org.test.toolkit.server.ssh.SshServerOperations;
 import org.test.toolkit.server.ssh.command.Ls;
-import org.test.toolkit.server.ssh.exception.UncheckedServerOperationException;
 import org.test.toolkit.server.user.SshUser;
 
 

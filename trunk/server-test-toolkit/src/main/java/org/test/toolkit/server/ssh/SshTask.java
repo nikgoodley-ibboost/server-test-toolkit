@@ -6,9 +6,9 @@ import java.util.concurrent.Callable;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.test.toolkit.server.ssh.exception.CommandExecuteException;
-import org.test.toolkit.server.ssh.exception.ContentOverSizeException;
-import org.test.toolkit.server.ssh.exception.UncheckedServerOperationException;
+import org.test.toolkit.server.exception.CommandExecuteException;
+import org.test.toolkit.server.exception.ContentOverSizeException;
+import org.test.toolkit.server.exception.UncheckedServerOperationException;
 import org.test.toolkit.util.MemoryUtil;
 import org.test.toolkit.util.ValidationUtil;
 
