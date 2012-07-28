@@ -1,7 +1,6 @@
 package org.test.toolkit.util;
 
 import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +13,7 @@ public final class IoUtil {
  	}
 
 	public static void InputStreamToFile(InputStream inputStream, String localFilePath)
-			throws FileNotFoundException, IOException {
+			throws IOException {
 		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(localFilePath));
 		try {
 			IOUtils.copy(inputStream, bufferedOutputStream);
