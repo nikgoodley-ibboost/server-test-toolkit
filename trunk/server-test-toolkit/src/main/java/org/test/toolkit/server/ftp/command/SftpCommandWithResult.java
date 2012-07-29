@@ -9,7 +9,7 @@ public abstract class SftpCommandWithResult extends SftpCommand {
 	}
 
 	public Object executeWithResult() {
-		return super._executeWithResult();
+		return super._execute();
 	}
 
 }

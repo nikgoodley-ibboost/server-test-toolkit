@@ -25,7 +25,7 @@ public class PutSftpCommand extends SftpCommandWithoutResult {
 	}
 
 	@Override
-	protected void runCommandByChannelWithoutResult(ChannelSftp channelSftp) throws SftpException {
+	protected void runCommandByChannel(ChannelSftp channelSftp) throws SftpException {
 		if (dstFolder != null)
 			channelSftp.cd(dstFolder);
 		channelSftp.put(srcInputStream, dstFileName);
