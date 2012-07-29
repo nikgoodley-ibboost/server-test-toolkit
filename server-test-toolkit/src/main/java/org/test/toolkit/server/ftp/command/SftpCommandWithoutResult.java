@@ -12,9 +12,9 @@ public abstract class SftpCommandWithoutResult extends SftpCommand {
 
 	@Override
 	Object runCommandByChannelWithResult(ChannelSftp channelSftp) throws SftpException {
-		runCommandByChannelWithoutResult(channelSftp);
+		runCommandByChannel(channelSftp);
 		return null;
 	}
 
-	protected abstract void runCommandByChannelWithoutResult(ChannelSftp channelSftp) throws SftpException;
+	protected abstract void runCommandByChannel(ChannelSftp channelSftp) throws SftpException;
 }

@@ -25,11 +25,11 @@ public abstract class SftpCommand {
 		return session;
 	}
 
-	public void executeWithoutResult(){
-		_executeWithResult();
+	public void execute(){
+		_execute();
  	}
 
-	protected Object _executeWithResult() {
+	protected Object _execute() {
 		ChannelSftp channelSftp = null;
 		try {
 			channelSftp = openChannel();
