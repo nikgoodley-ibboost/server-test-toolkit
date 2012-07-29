@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.test.toolkit.server.common.exception.CommandExecuteException;
 import org.test.toolkit.server.common.exception.ContentOverSizeException;
 import org.test.toolkit.server.common.exception.UncheckedServerOperationException;
+import org.test.toolkit.server.common.util.JSchUtil.JSchChannelUtil;
 import org.test.toolkit.util.MemoryUtil;
 import org.test.toolkit.util.ValidationUtil;
 
@@ -44,10 +45,12 @@ public class SshTask implements Callable<OperationResult<String, String>> {
 
 		InputStream inputStream = null;
 		InputStream errStream = null;
-		Channel channel = null;
+		ChannelExec channelExec=null;
 		try {
-			channel = session.openChannel("exec");
-			ChannelExec channelExec = getChannelExecAndConfigIt(channel);
+			channelExec=JSchChannelUtil.getExecChannel(session);
+ 			configChannelExec(channelExec);
+
+ 			channelExec.connect();
 
 			inputStream = channelExec.getInputStream();
 			errStream = channelExec.getErrStream();
@@ -61,19 +64,16 @@ public class SshTask implements Callable<OperationResult<String, String>> {
 			logError(e);
  			throw new UncheckedServerOperationException(e.getMessage(),e);
 		} finally {
-			closeChannelAndStream(channel, inputStream, errStream);
+			closeChannelAndStream(channelExec, inputStream, errStream);
 		}
 	}
 
-	private ChannelExec getChannelExecAndConfigIt(Channel channel) throws JSchException {
-		ChannelExec channelExec = (ChannelExec) channel;
-		channelExec.setCommand(command);
+	private void configChannelExec(ChannelExec channelExec) throws JSchException {
+ 		channelExec.setCommand(command);
 		channelExec.setErrStream(System.err);
 		channelExec.setInputStream(null);
-		channelExec.connect();
 
-		return channelExec;
-	}
+ 	}
 
 	private void judgeIfCommandExecuteError(InputStream errStream) throws IOException {
 		String errorString = IOUtils.toString(errStream);
@@ -119,8 +119,7 @@ public class SshTask implements Callable<OperationResult<String, String>> {
 	private void closeChannelAndStream(Channel channel, InputStream inputStream, InputStream errStream) {
 		IOUtils.closeQuietly(inputStream);
 		IOUtils.closeQuietly(errStream);
-		if (channel != null)
- 			channel.disconnect();
+		JSchChannelUtil.disconnect(channel);
 	}
 
 	@Override

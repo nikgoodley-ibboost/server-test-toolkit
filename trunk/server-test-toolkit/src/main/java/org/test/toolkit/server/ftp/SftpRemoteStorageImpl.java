@@ -2,12 +2,12 @@ package org.test.toolkit.server.ftp;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
 
 import org.test.toolkit.server.common.user.SshUser;
+import org.test.toolkit.server.common.util.JSchUtil.JSchChannelUtil;
+import org.test.toolkit.server.common.util.JSchUtil.JSchSessionUtil;
 
 import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
@@ -22,78 +22,60 @@ public class SftpRemoteStorageImpl extends AbstractRemoteStroage {
 	}
 
 	@Override
-	public void close() {
-		if (session != null)
-			session.disconnect();
+	public void disconnect() {
+		JSchSessionUtil.disconnect(session);
 	}
 
 	@Override
 	public void connect() {
-		JSch jsch = new JSch();
-		try {
-			session = jsch.getSession(serverUser.getHost(), serverUser.getPassword(),
-					serverUser.getPort());
-			if (serverUser.getPassword() != null) {
-				session.setPassword(serverUser.getPassword());
-			}
-
-			Properties config = new Properties();
-			config.put("StrictHostKeyChecking", "no");
-			session.setConfig(config);
-			session.connect();
-		} catch (JSchException e) {
-			e.printStackTrace();
-		}
-
+		session = JSchSessionUtil.getSession(serverUser);
 	}
 
 	@Override
 	public InputStream getFile(String storagePath) throws IOException {
-		ChannelSftp channel = null;
+		ChannelSftp channelSftp = null;
 		try {
-			channel = (ChannelSftp) session.openChannel("sftp");
-			channel.connect();
-			return channel.get(storagePath);
+			channelSftp = openChannel();
+			return channelSftp.get(storagePath);
+		} catch (JSchException e1) {
+			e1.printStackTrace();
+		} catch (SftpException e) {
+			e.printStackTrace();
+		} finally {
+			JSchChannelUtil.disconnect(channelSftp);
+		}
+		return null;
+	}
+
+	private ChannelSftp openChannel() throws JSchException {
+		ChannelSftp channelSftp = JSchChannelUtil.getSftpChannel(session);
+		channelSftp.connect();
+
+		return channelSftp;
+	}
+
+	@Override
+	public void putFile(InputStream srcInputStream, String dstFolder, String dstFileName) {
+		ChannelSftp channelSftp = null;
+		try {
+			channelSftp = openChannel();
+
+			if (dstFolder != null)
+				channelSftp.cd(dstFolder);
+			channelSftp.put(srcInputStream, dstFileName);
 
 		} catch (JSchException e1) {
 			e1.printStackTrace();
 		} catch (SftpException e) {
 			e.printStackTrace();
 		} finally {
-			if (channel != null) {
-				channel.disconnect();
-				channel.quit();
-			}
+			JSchChannelUtil.disconnect(channelSftp);
 		}
-		return null;
 	}
 
 	@Override
 	public String toString() {
 		return super.toString();
 	}
-
-	@Override
-	public void putFile(InputStream srcInputStream, String dstFolder, String dstFileName) {
-		ChannelSftp channel = null;
-		try {
-			channel = (ChannelSftp) session.openChannel("sftp");
-			channel.connect();
-			
-			if(dstFolder!=null)
-				channel.cd(dstFolder);
-			channel.put(srcInputStream, dstFileName);
-
-		} catch (JSchException e1) {
-			e1.printStackTrace();
-		} catch (SftpException e) {
-			e.printStackTrace();
-		} finally {
-			if (channel != null) {
-				channel.disconnect();
-				channel.quit();
-			}
-		}
- 	}
 
 }

@@ -37,7 +37,7 @@ public class FtpRemoteStorageImpl extends AbstractRemoteStroage {
 	}
 
 	@Override
-	public void close() {
+	public void disconnect() {
 		try {
 			if (ftpClient != null)
 				ftpClient.disconnect();

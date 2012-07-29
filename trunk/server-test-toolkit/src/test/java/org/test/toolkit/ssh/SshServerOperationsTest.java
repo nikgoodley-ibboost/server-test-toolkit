@@ -75,7 +75,7 @@ public class SshServerOperationsTest {
 		} catch (Exception e1) {
 			e=e1;
 		} finally {
-			serverOperations.close();
+			serverOperations.disconnect();
  		}
 		Assert.assertNotNull(e);
  	}
