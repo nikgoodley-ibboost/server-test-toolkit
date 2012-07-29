@@ -8,7 +8,7 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
-public class PutSftpCommand extends SftpCommand {
+public class PutSftpCommand extends SftpCommandWithoutResult {
 
 	private InputStream srcInputStream;
 	private String dstFolder;
@@ -24,17 +24,11 @@ public class PutSftpCommand extends SftpCommand {
 		this.dstFileName = dstFileName;
 	}
 
-	public PutSftpCommand(Session session) {
-		super(session);
-	}
-
 	@Override
-	Object execute(ChannelSftp channelSftp) throws SftpException {
+	protected void executeWithoutResult(ChannelSftp channelSftp) throws SftpException {
 		if (dstFolder != null)
 			channelSftp.cd(dstFolder);
 		channelSftp.put(srcInputStream, dstFileName);
-
-		return null;
 	}
 
 }
