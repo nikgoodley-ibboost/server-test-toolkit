@@ -25,11 +25,15 @@ public abstract class SftpCommand {
 		return session;
 	}
 
-	protected Object _execute() {
+	public void executeWithoutResult(){
+		_executeWithResult();
+ 	}
+
+	protected Object _executeWithResult() {
 		ChannelSftp channelSftp = null;
 		try {
 			channelSftp = openChannel();
-			return runCommandByChannel(channelSftp);
+			return runCommandByChannelWithResult(channelSftp);
 		} catch (Exception e1) {
 			LOGGER.error(e1.getMessage(), e1);
 			throw new CommandExecuteException(e1.getMessage(), e1);
@@ -45,6 +49,6 @@ public abstract class SftpCommand {
 		return channelSftp;
 	}
 
-	abstract Object runCommandByChannel(ChannelSftp channelSftp) throws SftpException;
+	abstract Object runCommandByChannelWithResult(ChannelSftp channelSftp) throws SftpException;
 
 }

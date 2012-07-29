@@ -8,8 +8,8 @@ public abstract class SftpCommandWithResult extends SftpCommand {
 		super(session);
 	}
 
-	public Object execute() {
-		return super._execute();
+	public Object executeWithResult() {
+		return super._executeWithResult();
 	}
 
 }

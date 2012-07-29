@@ -10,15 +10,11 @@ public abstract class SftpCommandWithoutResult extends SftpCommand {
 		super(session);
 	}
 
-	public void execute() {
-		super._execute();
-	}
-
 	@Override
-	Object runCommandByChannel(ChannelSftp channelSftp) throws SftpException {
-		executeWithoutResult(channelSftp);
+	Object runCommandByChannelWithResult(ChannelSftp channelSftp) throws SftpException {
+		runCommandByChannelWithoutResult(channelSftp);
 		return null;
 	}
 
-	protected abstract void executeWithoutResult(ChannelSftp channelSftp) throws SftpException;
+	protected abstract void runCommandByChannelWithoutResult(ChannelSftp channelSftp) throws SftpException;
 }
