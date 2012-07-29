@@ -3,12 +3,11 @@ package org.test.toolkit.server.ftp;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.test.toolkit.server.common.util.JSchUtil.JSchChannelUtil;
+import org.test.toolkit.server.common.user.SshUser;
 import org.test.toolkit.server.common.util.JSchUtil.JSchSessionUtil;
-import org.test.toolkit.server.ssh.SshUser;
+import org.test.toolkit.server.ftp.command.GetSftpCommand;
+import org.test.toolkit.server.ftp.command.PutSftpCommand;
 
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
@@ -21,8 +20,7 @@ public class SftpRemoteStorageImpl extends AbstractRemoteStroage {
 	 */
 	public SftpRemoteStorageImpl(SshUser sshUser) {
 		super(sshUser);
-
-	}
+ 	}
 
 	@Override
 	public void disconnect() {
@@ -36,43 +34,23 @@ public class SftpRemoteStorageImpl extends AbstractRemoteStroage {
 
 	@Override
 	public InputStream getFile(String storagePath) throws IOException {
-		ChannelSftp channelSftp = null;
+		GetSftpCommand sftpGetCommand = new GetSftpCommand(session, storagePath);
 		try {
-			channelSftp = openChannel();
-			return channelSftp.get(storagePath);
-		} catch (JSchException e1) {
-			e1.printStackTrace();
+			return (InputStream) sftpGetCommand.execute();
 		} catch (SftpException e) {
 			e.printStackTrace();
-		} finally {
-			JSchChannelUtil.disconnect(channelSftp);
 		}
 		return null;
 	}
 
-	private ChannelSftp openChannel() throws JSchException {
-		ChannelSftp channelSftp = JSchChannelUtil.getSftpChannel(session);
-		channelSftp.connect();
-
-		return channelSftp;
-	}
-
 	@Override
 	public void putFile(InputStream srcInputStream, String dstFolder, String dstFileName) {
-		ChannelSftp channelSftp = null;
+		PutSftpCommand sftpPutCommand = new PutSftpCommand(session, srcInputStream, dstFolder,
+				dstFileName);
 		try {
-			channelSftp = openChannel();
-
-			if (dstFolder != null)
-				channelSftp.cd(dstFolder);
-			channelSftp.put(srcInputStream, dstFileName);
-
-		} catch (JSchException e1) {
-			e1.printStackTrace();
+			sftpPutCommand.execute();
 		} catch (SftpException e) {
 			e.printStackTrace();
-		} finally {
-			JSchChannelUtil.disconnect(channelSftp);
 		}
 	}
 
