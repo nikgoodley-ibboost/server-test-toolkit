@@ -23,7 +23,8 @@ public final class JSchUtil {
 	private JSchUtil() {
 	}
 
-	public static class JSchExceptionUtil { 
+	public static class JSchExceptionUtil {
+
 		public static <T extends UncheckedServerOperationException> T jSchExceptionToUncheckedServerConnectionException(
 				String errorMsg, JSchException jSchException, Class<T> clazz) {
 			ServerConnectionException serverConnectionException = new ServerConnectionException(
