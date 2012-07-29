@@ -35,14 +35,14 @@ public class SftpRemoteStorageImpl extends AbstractRemoteStroage {
 	@Override
 	public InputStream getFile(String storagePath) {
 		SftpCommandWithResult sftpGetCommand = new GetSftpCommand(session, storagePath);
- 		return (InputStream) sftpGetCommand.execute();
+ 		return (InputStream) sftpGetCommand.executeWithResult();
  	}
 
 	@Override
 	public void storeFile(InputStream srcInputStream, String dstFolder, String dstFileName) {
 		SftpCommandWithoutResult sftpPutCommand = new PutSftpCommand(session, srcInputStream, dstFolder,
 				dstFileName);
-		sftpPutCommand.execute();
+		sftpPutCommand.executeWithoutResult();
 	}
 
 	@Override

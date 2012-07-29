@@ -18,7 +18,7 @@ public class GetSftpCommand extends SftpCommandWithResult {
 	}
 
 	@Override
-	public Object runCommandByChannel(ChannelSftp channelSftp) throws SftpException {
+	public Object runCommandByChannelWithResult(ChannelSftp channelSftp) throws SftpException {
 		return channelSftp.get(storagePath);
 	}
 
