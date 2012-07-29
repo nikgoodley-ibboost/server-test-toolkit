@@ -3,6 +3,7 @@ package org.test.toolkit.server.ssh;
 import java.util.List;
 import java.util.Map;
 
+import org.test.toolkit.server.common.RemoteConnection;
 import org.test.toolkit.server.ssh.command.Command;
 
 
@@ -10,7 +11,7 @@ import org.test.toolkit.server.ssh.command.Command;
  * @author fu.jian
  * @date Jul 25, 2012
  */
-public interface ServerOperations extends Closable {
+public interface ServerOperations extends RemoteConnection {
 
 	public Map<String, String> executeCommandWithResult(String command);
 
