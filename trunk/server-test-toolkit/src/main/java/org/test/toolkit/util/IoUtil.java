@@ -12,6 +12,11 @@ public final class IoUtil {
 	private IoUtil() {
  	}
 
+	/**
+	 * @param inputStream
+	 * @param localFilePath
+	 * @throws IOException
+	 */
 	public static void InputStreamToFile(InputStream inputStream, String localFilePath)
 			throws IOException {
 		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(localFilePath));
