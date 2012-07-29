@@ -2,13 +2,17 @@ package org.test.toolkit.server.ftp;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.SocketException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.log4j.Logger;
+import org.test.toolkit.server.common.exception.CommandExecuteException;
+import org.test.toolkit.server.common.exception.ServerConnectionException;
 import org.test.toolkit.server.common.user.FtpUser;
 
 public class FtpRemoteStorageImpl extends AbstractRemoteStroage {
+
+	private final static Logger LOGGER = Logger.getLogger(FtpRemoteStorageImpl.class);
 
 	private FTPClient ftpClient;
 
@@ -23,18 +27,21 @@ public class FtpRemoteStorageImpl extends AbstractRemoteStroage {
 			try {
 				ftpClient.connect(serverUser.getHost(), serverUser.getPort());
 				ftpClient.login(serverUser.getUsername(), serverUser.getPassword());
- 			} catch (SocketException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage(), e);
+				throw new ServerConnectionException(e.getMessage(), e);
 			}
 		}
 	}
 
 	@Override
-	public InputStream getFile(String storagePath) throws IOException {
-		return ftpClient.retrieveFileStream(storagePath);
-	}
+	public InputStream getFile(String storagePath){
+		try {
+			return  ftpClient.retrieveFileStream(storagePath);
+ 		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServerConnectionException(e.getMessage(), e);		}
+ 	}
 
 	@Override
 	public void disconnect() {
@@ -42,7 +49,7 @@ public class FtpRemoteStorageImpl extends AbstractRemoteStroage {
 			if (ftpClient != null)
 				ftpClient.disconnect();
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.warn("release connection fail for: "+e.getMessage(),e);
 		}
 	}
 
@@ -52,15 +59,16 @@ public class FtpRemoteStorageImpl extends AbstractRemoteStroage {
 	}
 
 	@Override
-	public void putFile(InputStream srcInputStream, String dstFolder, String dstFileName)
-			 {
+	public void storeFile(InputStream srcInputStream, String dstFolder, String dstFileName) {
 		try {
 			if (dstFolder != null) {
 				ftpClient.changeWorkingDirectory(dstFolder);
 			}
 			ftpClient.storeFile(dstFileName, srcInputStream);
 		} catch (IOException e) {
- 		} finally {
+			LOGGER.error(e.getMessage(),e);
+ 			throw new CommandExecuteException(e.getMessage(),e);
+		} finally {
 			IOUtils.closeQuietly(srcInputStream);
 		}
 	}

@@ -1,6 +1,5 @@
 package org.test.toolkit.server.ftp;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import org.test.toolkit.server.common.user.SshUser;
@@ -9,7 +8,6 @@ import org.test.toolkit.server.ftp.command.GetSftpCommand;
 import org.test.toolkit.server.ftp.command.PutSftpCommand;
 
 import com.jcraft.jsch.Session;
-import com.jcraft.jsch.SftpException;
 
 public class SftpRemoteStorageImpl extends AbstractRemoteStroage {
 
@@ -33,25 +31,16 @@ public class SftpRemoteStorageImpl extends AbstractRemoteStroage {
 	}
 
 	@Override
-	public InputStream getFile(String storagePath) throws IOException {
+	public InputStream getFile(String storagePath) {
 		GetSftpCommand sftpGetCommand = new GetSftpCommand(session, storagePath);
-		try {
-			return (InputStream) sftpGetCommand.execute();
-		} catch (SftpException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+		return (InputStream) sftpGetCommand.execute();
+ 	}
 
 	@Override
-	public void putFile(InputStream srcInputStream, String dstFolder, String dstFileName) {
+	public void storeFile(InputStream srcInputStream, String dstFolder, String dstFileName) {
 		PutSftpCommand sftpPutCommand = new PutSftpCommand(session, srcInputStream, dstFolder,
 				dstFileName);
-		try {
-			sftpPutCommand.execute();
-		} catch (SftpException e) {
-			e.printStackTrace();
-		}
+		sftpPutCommand.execute();
 	}
 
 	@Override
