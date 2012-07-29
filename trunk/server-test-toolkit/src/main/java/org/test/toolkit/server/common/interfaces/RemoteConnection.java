@@ -1,4 +1,4 @@
-package org.test.toolkit.server.common;
+package org.test.toolkit.server.common.interfaces;
 
 
 public interface RemoteConnection {
