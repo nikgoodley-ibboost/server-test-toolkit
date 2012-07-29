@@ -3,7 +3,7 @@ package org.test.toolkit.server.ssh;
 import java.util.List;
 import java.util.Map;
 
-import org.test.toolkit.server.common.RemoteConnection;
+import org.test.toolkit.server.common.interfaces.RemoteConnection;
 import org.test.toolkit.server.ssh.command.Command;
 
 
