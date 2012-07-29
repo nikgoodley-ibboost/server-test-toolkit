@@ -6,7 +6,7 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
-public class GetSftpCommand extends SftpCommand {
+public class GetSftpCommand extends SftpCommandWithResult {
 
 	private String storagePath;
 
@@ -18,7 +18,7 @@ public class GetSftpCommand extends SftpCommand {
 	}
 
 	@Override
-	Object execute(ChannelSftp channelSftp) throws SftpException {
+	public Object runCommandByChannel(ChannelSftp channelSftp) throws SftpException {
 		return channelSftp.get(storagePath);
 	}
 

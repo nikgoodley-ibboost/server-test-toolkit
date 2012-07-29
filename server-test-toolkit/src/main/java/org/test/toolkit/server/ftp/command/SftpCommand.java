@@ -16,9 +16,26 @@ public abstract class SftpCommand {
 
 	private final Session session;
 
-	public SftpCommand(Session session) {
+ 	public SftpCommand(Session session) {
 		ValidationUtil.nonNull(session);
 		this.session = session;
+	}
+
+	public Session getSession() {
+		return session;
+	}
+
+	protected Object _execute() {
+		ChannelSftp channelSftp = null;
+		try {
+			channelSftp = openChannel();
+			return runCommandByChannel(channelSftp);
+		} catch (Exception e1) {
+			LOGGER.error(e1.getMessage(), e1);
+			throw new CommandExecuteException(e1.getMessage(), e1);
+		} finally {
+			JSchChannelUtil.disconnect(channelSftp);
+		}
 	}
 
 	private ChannelSftp openChannel() throws JSchException {
@@ -28,19 +45,6 @@ public abstract class SftpCommand {
 		return channelSftp;
 	}
 
-	public Object execute() throws CommandExecuteException {
-		ChannelSftp channelSftp = null;
-		try {
-			channelSftp = openChannel();
-			return execute(channelSftp);
-		} catch (Exception e1) {
-			LOGGER.error(e1.getMessage(), e1);
-			throw new CommandExecuteException(e1.getMessage(), e1);
-		} finally {
-			JSchChannelUtil.disconnect(channelSftp);
-		}
-	}
-
-	abstract Object execute(ChannelSftp channelSftp) throws SftpException;
+	abstract Object runCommandByChannel(ChannelSftp channelSftp) throws SftpException;
 
 }
