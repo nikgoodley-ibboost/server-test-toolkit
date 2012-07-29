@@ -7,9 +7,9 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.test.toolkit.server.common.exception.UncheckedServerOperationException;
+import org.test.toolkit.server.common.user.SshUser;
 import org.test.toolkit.server.ssh.ServerOperations;
 import org.test.toolkit.server.ssh.SshServerOperations;
-import org.test.toolkit.server.ssh.SshUser;
 import org.test.toolkit.server.ssh.command.Ls;
 
 

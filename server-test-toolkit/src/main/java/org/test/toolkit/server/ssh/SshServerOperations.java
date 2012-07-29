@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.test.toolkit.server.common.exception.CommandExecuteException;
 import org.test.toolkit.server.common.exception.ServerTimeoutException;
 import org.test.toolkit.server.common.exception.UncheckedServerOperationException;
+import org.test.toolkit.server.common.user.SshUser;
 import org.test.toolkit.server.common.util.JSchUtil.JSchSessionUtil;
 import org.test.toolkit.util.CollectionUtil;
 import org.test.toolkit.util.ValidationUtil;
