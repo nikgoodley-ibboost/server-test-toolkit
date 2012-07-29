@@ -27,14 +27,12 @@ public final class JSchUtil {
 
 		public static <T extends UncheckedServerOperationException> T jSchExceptionToUncheckedServerConnectionException(
 				String errorMsg, JSchException jSchException, Class<T> clazz) {
-			ServerConnectionException serverConnectionException = new ServerConnectionException(
-					errorMsg + jSchException.getMessage(), jSchException);
-			LOGGER.error(errorMsg, serverConnectionException);
+ 			try {
+				Constructor<T>  constructor = clazz.getConstructor(String.class, Throwable.class);
+ 				T uncheckedServerOperationException = constructor.newInstance(errorMsg, jSchException);
+				LOGGER.error(errorMsg, uncheckedServerOperationException);
 
-			Constructor<T> constructor;
-			try {
-				constructor = clazz.getConstructor(String.class, Throwable.class);
-				return constructor.newInstance(errorMsg, jSchException);
+				return uncheckedServerOperationException;
 			} catch (Exception e) {
 				String msg = "exception convert fail for: " + e.getMessage();
 				LOGGER.error(msg, e);
