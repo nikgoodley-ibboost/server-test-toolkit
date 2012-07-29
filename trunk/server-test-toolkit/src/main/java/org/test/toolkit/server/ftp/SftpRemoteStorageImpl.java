@@ -3,9 +3,9 @@ package org.test.toolkit.server.ftp;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.test.toolkit.server.common.user.SshUser;
 import org.test.toolkit.server.common.util.JSchUtil.JSchChannelUtil;
 import org.test.toolkit.server.common.util.JSchUtil.JSchSessionUtil;
+import org.test.toolkit.server.ssh.SshUser;
 
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSchException;
@@ -16,6 +16,9 @@ public class SftpRemoteStorageImpl extends AbstractRemoteStroage {
 
 	private Session session;
 
+	/**
+	 * @param sshUser
+	 */
 	public SftpRemoteStorageImpl(SshUser sshUser) {
 		super(sshUser);
 
