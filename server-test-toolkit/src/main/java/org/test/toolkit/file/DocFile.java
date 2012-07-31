@@ -9,18 +9,16 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 public class DocFile extends RandomFile {
 
-	public static final String EXTENSION = ".doc";
+	public static final String EXTENSION = FileType.Office.DOC.toString();
 	private static final String WORD_TYPE = "WordDocument";
 
 	public DocFile() {
 		super(EXTENSION, getContentBytes());
-
 	}
 
 	private static byte[] getContentBytes() {
-		byte byteArray[] = FileUtil.newContent().getBytes();
-		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
-				byteArray);
+		byte byteArray[] = FileUtil.getRandomStringContent().getBytes();
+		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
 		try {
@@ -31,10 +29,10 @@ public class DocFile extends RandomFile {
 			return byteArrayOutputStream.toByteArray();
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new RandomFileException("create doc file content fail",e);
+			throw new RandomFileException("create doc file content fail", e);
 		} finally {
 			FileUtil.closeStream(byteArrayInputStream);
 			FileUtil.closeStream(byteArrayOutputStream);
 		}
- 	}
+	}
 }
