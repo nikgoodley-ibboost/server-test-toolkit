@@ -10,7 +10,7 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 public class DocFile extends RandomFile {
 
-	public static final String EXTENSION = FileType.Office.DOC.toString();
+	public static final String EXTENSION = FileType.Document.DOC.toString();
 	private static final String WORD_TYPE = "WordDocument";
 
 	public DocFile() {
@@ -18,19 +18,18 @@ public class DocFile extends RandomFile {
 	}
 
 	private static byte[] getContentBytes() {
-		byte byteArray[] = FileUtil.getRandomStringContent().getBytes();
+		byte byteArray[] = FileUtil.getRandomBytes();
 		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-		try {
+ 		try {
 			POIFSFileSystem fs = new POIFSFileSystem();
 			DirectoryEntry directory = fs.getRoot();
 			directory.createDocument(WORD_TYPE, byteArrayInputStream);
 			fs.writeFilesystem(byteArrayOutputStream);
+
 			return byteArrayOutputStream.toByteArray();
 		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RandomFileException("create doc file content fail", e);
+ 			throw new RandomFileException("create doc file content fail", e);
 		} finally {
 			IOUtils.closeQuietly(byteArrayInputStream);
 			IOUtils.closeQuietly(byteArrayOutputStream);

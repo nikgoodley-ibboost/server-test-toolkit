@@ -22,7 +22,6 @@ public class JpgFile extends RandomFile {
 		this(getRandomWidthOrHeight(), getRandomWidthOrHeight());
  	}
 	
-
 	public JpgFile(int width, int height) {
 		super(EXTENSION, getContentBytes(width, height));
 	}
@@ -38,7 +37,7 @@ public class JpgFile extends RandomFile {
 
 		BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
 		Graphics createGraphics = bufferedImage.getGraphics();
-		createGraphics.drawString(FileUtil.getRandomStringContent(), 0, height / 2);
+		createGraphics.drawString(FileUtil.getRandomString(), 0, height / 2);
 
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(byteArrayOutputStream);

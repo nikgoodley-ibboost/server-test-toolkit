@@ -16,8 +16,7 @@ import org.test.toolkit.util.ValidationUtil;
 public final class FileUtil {
 
 	private FileUtil() {
-
-	}
+ 	}
 
 	static String calcuteSHA_1(byte[] byteArray) {
 		return DigestUtil.getDigest(byteArray, DigestAlgorithm.SHA_1);
@@ -25,8 +24,7 @@ public final class FileUtil {
 
 	static String calcuteSHA_1(InputStream inputStream) throws IOException {
 		return DigestUtil.getDigest(inputStream, DigestAlgorithm.SHA_1);
-
-	}
+ 	}
 
 	static byte[] generateBytesBySize(long sizeByByteUnit) {
 		ValidationUtil.effectivePositive(sizeByByteUnit);
@@ -52,23 +50,25 @@ public final class FileUtil {
 			}
 			bufferedOutputStream.flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RandomFileException(e.getMessage(),e);
 		} finally {
-			byte[] byteArray = byteOutputStream.toByteArray();
-			bytes = byteArray;
+			bytes = byteOutputStream.toByteArray();
 			IOUtils.closeQuietly(bufferedOutputStream);
-
-		}
+ 		}
 
 		return bytes;
 	}
 
-	static String getRandomStringContent() {
-		return UUID.randomUUID().toString();
+	static int getRandomSizeInByteUnit() {
+		return new Random().nextInt(10000) + 1;
 	}
 
-	static int getRandomBytes() {
-		return new Random().nextInt(10000) + 1;
+	static byte[] getRandomBytes() {
+		return getRandomString().getBytes();
+	}
+
+	static String getRandomString() {
+		return UUID.randomUUID().toString();
 	}
 
 }
