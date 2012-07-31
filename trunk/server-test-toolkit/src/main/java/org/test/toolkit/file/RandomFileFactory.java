@@ -1,19 +1,20 @@
 package org.test.toolkit.file;
 
+import org.test.toolkit.util.ValidationUtil;
 
 public class RandomFileFactory {
 
-	public static RandomFile newRandomFile(FileType extension) {
-		switch (extension) {
-		case TXT:
+	public static RandomFile newRandomFile(FileType fileType) {
+		ValidationUtil.nonNull(fileType);
+
+		if (fileType == FileType.PlainText.TXT)
 			return new TxtFile();
-		case DOC:
+		if (fileType == FileType.Office.DOC)
 			return new DocFile();
-		case JPG:
+		if (fileType == FileType.Image.JPG)
 			return new JpgFile();
-		default:
-			throw new AssertionError("no matched key");
-		}
+
+		throw new UnsupportedOperationException("not support this file type: " + fileType.toString());
 	}
 
 	public static RandomFile newRandomFileForTxt() {
@@ -24,7 +25,8 @@ public class RandomFileFactory {
 		return new JpgFile(height, height);
 	}
 
-	public static RandomFile newRandomFileForTxt(float sizeByKbUnit) {
-		return new TxtFile(sizeByKbUnit);
+	public static RandomFile newRandomFileForTxt(long sizeByByteUnit) {
+		return new TxtFile(sizeByByteUnit);
 	}
+
 }
