@@ -84,13 +84,4 @@ public abstract class RandomFile {
 		return UUID.randomUUID().toString();
 	}
 
-	public enum FileType {
-		TXT, JPG, DOC;
-
-		public String toString() {
-			return "." + super.toString().toLowerCase();
-		};
-
-	}
-
 }

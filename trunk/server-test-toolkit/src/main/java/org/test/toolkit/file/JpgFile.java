@@ -12,15 +12,15 @@ import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 @SuppressWarnings("restriction")
-public class ImageFile extends RandomFile {
+public class JpgFile extends RandomFile {
 
 	public static final String EXTENSION = ".jpg";
 
-	public ImageFile(int width, int height) {
+	public JpgFile(int width, int height) {
 		super(EXTENSION, getContentBytes(width, height));
 	}
 
-	public ImageFile() {
+	public JpgFile() {
 		this(getRandomWidthOrHeight(), getRandomWidthOrHeight());
 
 	}
