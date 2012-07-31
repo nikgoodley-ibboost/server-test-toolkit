@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
@@ -31,8 +32,8 @@ public class DocFile extends RandomFile {
 			e.printStackTrace();
 			throw new RandomFileException("create doc file content fail", e);
 		} finally {
-			FileUtil.closeStream(byteArrayInputStream);
-			FileUtil.closeStream(byteArrayOutputStream);
+			IOUtils.closeQuietly(byteArrayInputStream);
+			IOUtils.closeQuietly(byteArrayOutputStream);
 		}
 	}
 }
