@@ -1,4 +1,6 @@
-package org.test.toolkit.server.common.user;
+package org.test.toolkit.server.ftp;
+
+import org.test.toolkit.server.common.user.ServerUser;
 
 
 public class FtpUser extends ServerUser{
