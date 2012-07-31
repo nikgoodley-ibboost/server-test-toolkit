@@ -1,21 +1,19 @@
 package org.test.toolkit.file;
 
-import java.util.Random;
-
+/**
+ * @author fu.jian
+ * @date Jul 31, 2012
+ */
 public class TxtFile extends RandomFile {
 
-	public static final String EXTENSION = ".txt";
+	public static final String EXTENSION = FileType.PlainText.TXT.toString();
 
 	public TxtFile() {
-		this(new Random().nextInt(10)+1);
+		this(FileUtil.getRandomBytes());
 	}
 
-	public TxtFile(float sizeInKBUnit) {
-		super(EXTENSION, getContentBytes(sizeInKBUnit));
-	}
-
- 	private static byte[] getContentBytes(float sizeInKBUnit) {
- 		return FileUtil.generateBytesBySize(sizeInKBUnit);
+	public TxtFile(long sizeInByteUnit) {
+		super(EXTENSION, FileUtil.generateBytesBySize(sizeInByteUnit));
 	}
 
 }
