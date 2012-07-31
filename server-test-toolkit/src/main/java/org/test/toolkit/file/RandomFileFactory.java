@@ -7,9 +7,9 @@ public class RandomFileFactory {
 	public static RandomFile newRandomFile(FileType fileType) {
 		ValidationUtil.nonNull(fileType);
 
-		if (fileType == FileType.PlainText.TXT)
+		if (fileType == FileType.Text.TXT)
 			return new TxtFile();
-		if (fileType == FileType.Office.DOC)
+		if (fileType == FileType.Document.DOC)
 			return new DocFile();
 		if (fileType == FileType.Image.JPG)
 			return new JpgFile();
@@ -18,7 +18,7 @@ public class RandomFileFactory {
 	}
 
 	public static RandomFile newRandomFileForTxt() {
-		return newRandomFile(FileType.PlainText.TXT);
+		return newRandomFile(FileType.Text.TXT);
 	}
 
 	public static RandomFile newRandomFileForJpg(int width, int height) {
