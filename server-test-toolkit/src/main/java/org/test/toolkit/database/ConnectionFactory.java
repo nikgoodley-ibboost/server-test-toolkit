@@ -3,50 +3,45 @@ package org.test.toolkit.database;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
+import org.test.toolkit.database.config.DbConfig;
+
 public class ConnectionFactory {
+
+	private static volatile Map<DbConfig, ComboPooledDataSource> configDataSourceMap = new HashMap<DbConfig, ComboPooledDataSource>();
 
 	private ConnectionFactory() {
 	}
 
-	private static ComboPooledDataSource ds = null;
+	private static ComboPooledDataSource getComboPooledDataSource(DbConfig dbConfig)
+			throws PropertyVetoException {
+		if (configDataSourceMap.containsKey(dbConfig))
+			return configDataSourceMap.get(dbConfig);
 
-	static {
+		synchronized (dbConfig) {
+			if (configDataSourceMap.containsKey(dbConfig))
+				return configDataSourceMap.get(dbConfig);
+
+			ComboPooledDataSource comboPoolDataSource = dbConfig.getComboPoolDataSource();
+			configDataSourceMap.put(dbConfig, comboPoolDataSource);
+			return comboPoolDataSource;
+		}
+	}
+
+	public static Connection getConnection(DbConfig dbConfig) {
+		Connection con = null;
 		try {
-			
-/* 			ds = new ComboPooledDataSource();
- 			ds.setDriverClass("oracle.jdbc.driver.OracleDriver");  
- 			ds.setJdbcUrl("jdbc:oracle:thin:@10.224.38.21:1585:hfw2dmss2");
- 			ds.setUser("DMS");
- 			ds.setPassword("pass");
- 			ds.setMaxPoolSize(30);
- 			ds.setMinPoolSize(10);*/
-			
-/*			jdbc.driverClassName=com.mysql.jdbc.Driver
-					jdbc.url=jdbc:mysql://gsbqa53-11:3306/replication?useUnicode=true&characterEncoding=UTF-8
-					jdbc.username=test
-					jdbc.password=pass*/
-			
-			ds = new ComboPooledDataSource();
- 			ds.setDriverClass("com.mysql.jdbc.Driver");  
- 			ds.setJdbcUrl("jdbc:mysql://10.224.36.143:3306/replication?useUnicode=true&characterEncoding=UTF-8");
- 			ds.setUser("test");
- 			ds.setPassword("pass");
-
+			ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(dbConfig);
+			con = comboPooledDataSource.getConnection();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
 		} catch (PropertyVetoException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static synchronized Connection getConnection() {
-		Connection con = null;
-		try {
-			con = ds.getConnection();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
 		return con;
 	}
- }
+}
