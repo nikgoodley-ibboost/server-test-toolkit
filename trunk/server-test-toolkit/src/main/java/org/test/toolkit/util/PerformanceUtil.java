@@ -3,6 +3,7 @@ package org.test.toolkit.util;
 import java.util.concurrent.TimeUnit;
 
 public class PerformanceUtil {
+
 	private static final String PERFORMANCE_COST_FORMAT = "[performance][cost][in milliseconds:{%d}][in %s:{%d}][%s]";
 
 	private long startTime;
