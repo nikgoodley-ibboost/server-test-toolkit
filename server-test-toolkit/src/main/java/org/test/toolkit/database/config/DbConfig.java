@@ -1,6 +1,11 @@
 package org.test.toolkit.database.config;
 
+import java.beans.PropertyVetoException;
+import java.util.Properties;
+
 import org.test.toolkit.util.ValidationUtil;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class DbConfig {
 
@@ -49,6 +54,28 @@ public class DbConfig {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public ComboPooledDataSource getComboPoolDataSource() throws PropertyVetoException {
+		ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
+		comboPooledDataSource.setDriverClass(driverClass);
+		comboPooledDataSource.setJdbcUrl(url);
+		comboPooledDataSource.setUser(username);
+		comboPooledDataSource.setPassword(password);
+
+		return comboPooledDataSource;
+	}
+
+	public ComboPooledDataSource getComboPoolDataSource(Properties properties)
+			throws PropertyVetoException {
+		ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
+		comboPooledDataSource.setDriverClass(driverClass);
+		comboPooledDataSource.setJdbcUrl(url);
+		comboPooledDataSource.setUser(username);
+		comboPooledDataSource.setPassword(password);
+		comboPooledDataSource.setProperties(properties);
+
+		return comboPooledDataSource;
 	}
 
 	@Override
