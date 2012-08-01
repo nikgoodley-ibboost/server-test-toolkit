@@ -19,7 +19,7 @@ public class DbClient {
 		// DataBaseConnection为具体的数据库连接及关闭操作类
 		Connection con = null;
 		// 连接数据库
-		con = ConnectionFactory.getConnection();
+		con = null;
 
 		// 编写SQL语句
 		sql = "SELECT u_name,u_password FROM nwvideo.n_user WHERE u_name=? and u_password=?";
