@@ -1,3 +1,5 @@
+package org.test.toolkit.util;
+
 public final class TrackIdUtil {
 
 	private final static ThreadLocal<Integer> THREAD_LOCAL_VARS = new ThreadLocal<Integer>() {
@@ -15,9 +17,9 @@ public final class TrackIdUtil {
 		THREAD_LOCAL_VARS.set(THREAD_LOCAL_VARS.get() + 1);
 		return THREAD_LOCAL_VARS.get();
 	}
-	
+
 	public static int current() {
- 		return THREAD_LOCAL_VARS.get();
+		return THREAD_LOCAL_VARS.get();
 	}
 
 }
