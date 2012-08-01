@@ -47,10 +47,16 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		<!--
-		 should execute maven command to install the jar to local:
-		 mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2.0.1.0 -Dpackaging=jar -Dfile=D:\ojdbc.jar 
-		 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.21</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<!-- should execute maven command to install the jar to local: mvn install:install-file 
+			-DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2.0.1.0 -Dpackaging=jar 
+			-Dfile=D:\ojdbc.jar -->
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc14</artifactId>
