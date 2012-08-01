@@ -7,7 +7,9 @@ import org.test.toolkit.util.ValidationUtil;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-public class DbConfig {
+public class DbConfig extends Properties{
+
+ 	private static final long serialVersionUID = 1L;
 
 	private String driverClass;
 	private String url;
@@ -22,6 +24,10 @@ public class DbConfig {
 		this.url = url;
 		this.username = username;
 		this.password = password;
+		put("driverClass", driverClass);
+		put("jdbcUrl", url);
+		put("user", username);
+		put("password", password);
 	}
 
 	public String getDriverClass() {
@@ -58,15 +64,16 @@ public class DbConfig {
 
 	public ComboPooledDataSource getComboPoolDataSource() throws PropertyVetoException {
 		ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
-		comboPooledDataSource.setDriverClass(driverClass);
+/*		comboPooledDataSource.setDriverClass(driverClass);
 		comboPooledDataSource.setJdbcUrl(url);
 		comboPooledDataSource.setUser(username);
-		comboPooledDataSource.setPassword(password);
+		comboPooledDataSource.setPassword(password);*/
+		comboPooledDataSource.setProperties(this);
 
 		return comboPooledDataSource;
 	}
 
-	public ComboPooledDataSource getComboPoolDataSource(Properties properties)
+/*	public ComboPooledDataSource getComboPoolDataSource(Properties properties)
 			throws PropertyVetoException {
 		ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
 		comboPooledDataSource.setDriverClass(driverClass);
@@ -76,7 +83,7 @@ public class DbConfig {
 		comboPooledDataSource.setProperties(properties);
 
 		return comboPooledDataSource;
-	}
+	}*/
 
 	@Override
 	public String toString() {
