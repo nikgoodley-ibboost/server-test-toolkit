@@ -1,36 +1,23 @@
 package org.test.toolkit.database;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class DbClient {
-	public static void main(String[] args) {
+	public static void main(String[] args) {/*
 		boolean flag = false;
-		// 在此处成具体的数据库验证
 
-		// 声明一个数据库操作对象
-		PreparedStatement pstmt = null;
-		// 声明一个结果集对象
-		ResultSet rs = null;
-		// 声明一个SQL变量，用于保存SQL语句
-		String sql = null;
-		// DataBaseConnection为具体的数据库连接及关闭操作类
-		Connection con = null;
-		// 连接数据库
-		con = null;
+ 		PreparedStatement pstmt = null;
+ 		ResultSet rs = null;
+ 		String sql = null;
+ 		Connection con = null;
+ 		con = null;
 
-		// 编写SQL语句
-		sql = "SELECT u_name,u_password FROM nwvideo.n_user WHERE u_name=? and u_password=?";
+ 		sql = "SELECT u_name,u_password FROM nwvideo.n_user WHERE u_name=? and u_password=?";
 		try {
-			// 实例化数据库操作对象
-			pstmt = con.prepareStatement(sql);
+ 			pstmt = con.prepareStatement(sql);
 
 			System.out.println("操作对象已被实例化");
 
-			// 设置pstmt的内容，是按ID和密码验证
-			pstmt.setString(1, "limeng");
+ 			pstmt.setString(1, "limeng");
 			pstmt.setString(2, "limeng");
 
 			System.out.println("获得username,password");
@@ -38,11 +25,8 @@ public class DbClient {
 			// 查询记录
 			rs = pstmt.executeQuery();
 			System.out.println("执行查询完毕");
-			// 判断是否有记录
-			if (rs.next()) {
-				// 如果有记录，则执行此段代码
-				// 用户是合法的，可以登陆
-				flag = true;
+ 			if (rs.next()) {
+ 				flag = true;
 
 				System.out.println("用户合法");
 			}
@@ -54,12 +38,11 @@ public class DbClient {
 		} catch (Exception e) {
 			System.out.println(e);
 		} finally {
-			// 最后一定要保证数据库已被关闭
-			try {
+ 			try {
 				con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 }
