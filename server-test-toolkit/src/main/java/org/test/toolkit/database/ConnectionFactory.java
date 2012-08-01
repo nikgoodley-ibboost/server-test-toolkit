@@ -3,6 +3,7 @@ package org.test.toolkit.database;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class ConnectionFactory {
@@ -14,22 +15,26 @@ public class ConnectionFactory {
 
 	static {
 		try {
-			// Logger log = Logger.getLogger("com.mchange"); // 日志
-			// log.setLevel(Level.WARNING);
+			
+/* 			ds = new ComboPooledDataSource();
+ 			ds.setDriverClass("oracle.jdbc.driver.OracleDriver");  
+ 			ds.setJdbcUrl("jdbc:oracle:thin:@10.224.38.21:1585:hfw2dmss2");
+ 			ds.setUser("DMS");
+ 			ds.setPassword("pass");
+ 			ds.setMaxPoolSize(30);
+ 			ds.setMinPoolSize(10);*/
+			
+/*			jdbc.driverClassName=com.mysql.jdbc.Driver
+					jdbc.url=jdbc:mysql://gsbqa53-11:3306/replication?useUnicode=true&characterEncoding=UTF-8
+					jdbc.username=test
+					jdbc.password=pass*/
+			
 			ds = new ComboPooledDataSource();
-			// 设置JDBC的Driver类
-			ds.setDriverClass("oracle.jdbc.driver.OracleDriver"); // 参数由 Config
-																	// 类根据配置文件读取
-			// 设置JDBC的URL
-			ds.setJdbcUrl("jdbc:oracle:thin:@192.168.1.134:1521:zhpt");
-			// 设置数据库的登录用户名
-			ds.setUser("scott");
-			// 设置数据库的登录用户密码
-			ds.setPassword("tiger");
-			// 设置连接池的最大连接数
-			ds.setMaxPoolSize(200);
-			// 设置连接池的最小连接数
-			ds.setMinPoolSize(20);
+ 			ds.setDriverClass("com.mysql.jdbc.Driver");  
+ 			ds.setJdbcUrl("jdbc:mysql://10.224.36.143:3306/replication?useUnicode=true&characterEncoding=UTF-8");
+ 			ds.setUser("test");
+ 			ds.setPassword("pass");
+
 		} catch (PropertyVetoException e) {
 			e.printStackTrace();
 		}
@@ -44,5 +49,4 @@ public class ConnectionFactory {
 		}
 		return con;
 	}
-	// C3P0 end
-}
+ }
