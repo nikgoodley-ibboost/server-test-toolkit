@@ -13,7 +13,6 @@ import com.sun.image.codec.jpeg.ImageFormatException;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
-@SuppressWarnings("restriction")
 public class JpgFile extends RandomFile {
 
 	public static final String EXTENSION = FileType.Image.JPG.toString();
