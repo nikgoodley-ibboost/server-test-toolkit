@@ -1,33 +1,41 @@
 package org.test.toolkit.database.config;
 
-import java.beans.PropertyVetoException;
-import java.util.Properties;
-
-import org.test.toolkit.util.ValidationUtil;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-public class DbConfig extends Properties{
-
- 	private static final long serialVersionUID = 1L;
+public class DbConfig {
 
 	private String driverClass;
-	private String url;
-	private String username;
+	private String jdbcUrl;
+	private String user;
 	private String password;
+	private String automaticTestTable;
 
-	protected DbConfig(String driverClass, String url, String username, String password) {
+	private int minPoolSize;
+	private int maxPoolSize;
+	private int initialPoolSize;
+	private int maxIdleTime;
+	private int acquireIncrement;
+	private int acquireRetryAttempts;
+	private int acquireRetryDelay;
+	private int checkoutTimeout;
+
+	private boolean testConnectionOnCheckin;
+	private boolean testConnectionOnCheckout;
+
+	protected DbConfig() {
 		super();
-		ValidationUtil.effectiveStr(driverClass, url, username, password);
+	}
 
+	protected DbConfig(String driverClass, String jdbcUrl, String user, String password) {
+		super();
 		this.driverClass = driverClass;
-		this.url = url;
-		this.username = username;
+		this.jdbcUrl = jdbcUrl;
+		this.user = user;
 		this.password = password;
-		put("driverClass", driverClass);
-		put("jdbcUrl", url);
-		put("user", username);
-		put("password", password);
 	}
 
 	public String getDriverClass() {
@@ -38,20 +46,20 @@ public class DbConfig extends Properties{
 		this.driverClass = driverClass;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getJdbcUrl() {
+		return jdbcUrl;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setJdbcUrl(String jdbcUrl) {
+		this.jdbcUrl = jdbcUrl;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getUser() {
+		return user;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 	public String getPassword() {
@@ -62,32 +70,167 @@ public class DbConfig extends Properties{
 		this.password = password;
 	}
 
-	public ComboPooledDataSource getComboPoolDataSource() throws PropertyVetoException {
-		ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
-/*		comboPooledDataSource.setDriverClass(driverClass);
-		comboPooledDataSource.setJdbcUrl(url);
-		comboPooledDataSource.setUser(username);
-		comboPooledDataSource.setPassword(password);*/
-		comboPooledDataSource.setProperties(this);
+	public int getMinPoolSize() {
+		return minPoolSize;
+	}
 
+	public void setMinPoolSize(int minPoolSize) {
+		this.minPoolSize = minPoolSize;
+	}
+
+	public int getMaxPoolSize() {
+		return maxPoolSize;
+	}
+
+	public void setMaxPoolSize(int maxPoolSize) {
+		this.maxPoolSize = maxPoolSize;
+	}
+
+	public int getInitialPoolSize() {
+		return initialPoolSize;
+	}
+
+	public void setInitialPoolSize(int initialPoolSize) {
+		this.initialPoolSize = initialPoolSize;
+	}
+
+	public int getMaxIdleTime() {
+		return maxIdleTime;
+	}
+
+	public void setMaxIdleTime(int maxIdleTime) {
+		this.maxIdleTime = maxIdleTime;
+	}
+
+	public int getAcquireIncrement() {
+		return acquireIncrement;
+	}
+
+	public void setAcquireIncrement(int acquireIncrement) {
+		this.acquireIncrement = acquireIncrement;
+	}
+
+	public int getAcquireRetryAttempts() {
+		return acquireRetryAttempts;
+	}
+
+	public void setAcquireRetryAttempts(int acquireRetryAttempts) {
+		this.acquireRetryAttempts = acquireRetryAttempts;
+	}
+
+	public int getAcquireRetryDelay() {
+		return acquireRetryDelay;
+	}
+
+	public void setAcquireRetryDelay(int acquireRetryDelay) {
+		this.acquireRetryDelay = acquireRetryDelay;
+	}
+
+	public String getAutomaticTestTable() {
+		return automaticTestTable;
+	}
+
+	public void setAutomaticTestTable(String automaticTestTable) {
+		this.automaticTestTable = automaticTestTable;
+	}
+
+	public int getCheckoutTimeout() {
+		return checkoutTimeout;
+	}
+
+	public void setCheckoutTimeout(int checkoutTimeout) {
+		this.checkoutTimeout = checkoutTimeout;
+	}
+
+	public boolean isTestConnectionOnCheckin() {
+		return testConnectionOnCheckin;
+	}
+
+	public void setTestConnectionOnCheckin(boolean testConnectionOnCheckin) {
+		this.testConnectionOnCheckin = testConnectionOnCheckin;
+	}
+
+	public boolean isTestConnectionOnCheckout() {
+		return testConnectionOnCheckout;
+	}
+
+	public void setTestConnectionOnCheckout(boolean testConnectionOnCheckout) {
+		this.testConnectionOnCheckout = testConnectionOnCheckout;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((jdbcUrl == null) ? 0 : jdbcUrl.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DbConfig other = (DbConfig) obj;
+		if (jdbcUrl == null) {
+			if (other.jdbcUrl != null)
+				return false;
+		} else if (!jdbcUrl.equals(other.jdbcUrl))
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
+			return false;
+		return true;
+	}
+
+	public ComboPooledDataSource getComboPooledDataSource() {
+		ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
+		Field[] fields = this.getClass().getDeclaredFields();
+		try {
+			for (Field field : fields) {
+				Object value = field.get(this);
+				Class<?> type = field.getType();
+				String fieldName = field.getName();
+				String setMethodName = getSetMethodName(fieldName);
+				Method method = ComboPooledDataSource.class.getMethod(setMethodName, type);
+				method.setAccessible(true);
+				method.invoke(comboPooledDataSource, value);
+			}
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
 		return comboPooledDataSource;
 	}
 
-/*	public ComboPooledDataSource getComboPoolDataSource(Properties properties)
-			throws PropertyVetoException {
-		ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
-		comboPooledDataSource.setDriverClass(driverClass);
-		comboPooledDataSource.setJdbcUrl(url);
-		comboPooledDataSource.setUser(username);
-		comboPooledDataSource.setPassword(password);
-		comboPooledDataSource.setProperties(properties);
-
-		return comboPooledDataSource;
-	}*/
+	private String getSetMethodName(String name) {
+		return "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
+	}
 
 	@Override
 	public String toString() {
-		return "DbConfig [url=" + url + ", username=" + username + ", password=" + password + "]";
+		return "DbConfig [driverClass=" + driverClass + ", jdbcUrl=" + jdbcUrl + ", user=" + user
+				+ ", password=" + password + ", minPoolSize=" + minPoolSize + ", maxPoolSize="
+				+ maxPoolSize + ", initialPoolSize=" + initialPoolSize + ", maxIdleTime="
+				+ maxIdleTime + ", acquireIncrement=" + acquireIncrement
+				+ ", acquireRetryAttempts=" + acquireRetryAttempts + ", acquireRetryDelay="
+				+ acquireRetryDelay + ", automaticTestTable=" + automaticTestTable
+				+ ", checkoutTimeout=" + checkoutTimeout + ", testConnectionOnCheckin="
+				+ testConnectionOnCheckin + ", testConnectionOnCheckout="
+				+ testConnectionOnCheckout + "]";
 	}
 
 }
