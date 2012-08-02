@@ -9,14 +9,18 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author fu.jian
+ *
+ */
 public class JavaBeanUtil {
 
-	public static <T> T convertMap(Class<T> type, Map<?, ?> map) throws IntrospectionException,
-			IllegalAccessException, InstantiationException, InvocationTargetException {
-		T obj = type.newInstance();
-
+	public static <T> T toJavaBean(Map<String, ?> map, Class<T> type)
+			throws IntrospectionException, IllegalAccessException, InstantiationException,
+			InvocationTargetException {
 		BeanInfo beanInfo = Introspector.getBeanInfo(type);
 		PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+		T obj = type.newInstance();
 		for (int i = 0; i < propertyDescriptors.length; i++) {
 			PropertyDescriptor descriptor = propertyDescriptors[i];
 			String propertyName = descriptor.getName();
@@ -29,14 +33,14 @@ public class JavaBeanUtil {
 		return obj;
 	}
 
-	public static Map<String, Object> convertBean(Object bean) throws IntrospectionException,
+	public static Map<String, Object> toMap(Object bean) throws IntrospectionException,
 			IllegalAccessException, InvocationTargetException {
-		Map<String, Object> returnMap = new HashMap<String, Object>();
 
- 		Class<?> type = bean.getClass();
+		Class<?> type = bean.getClass();
 		BeanInfo beanInfo = Introspector.getBeanInfo(type);
 		PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-  		for (int i = 0; i < propertyDescriptors.length; i++) {
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		for (int i = 0; i < propertyDescriptors.length; i++) {
 			PropertyDescriptor descriptor = propertyDescriptors[i];
 			String propertyName = descriptor.getName();
 			if (!propertyName.equals("class")) {
