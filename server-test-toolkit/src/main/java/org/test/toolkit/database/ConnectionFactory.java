@@ -26,7 +26,7 @@ public class ConnectionFactory {
 			if (configDataSourceMap.containsKey(dbConfig))
 				return configDataSourceMap.get(dbConfig);
 
-			ComboPooledDataSource comboPoolDataSource = dbConfig.getComboPoolDataSource();
+			ComboPooledDataSource comboPoolDataSource = dbConfig.getComboPooledDataSource();
 			configDataSourceMap.put(dbConfig, comboPoolDataSource);
 			return comboPoolDataSource;
 		}
