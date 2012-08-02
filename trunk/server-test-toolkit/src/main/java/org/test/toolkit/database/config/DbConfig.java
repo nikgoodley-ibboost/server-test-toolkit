@@ -1,8 +1,12 @@
 package org.test.toolkit.database.config;
 
+import java.beans.IntrospectionException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
+
+import org.test.toolkit.util.JavaBeanUtil;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -218,6 +222,22 @@ public class DbConfig {
 
 	private String getSetMethodName(String name) {
 		return "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
+	}
+
+	public static DbConfig fromMap(Map<String, ?> map) {
+		try {
+			return JavaBeanUtil.toJavaBean(map, DbConfig.class);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (IntrospectionException e) {
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 
 	@Override
