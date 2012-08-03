@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.test.toolkit.database.DbUtil.DbCloseUtil;
-
 /**
  * @author fu.jian
  * @date Aug 3, 2012
@@ -56,7 +54,7 @@ public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcE
 		} catch (SQLException e) {
 
 		} finally {
-			DbCloseUtil.closeResultSet(resultSet);
+			closeResultSet(resultSet);
 		}
 
 		return arrayList;
