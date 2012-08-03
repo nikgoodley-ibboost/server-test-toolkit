@@ -16,7 +16,7 @@ public final class StringUtil {
 			stringBuffer.append(SPACE);
 		}
 
- 		return stringBuffer.toString();
+  		return stringBuffer.toString().trim();
 	}
 
 }
