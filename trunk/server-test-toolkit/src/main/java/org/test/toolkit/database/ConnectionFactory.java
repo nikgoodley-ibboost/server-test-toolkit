@@ -1,12 +1,12 @@
 package org.test.toolkit.database;
 
-import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.test.toolkit.database.config.DbConfig;
+import org.test.toolkit.database.exception.DbConnectionException;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -23,16 +23,12 @@ public class ConnectionFactory {
 			synchronized (getComboPooledDataSourceSynchronizedKey(comboPooledDataSource)) {
 				return comboPooledDataSource.getConnection();
 			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		} catch (PropertyVetoException e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			throw new DbConnectionException(e.getMessage(), e);
 		}
-		return null;
 	}
 
-	private static ComboPooledDataSource getComboPooledDataSource(DbConfig dbConfig)
-			throws PropertyVetoException {
+	private static ComboPooledDataSource getComboPooledDataSource(DbConfig dbConfig) {
 		if (configDataSourceMap.containsKey(dbConfig))
 			return configDataSourceMap.get(dbConfig);
 
@@ -46,7 +42,8 @@ public class ConnectionFactory {
 		}
 	}
 
-	private static String getComboPooledDataSourceSynchronizedKey(ComboPooledDataSource comboPooledDataSource) {
+	private static String getComboPooledDataSourceSynchronizedKey(
+			ComboPooledDataSource comboPooledDataSource) {
 		StringBuilder synchronizedKey = new StringBuilder(comboPooledDataSource.getJdbcUrl());
 		synchronizedKey.append(comboPooledDataSource.getUser());
 
