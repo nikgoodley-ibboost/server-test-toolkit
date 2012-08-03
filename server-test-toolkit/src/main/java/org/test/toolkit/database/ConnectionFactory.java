@@ -22,7 +22,7 @@ public class ConnectionFactory {
 		if (configDataSourceMap.containsKey(dbConfig))
 			return configDataSourceMap.get(dbConfig);
 
-		synchronized (dbConfig) {
+		synchronized (dbConfig.getSynchronizedKey()) {
 			if (configDataSourceMap.containsKey(dbConfig))
 				return configDataSourceMap.get(dbConfig);
 
@@ -33,15 +33,14 @@ public class ConnectionFactory {
 	}
 
 	public static Connection getConnection(DbConfig dbConfig) {
-		Connection con = null;
-		try {
+ 		try {
 			ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(dbConfig);
-			con = comboPooledDataSource.getConnection();
+			return comboPooledDataSource.getConnection();
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		} catch (PropertyVetoException e) {
 			e.printStackTrace();
 		}
-		return con;
+		return null;
 	}
 }

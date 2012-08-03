@@ -224,6 +224,10 @@ public class DbConfig {
 		return "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
 	}
 
+	public String getSynchronizedKey() {
+		return (this.jdbcUrl + this.user).intern();
+	}
+
 	public static DbConfig fromMap(Map<String, ?> map) {
 		try {
 			return JavaBeanUtil.toJavaBean(map, DbConfig.class);
