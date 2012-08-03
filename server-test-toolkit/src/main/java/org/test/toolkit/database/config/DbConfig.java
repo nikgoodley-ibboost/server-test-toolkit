@@ -218,7 +218,7 @@ public class DbConfig {
 				}
 
 			}
- 			return comboPooledDataSource;
+			return comboPooledDataSource;
 		} catch (Exception e) {
 			throw new DbConfigException(e.getMessage(), e);
 		}
@@ -243,15 +243,38 @@ public class DbConfig {
 
 	@Override
 	public String toString() {
-		return "DbConfig [driverClass=" + driverClass + ", jdbcUrl=" + jdbcUrl + ", user=" + user
-				+ ", password=" + password + ", minPoolSize=" + minPoolSize + ", maxPoolSize="
-				+ maxPoolSize + ", initialPoolSize=" + initialPoolSize + ", maxIdleTime="
-				+ maxIdleTime + ", acquireIncrement=" + acquireIncrement
-				+ ", acquireRetryAttempts=" + acquireRetryAttempts + ", acquireRetryDelay="
-				+ acquireRetryDelay + ", automaticTestTable=" + automaticTestTable
-				+ ", checkoutTimeout=" + checkoutTimeout + ", testConnectionOnCheckin="
-				+ testConnectionOnCheckin + ", testConnectionOnCheckout="
-				+ testConnectionOnCheckout + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("DbConfig [driverClass=");
+		builder.append(driverClass);
+		builder.append(", jdbcUrl=");
+		builder.append(jdbcUrl);
+		builder.append(", user=");
+		builder.append(user);
+		builder.append(", password=");
+		builder.append(password);
+		builder.append(", automaticTestTable=");
+		builder.append(automaticTestTable);
+		builder.append(", minPoolSize=");
+		builder.append(minPoolSize);
+		builder.append(", maxPoolSize=");
+		builder.append(maxPoolSize);
+		builder.append(", initialPoolSize=");
+		builder.append(initialPoolSize);
+		builder.append(", maxIdleTime=");
+		builder.append(maxIdleTime);
+		builder.append(", acquireIncrement=");
+		builder.append(acquireIncrement);
+		builder.append(", acquireRetryAttempts=");
+		builder.append(acquireRetryAttempts);
+		builder.append(", acquireRetryDelay=");
+		builder.append(acquireRetryDelay);
+		builder.append(", checkoutTimeout=");
+		builder.append(checkoutTimeout);
+		builder.append(", testConnectionOnCheckin=");
+		builder.append(testConnectionOnCheckin);
+		builder.append(", testConnectionOnCheckout=");
+		builder.append(testConnectionOnCheckout);
+		builder.append("]");
+		return builder.toString();
 	}
-
 }
