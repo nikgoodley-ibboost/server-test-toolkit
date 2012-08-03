@@ -5,13 +5,18 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author fu.jian
  * @date Aug 3, 2012
  */
 public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcExecutable {
+
+	private static final Logger LOGGER = Logger.getLogger(AbstractDbClient.class);
 
 	protected Connection connection;
 
@@ -29,7 +34,22 @@ public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcE
 		return null;
 	}
 
-	public <T> List<T> getColumnValues(ResultSet resultSet, String columnName) {
+	public List<HashMap<String, ?>> toRecordMapList(ResultSet resultSet) throws SQLException {
+		List<HashMap<String, ?>> list = new ArrayList<HashMap<String, ?>>();
+		List<String> columnNames = getAllColumns(resultSet);
+		while (resultSet.next()) {
+			HashMap<String, Object> hashMap = new HashMap<String, Object>();
+			for (String columnName : columnNames) {
+				Object value = resultSet.getObject(columnName);
+				hashMap.put(columnName, value);
+			}
+			list.add(hashMap);
+		}
+
+		return list;
+	}
+
+	public <T> List<T> getValues(ResultSet resultSet, String columnName) {
 		ArrayList<T> arrayList = new ArrayList<T>();
 		try {
 			while (resultSet.next()) {
@@ -43,20 +63,21 @@ public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcE
 		return arrayList;
 	}
 
-	public List<String> getColumnNames(ResultSet resultSet) {
+	public List<String> getAllColumns(ResultSet resultSet) {
 		ArrayList<String> arrayList = new ArrayList<String>();
 		try {
 			ResultSetMetaData metaData = getMetaData(resultSet);
-			int max_column_number = metaData.getColumnCount();
-			for (int i = 0; i < max_column_number; i++) {
-				arrayList.add(metaData.getColumnName(i));
+			int columnsCount = metaData.getColumnCount();
+			LOGGER.info("[DB] Columns count: " + columnsCount);
+			for (int i = 1; i < columnsCount; i++) {
+				String columnName = metaData.getColumnName(i);
+				arrayList.add(columnName);
 			}
 		} catch (SQLException e) {
-
-		} finally {
-			closeResultSet(resultSet);
+			LOGGER.error(e.getMessage(), e);
 		}
 
+		LOGGER.info("[DB] Columns: " + arrayList);
 		return arrayList;
 	}
 
