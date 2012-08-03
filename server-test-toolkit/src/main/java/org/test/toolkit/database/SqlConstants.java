@@ -1,9 +1,9 @@
 package org.test.toolkit.database;
 
 public final class SqlConstants {
-	
+
 	private SqlConstants(){
-		
+
 	}
 
 	public final static String SPACE = " ";

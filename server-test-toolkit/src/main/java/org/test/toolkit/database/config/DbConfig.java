@@ -1,12 +1,11 @@
 package org.test.toolkit.database.config;
 
-import java.beans.IntrospectionException;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 
+import org.test.toolkit.database.exception.DbConfigException;
 import org.test.toolkit.util.JavaBeanUtil;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -14,7 +13,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 public class DbConfig {
 
 	private static final int DEFAULT_MAX_POOL_SIZE = 5;
-	
+
 	private String driverClass;
 	private String jdbcUrl;
 	private String user;
@@ -43,12 +42,12 @@ public class DbConfig {
 		this.jdbcUrl = jdbcUrl;
 		this.user = user;
 		this.password = password;
-		
+
 		setDefaultConfig();
 	}
 
 	private void setDefaultConfig() {
-		this.maxPoolSize=DEFAULT_MAX_POOL_SIZE;
+		this.maxPoolSize = DEFAULT_MAX_POOL_SIZE;
 	}
 
 	public String getDriverClass() {
@@ -219,18 +218,10 @@ public class DbConfig {
 				}
 
 			}
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
+ 			return comboPooledDataSource;
+		} catch (Exception e) {
+			throw new DbConfigException(e.getMessage(), e);
 		}
-		return comboPooledDataSource;
 	}
 
 	private String getSetMethodName(String name) {
@@ -244,28 +235,23 @@ public class DbConfig {
 	public static DbConfig fromMap(Map<String, ?> map) {
 		try {
 			return JavaBeanUtil.toJavaBean(map, DbConfig.class);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (IntrospectionException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new DbConfigException(e.getMessage(), e);
 		}
-		return null;
 
 	}
 
 	@Override
 	public String toString() {
 		return "DbConfig [driverClass=" + driverClass + ", jdbcUrl=" + jdbcUrl + ", user=" + user
-				+ ", password=" + password + ", minPoolSize=" + minPoolSize + ", maxPoolSize=" + maxPoolSize
-				+ ", initialPoolSize=" + initialPoolSize + ", maxIdleTime=" + maxIdleTime
-				+ ", acquireIncrement=" + acquireIncrement + ", acquireRetryAttempts=" + acquireRetryAttempts
-				+ ", acquireRetryDelay=" + acquireRetryDelay + ", automaticTestTable=" + automaticTestTable
+				+ ", password=" + password + ", minPoolSize=" + minPoolSize + ", maxPoolSize="
+				+ maxPoolSize + ", initialPoolSize=" + initialPoolSize + ", maxIdleTime="
+				+ maxIdleTime + ", acquireIncrement=" + acquireIncrement
+				+ ", acquireRetryAttempts=" + acquireRetryAttempts + ", acquireRetryDelay="
+				+ acquireRetryDelay + ", automaticTestTable=" + automaticTestTable
 				+ ", checkoutTimeout=" + checkoutTimeout + ", testConnectionOnCheckin="
-				+ testConnectionOnCheckin + ", testConnectionOnCheckout=" + testConnectionOnCheckout + "]";
+				+ testConnectionOnCheckin + ", testConnectionOnCheckout="
+				+ testConnectionOnCheckout + "]";
 	}
 
 }

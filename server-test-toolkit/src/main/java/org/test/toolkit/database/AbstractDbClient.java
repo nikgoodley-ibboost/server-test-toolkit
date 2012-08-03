@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.test.toolkit.database.exception.DbExecuteException;
 
 /**
  * @author fu.jian
@@ -29,24 +30,26 @@ public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcE
 		try {
 			return resultSet.getMetaData();
 		} catch (SQLException e) {
+			throw new DbExecuteException(e.getMessage(), e);
 		}
-
-		return null;
 	}
 
-	public List<HashMap<String, ?>> toRecordMapList(ResultSet resultSet) throws SQLException {
+	public List<HashMap<String, ?>> toRecordMapList(ResultSet resultSet) {
 		List<HashMap<String, ?>> list = new ArrayList<HashMap<String, ?>>();
 		List<String> columnNames = getAllColumns(resultSet);
-		while (resultSet.next()) {
-			HashMap<String, Object> hashMap = new HashMap<String, Object>();
-			for (String columnName : columnNames) {
-				Object value = resultSet.getObject(columnName);
-				hashMap.put(columnName, value);
+		try {
+			while (resultSet.next()) {
+				HashMap<String, Object> hashMap = new HashMap<String, Object>();
+				for (String columnName : columnNames) {
+					Object value = resultSet.getObject(columnName);
+					hashMap.put(columnName, value);
+				}
+				list.add(hashMap);
 			}
-			list.add(hashMap);
+			return list;
+		} catch (SQLException e) {
+			throw new DbExecuteException(e.getMessage(), e);
 		}
-
-		return list;
 	}
 
 	public <T> List<T> getValues(ResultSet resultSet, String columnName) {
@@ -57,10 +60,10 @@ public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcE
 				T columnValue = (T) resultSet.getObject(columnName);
 				arrayList.add(columnValue);
 			}
+			return arrayList;
 		} catch (SQLException e) {
+			throw new DbExecuteException(e.getMessage(), e);
 		}
-
-		return arrayList;
 	}
 
 	public List<String> getAllColumns(ResultSet resultSet) {
@@ -74,19 +77,24 @@ public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcE
 				arrayList.add(columnName);
 			}
 		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
+			throw new DbExecuteException(e.getMessage(), e);
 		}
 
 		LOGGER.info("[DB] Columns: " + arrayList);
 		return arrayList;
 	}
 
-	public long getTotalCount(String tableName) throws SQLException {
+	public long getTotalCount(String tableName) {
 		String queryCountSql = String.format("select count(*) from %s", tableName);
 		ResultSet resultSet = query(queryCountSql);
-		resultSet.next();
-		int count = resultSet.getInt(1);
-		return Long.valueOf(count);
+		try {
+			resultSet.next();
+			int count = resultSet.getInt(1);
+			return Long.valueOf(count);
+		} catch (SQLException e) {
+			throw new DbExecuteException(e.getMessage(), e);
+		}
+
 	}
 
 	public void close() {
