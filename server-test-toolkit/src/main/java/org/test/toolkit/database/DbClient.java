@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.apache.log4j.Logger;
-import org.test.toolkit.database.DbUtil.DbCloseUtil;
 import org.test.toolkit.database.config.DbConfig;
 
 public class DbClient extends AbstractDbClient {
@@ -38,7 +37,7 @@ public class DbClient extends AbstractDbClient {
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);
 		} finally {
-			DbCloseUtil.closeStatement(createStatement);
+			closeStatement(createStatement);
 		}
 
 		return false;
@@ -53,7 +52,7 @@ public class DbClient extends AbstractDbClient {
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);
 		} finally {
-			DbCloseUtil.closeStatement(createStatement);
+			closeStatement(createStatement);
 		}
 
 		return 0;
