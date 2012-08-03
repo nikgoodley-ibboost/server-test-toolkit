@@ -3,18 +3,32 @@ package org.test.toolkit.database;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
-
-import com.mchange.v2.c3p0.ComboPooledDataSource;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.test.toolkit.database.config.DbConfig;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
 public class ConnectionFactory {
 
-	private static volatile Map<DbConfig, ComboPooledDataSource> configDataSourceMap = new HashMap<DbConfig, ComboPooledDataSource>();
+	private static volatile Map<DbConfig, ComboPooledDataSource> configDataSourceMap = new ConcurrentHashMap<DbConfig, ComboPooledDataSource>();
 
 	private ConnectionFactory() {
+	}
+
+	public static Connection getConnection(DbConfig dbConfig) {
+		try {
+			ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(dbConfig);
+			synchronized (getComboPooledDataSourceSynchronizedKey(comboPooledDataSource)) {
+				return comboPooledDataSource.getConnection();
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		} catch (PropertyVetoException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	private static ComboPooledDataSource getComboPooledDataSource(DbConfig dbConfig)
@@ -30,20 +44,6 @@ public class ConnectionFactory {
 			configDataSourceMap.put(dbConfig, comboPoolDataSource);
 			return comboPoolDataSource;
 		}
-	}
-
-	public static Connection getConnection(DbConfig dbConfig) {
-		try {
-			ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(dbConfig);
-			synchronized (getComboPooledDataSourceSynchronizedKey(comboPooledDataSource)) {
-				return comboPooledDataSource.getConnection();
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		} catch (PropertyVetoException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	private static String getComboPooledDataSourceSynchronizedKey(ComboPooledDataSource comboPooledDataSource) {
