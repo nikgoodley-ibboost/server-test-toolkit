@@ -85,8 +85,8 @@ public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcE
 	}
 
 	public long getTotalCount(String tableName) {
-		String queryCountSql = String.format("select count(*) from %s", tableName);
-		ResultSet resultSet = query(queryCountSql);
+ 		String sqlForTableRecordCount = CommonSql.getSqlForTableRecordCount(tableName);
+		ResultSet resultSet = query(sqlForTableRecordCount);
 		try {
 			resultSet.next();
 			int count = resultSet.getInt(1);
