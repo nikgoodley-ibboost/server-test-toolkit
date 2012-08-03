@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 /**
  * @author fu.jian
- * @date Aug 3, 2012
+ * @date Aug 4, 2012
  */
 public class DbUtil {
 
