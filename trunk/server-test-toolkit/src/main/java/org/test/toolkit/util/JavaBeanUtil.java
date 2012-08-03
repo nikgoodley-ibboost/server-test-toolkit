@@ -9,9 +9,10 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+ 
 /**
  * @author fu.jian
- *
+ * @date Aug 3, 2012
  */
 public class JavaBeanUtil {
 
@@ -35,11 +36,10 @@ public class JavaBeanUtil {
 
 	public static Map<String, Object> toMap(Object bean) throws IntrospectionException,
 			IllegalAccessException, InvocationTargetException {
-
-		Class<?> type = bean.getClass();
+ 		Class<?> type = bean.getClass();
 		BeanInfo beanInfo = Introspector.getBeanInfo(type);
-		PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
 		Map<String, Object> returnMap = new HashMap<String, Object>();
+		PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
 		for (int i = 0; i < propertyDescriptors.length; i++) {
 			PropertyDescriptor descriptor = propertyDescriptors[i];
 			String propertyName = descriptor.getName();
