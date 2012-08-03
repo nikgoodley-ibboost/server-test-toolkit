@@ -1,48 +1,62 @@
 package org.test.toolkit.database;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-public class DbClient {
-	public static void main(String[] args) {/*
-		boolean flag = false;
+import org.apache.log4j.Logger;
+import org.test.toolkit.database.DbUtil.DbCloseUtil;
+import org.test.toolkit.database.config.DbConfig;
 
- 		PreparedStatement pstmt = null;
- 		ResultSet rs = null;
- 		String sql = null;
- 		Connection con = null;
- 		con = null;
+public class DbClient extends AbstractDbClient {
 
- 		sql = "SELECT u_name,u_password FROM nwvideo.n_user WHERE u_name=? and u_password=?";
-		try {
- 			pstmt = con.prepareStatement(sql);
+	private static final Logger LOGGER = Logger.getLogger(DbClient.class);
 
-			System.out.println("操作对象已被实例化");
-
- 			pstmt.setString(1, "limeng");
-			pstmt.setString(2, "limeng");
-
-			System.out.println("获得username,password");
-
-			// 查询记录
-			rs = pstmt.executeQuery();
-			System.out.println("执行查询完毕");
- 			if (rs.next()) {
- 				flag = true;
-
-				System.out.println("用户合法");
-			}
-			// 依次关闭
-
-			rs.close();
-			pstmt.close();
-
-		} catch (Exception e) {
-			System.out.println(e);
-		} finally {
- 			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}*/
+	public DbClient(DbConfig dbConfig) {
+		super(ConnectionFactory.getConnection(dbConfig));
 	}
+
+	@Override
+	public ResultSet query(String sql) {
+		Statement createStatement;
+		try {
+			createStatement = connection.createStatement();
+			return createStatement.executeQuery(sql);
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		return null;
+	}
+
+	@Override
+	public boolean execute(String sql) {
+		Statement createStatement = null;
+		try {
+			createStatement = connection.createStatement();
+			return createStatement.execute(sql);
+
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
+		} finally {
+			DbCloseUtil.closeStatement(createStatement);
+		}
+
+		return false;
+	}
+
+	@Override
+	public int update(String sql) {
+		Statement createStatement = null;
+		try {
+			createStatement = connection.createStatement();
+			return createStatement.executeUpdate(sql);
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
+		} finally {
+			DbCloseUtil.closeStatement(createStatement);
+		}
+
+		return 0;
+	}
+
 }
