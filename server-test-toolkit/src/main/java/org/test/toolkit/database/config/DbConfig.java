@@ -4,6 +4,7 @@ import java.beans.IntrospectionException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Map;
 
 import org.test.toolkit.util.JavaBeanUtil;
@@ -12,6 +13,8 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class DbConfig {
 
+	private static final int DEFAULT_MAX_POOL_SIZE = 5;
+	
 	private String driverClass;
 	private String jdbcUrl;
 	private String user;
@@ -40,6 +43,12 @@ public class DbConfig {
 		this.jdbcUrl = jdbcUrl;
 		this.user = user;
 		this.password = password;
+		
+		setDefaultConfig();
+	}
+
+	private void setDefaultConfig() {
+		this.maxPoolSize=DEFAULT_MAX_POOL_SIZE;
 	}
 
 	public String getDriverClass() {
@@ -195,16 +204,20 @@ public class DbConfig {
 
 	public ComboPooledDataSource getComboPooledDataSource() {
 		ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
-		Field[] fields = this.getClass().getDeclaredFields();
+		Field[] fields = DbConfig.class.getDeclaredFields();
 		try {
 			for (Field field : fields) {
-				Object value = field.get(this);
-				Class<?> type = field.getType();
-				String fieldName = field.getName();
-				String setMethodName = getSetMethodName(fieldName);
-				Method method = ComboPooledDataSource.class.getMethod(setMethodName, type);
-				method.setAccessible(true);
-				method.invoke(comboPooledDataSource, value);
+				if (!Modifier.isStatic(field.getModifiers())) {
+					field.setAccessible(true);
+					Object value = field.get(this);
+					Class<?> type = field.getType();
+					String fieldName = field.getName();
+					String setMethodName = getSetMethodName(fieldName);
+					Method method = ComboPooledDataSource.class.getMethod(setMethodName, type);
+					method.setAccessible(true);
+					method.invoke(comboPooledDataSource, value);
+				}
+
 			}
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -247,14 +260,12 @@ public class DbConfig {
 	@Override
 	public String toString() {
 		return "DbConfig [driverClass=" + driverClass + ", jdbcUrl=" + jdbcUrl + ", user=" + user
-				+ ", password=" + password + ", minPoolSize=" + minPoolSize + ", maxPoolSize="
-				+ maxPoolSize + ", initialPoolSize=" + initialPoolSize + ", maxIdleTime="
-				+ maxIdleTime + ", acquireIncrement=" + acquireIncrement
-				+ ", acquireRetryAttempts=" + acquireRetryAttempts + ", acquireRetryDelay="
-				+ acquireRetryDelay + ", automaticTestTable=" + automaticTestTable
+				+ ", password=" + password + ", minPoolSize=" + minPoolSize + ", maxPoolSize=" + maxPoolSize
+				+ ", initialPoolSize=" + initialPoolSize + ", maxIdleTime=" + maxIdleTime
+				+ ", acquireIncrement=" + acquireIncrement + ", acquireRetryAttempts=" + acquireRetryAttempts
+				+ ", acquireRetryDelay=" + acquireRetryDelay + ", automaticTestTable=" + automaticTestTable
 				+ ", checkoutTimeout=" + checkoutTimeout + ", testConnectionOnCheckin="
-				+ testConnectionOnCheckin + ", testConnectionOnCheckout="
-				+ testConnectionOnCheckout + "]";
+				+ testConnectionOnCheckin + ", testConnectionOnCheckout=" + testConnectionOnCheckout + "]";
 	}
 
 }
