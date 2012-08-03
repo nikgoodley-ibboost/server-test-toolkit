@@ -1,9 +1,9 @@
 package org.test.toolkit.util;
 
+import org.test.toolkit.constants.MarkConstants;
+
 
 public final class StringUtil {
-
-	public static final String SPACE=" ";
 
 	private StringUtil() {
 	}
@@ -13,7 +13,7 @@ public final class StringUtil {
 		StringBuffer stringBuffer = new StringBuffer();
 		for (String string : strings) {
 			stringBuffer.append(string);
-			stringBuffer.append(SPACE);
+			stringBuffer.append(MarkConstants.SPACE);
 		}
 
   		return stringBuffer.toString().trim();
