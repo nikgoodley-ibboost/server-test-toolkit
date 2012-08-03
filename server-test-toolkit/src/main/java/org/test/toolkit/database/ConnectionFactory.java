@@ -33,14 +33,23 @@ public class ConnectionFactory {
 	}
 
 	public static Connection getConnection(DbConfig dbConfig) {
- 		try {
+		try {
 			ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(dbConfig);
-			return comboPooledDataSource.getConnection();
+			synchronized (getComboPooledDataSourceSynchronizedKey(comboPooledDataSource)) {
+				return comboPooledDataSource.getConnection();
+			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		} catch (PropertyVetoException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private static String getComboPooledDataSourceSynchronizedKey(ComboPooledDataSource comboPooledDataSource) {
+		StringBuilder synchronizedKey = new StringBuilder(comboPooledDataSource.getJdbcUrl());
+		synchronizedKey.append(comboPooledDataSource.getUser());
+
+		return synchronizedKey.toString().intern();
 	}
 }
