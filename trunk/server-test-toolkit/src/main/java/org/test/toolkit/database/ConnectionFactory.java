@@ -89,8 +89,8 @@ public class ConnectionFactory {
 
 			ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
 			judgeIfConfigLegal(comboPooledDataSource);
-
 			DEFAULT_COMBOPOOLEDDATASOURCE = setToDbConfigComboPooledDataSourceMap(comboPooledDataSource);
+			
 			return DEFAULT_COMBOPOOLEDDATASOURCE;
 		}
 	}
