@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.test.toolkit.database.exception.DbConfigException;
 import org.test.toolkit.util.JavaBeanUtil;
+import org.test.toolkit.util.StringUtil;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -225,11 +226,11 @@ public class DbConfig {
 	}
 
 	private String getSetMethodName(String name) {
-		return "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
+		return StringUtil.concat("set",name.substring(0, 1).toUpperCase(), name.substring(1));
 	}
 
-	public String getSynchronizedKey() {
-		return (this.jdbcUrl + this.user).intern();
+	public String getIdenticalKey() {
+		return StringUtil.concat(this.jdbcUrl,this.user);
 	}
 
 	public static DbConfig fromMap(Map<String, ?> map) {
