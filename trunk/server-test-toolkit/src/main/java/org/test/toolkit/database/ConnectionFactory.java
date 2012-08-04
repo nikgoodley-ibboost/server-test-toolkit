@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.test.toolkit.database.config.DbConfig;
 import org.test.toolkit.database.exception.DbConfigException;
 import org.test.toolkit.database.exception.DbConnectionException;
+import org.test.toolkit.multithread.AbstractCacheAccess;
 import org.test.toolkit.util.StringUtil;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -30,28 +31,27 @@ public class ConnectionFactory {
 
 	public static Connection getConnection(DbConfig dbConfig) {
 		try {
-			ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(dbConfig,null);
+			ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(dbConfig, null);
 			return getConnection(comboPooledDataSource);
 		} catch (SQLException e) {
 			throw new DbConnectionException(e.getMessage(), e);
 		}
 	}
 
-	private static ComboPooledDataSource getComboPooledDataSource(DbConfig dbConfig, ComboPooledDataSource comboPooledDataSource) {
-		String keyForDbConfigDataSourceMap = getKeyForDbConfigDataSourceMap(dbConfig);
-		if (dbConfigDataSourceMap.containsKey(keyForDbConfigDataSourceMap))
-			return dbConfigDataSourceMap.get(keyForDbConfigDataSourceMap);
+	private static ComboPooledDataSource getComboPooledDataSource(final DbConfig dbConfig,
+			final ComboPooledDataSource comboPooledDataSource) {
+		AbstractCacheAccess<String, ComboPooledDataSource> abstractCacheAccess = new AbstractCacheAccess<String, ComboPooledDataSource>(
+				dbConfigDataSourceMap) {
+			@Override
+			protected ComboPooledDataSource createValue() {
+				if (comboPooledDataSource != null)
+					return comboPooledDataSource;
+				return dbConfig.getComboPooledDataSource();
+			}
+		};
 
-		synchronized (configNameDataSourceMap) {
-			if (dbConfigDataSourceMap.containsKey(keyForDbConfigDataSourceMap))
-				return dbConfigDataSourceMap.get(keyForDbConfigDataSourceMap);
-
-			if(comboPooledDataSource==null)
-				comboPooledDataSource = dbConfig.getComboPooledDataSource();
-			dbConfigDataSourceMap.put(keyForDbConfigDataSourceMap, comboPooledDataSource);
-
-			return comboPooledDataSource;
-		}
+		return abstractCacheAccess.getObject(getKeyForDbConfigDataSourceMap(dbConfig),
+				configNameDataSourceMap);
 	}
 
 	private static String getKeyForDbConfigDataSourceMap(DbConfig dbConfig) {
@@ -115,26 +115,25 @@ public class ConnectionFactory {
 		}
 	}
 
-	private static ComboPooledDataSource getComboPooledDataSource(String configName,
+	private static ComboPooledDataSource getComboPooledDataSource(final String configName,
 			String configPath) {
 		if (configPath == null)
 			configPath = "";
+		final String tmpConfigPath = configPath;
+		AbstractCacheAccess<String, ComboPooledDataSource> abstractCacheAccess = new AbstractCacheAccess<String, ComboPooledDataSource>(
+				dbConfigDataSourceMap) {
 
-		String keyForConfigNameDataSourceMap = getKeyForConfigNameDataSourceMap(configName,
-				configPath);
+			@Override
+			protected ComboPooledDataSource createValue() {
+				ComboPooledDataSource comboPooledDataSource = getComboPoolDataSource(configName,
+						tmpConfigPath);
+				return setToDbConfigComboPooledDataSourceMap(comboPooledDataSource);
+			}
+		};
 
-		if (configNameDataSourceMap.containsKey(keyForConfigNameDataSourceMap))
-			return configNameDataSourceMap.get(keyForConfigNameDataSourceMap);
+		return abstractCacheAccess.getObject(
+				getKeyForConfigNameDataSourceMap(configName, configPath), configNameDataSourceMap);
 
-		synchronized (keyForConfigNameDataSourceMap.intern()) {
-			if (configNameDataSourceMap.containsKey(keyForConfigNameDataSourceMap))
-				return configNameDataSourceMap.get(keyForConfigNameDataSourceMap);
-
-			ComboPooledDataSource comboPooledDataSource = getComboPoolDataSource(configName,
-					configPath);
-			return setComboPooledDataSourceToMapAndReturnDataSource(keyForConfigNameDataSourceMap,
-					comboPooledDataSource);
-		}
 	}
 
 	private static String getKeyForConfigNameDataSourceMap(String configName, String configPath) {
@@ -152,20 +151,9 @@ public class ConnectionFactory {
 		return comboPooledDataSource;
 	}
 
-	private static ComboPooledDataSource setComboPooledDataSourceToMapAndReturnDataSource(
-			String key, ComboPooledDataSource comboPooledDataSource) {
-		setToConfigNameDataSourceMap(key, comboPooledDataSource);
-		return setToDbConfigComboPooledDataSourceMap(comboPooledDataSource);
-	}
-
-	private static void setToConfigNameDataSourceMap(String key,
-			ComboPooledDataSource comboPooledDataSource) {
-		configNameDataSourceMap.put(key, comboPooledDataSource);
-	}
-
 	private static ComboPooledDataSource setToDbConfigComboPooledDataSourceMap(
 			ComboPooledDataSource comboPooledDataSource) {
- 		return getComboPooledDataSource(null, comboPooledDataSource);
- 	}
+		return getComboPooledDataSource(null, comboPooledDataSource);
+	}
 
 }
