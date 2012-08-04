@@ -19,4 +19,13 @@ public final class StringUtil {
   		return stringBuffer.toString().trim();
 	}
 
+	public static String concat(String... strings) {
+ 		StringBuffer stringBuffer = new StringBuffer();
+		for (String string : strings) {
+			stringBuffer.append(string);
+ 		}
+
+   		return stringBuffer.toString().trim();
+	}
+
 }
