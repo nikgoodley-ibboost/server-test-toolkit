@@ -17,7 +17,7 @@ public class ConnectionFactory {
 
 	private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
 
-	private static volatile ComboPooledDataSource DEFAULT_COMBOPOOLEDDATASOURCE;
+	private static volatile ComboPooledDataSource defaultComboPooledDataSource;
 	private static volatile ConcurrentHashMap<String, ComboPooledDataSource> dbConfigDataSourceMap = new ConcurrentHashMap<String, ComboPooledDataSource>();
 	private static volatile ConcurrentHashMap<String, ComboPooledDataSource> configNameDataSourceMap = new ConcurrentHashMap<String, ComboPooledDataSource>();
 
@@ -81,18 +81,19 @@ public class ConnectionFactory {
 	}
 
 	private static ComboPooledDataSource getDefaultComboPoolDataSource() {
-		if (DEFAULT_COMBOPOOLEDDATASOURCE != null)
-			return DEFAULT_COMBOPOOLEDDATASOURCE;
+		if (defaultComboPooledDataSource != null)
+			return defaultComboPooledDataSource;
 
 		synchronized (ConnectionFactory.class) {
-			if (DEFAULT_COMBOPOOLEDDATASOURCE != null)
-				return DEFAULT_COMBOPOOLEDDATASOURCE;
+			if (defaultComboPooledDataSource != null)
+				return defaultComboPooledDataSource;
 
-			ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
+			ComboPooledDataSource comboPooledDataSource = ComboPooledDataSourceFactory
+					.getDefaultComboPooledDataSource();
 			judgeIfConfigLegal(comboPooledDataSource);
-			DEFAULT_COMBOPOOLEDDATASOURCE = setToDbConfigComboPooledDataSourceMap(comboPooledDataSource);
+			defaultComboPooledDataSource = setToDbConfigComboPooledDataSourceMap(comboPooledDataSource);
 
-			return DEFAULT_COMBOPOOLEDDATASOURCE;
+			return defaultComboPooledDataSource;
 		}
 	}
 
@@ -143,10 +144,12 @@ public class ConnectionFactory {
 	private static ComboPooledDataSource getComboPoolDataSource(String configName, String configPath) {
 		ComboPooledDataSource comboPooledDataSource = null;
 		if (configPath.isEmpty())
-			comboPooledDataSource = new ComboPooledDataSource(configName);
+			comboPooledDataSource = ComboPooledDataSourceFactory
+					.getComboPooledDataSource(configName);
 		else {
 			System.setProperty("com.mchange.v2.c3p0.cfg.xml", configPath);
-			comboPooledDataSource = new ComboPooledDataSource(configName);
+			comboPooledDataSource = ComboPooledDataSourceFactory
+					.getComboPooledDataSource(configName);
 		}
 		return comboPooledDataSource;
 	}
