@@ -16,16 +16,9 @@ public class ConnectionFactory {
 
 	private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
 
-	private static final ComboPooledDataSource DEFAULT_COMBOPOOLEDDATASOURCE = new ComboPooledDataSource();
+	private static volatile ComboPooledDataSource DEFAULT_COMBOPOOLEDDATASOURCE;
 	private static volatile ConcurrentHashMap<String, ComboPooledDataSource> dbConfigDataSourceMap = new ConcurrentHashMap<String, ComboPooledDataSource>();
 	private static volatile ConcurrentHashMap<String, ComboPooledDataSource> configNameDataSourceMap = new ConcurrentHashMap<String, ComboPooledDataSource>();
-
-	static {
-		if (DEFAULT_COMBOPOOLEDDATASOURCE.getJdbcUrl() != null)
-			dbConfigDataSourceMap.put(
-					getKeyForDbConfigDataSourceMap(DEFAULT_COMBOPOOLEDDATASOURCE),
-					DEFAULT_COMBOPOOLEDDATASOURCE);
-	}
 
 	private ConnectionFactory() {
 	}
@@ -76,12 +69,28 @@ public class ConnectionFactory {
 	}
 
 	public static Connection getConnection() {
-		LOGGER.info("use default config for db connection");
-		judgeIfConfigLegal(DEFAULT_COMBOPOOLEDDATASOURCE);
 		try {
-			return getConnection(DEFAULT_COMBOPOOLEDDATASOURCE);
+			LOGGER.info("use default c3p0 config");
+			ComboPooledDataSource defaultComboPoolDataSource = getDefaultComboPoolDataSource();
+			return getConnection(defaultComboPoolDataSource);
 		} catch (SQLException e) {
 			throw new DbConnectionException(e.getMessage(), e);
+		}
+	}
+
+	private static ComboPooledDataSource getDefaultComboPoolDataSource() {
+		if (DEFAULT_COMBOPOOLEDDATASOURCE != null)
+			return DEFAULT_COMBOPOOLEDDATASOURCE;
+
+		synchronized (ConnectionFactory.class) {
+			if (DEFAULT_COMBOPOOLEDDATASOURCE != null)
+				return DEFAULT_COMBOPOOLEDDATASOURCE;
+
+			ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
+			judgeIfConfigLegal(comboPooledDataSource);
+
+			DEFAULT_COMBOPOOLEDDATASOURCE = setToDbConfigComboPooledDataSourceMap(comboPooledDataSource);
+			return DEFAULT_COMBOPOOLEDDATASOURCE;
 		}
 	}
 
@@ -109,7 +118,8 @@ public class ConnectionFactory {
 		if (configPath == null)
 			configPath = "";
 
-		String keyForConfigNameDataSourceMap = getKeyForConfigNameDataSourceMap(configName, configPath);
+		String keyForConfigNameDataSourceMap = getKeyForConfigNameDataSourceMap(configName,
+				configPath);
 
 		if (configNameDataSourceMap.containsKey(keyForConfigNameDataSourceMap))
 			return configNameDataSourceMap.get(keyForConfigNameDataSourceMap);
@@ -120,9 +130,8 @@ public class ConnectionFactory {
 
 			ComboPooledDataSource comboPooledDataSource = getComboPoolDataSource(configName,
 					configPath);
-			setComboPooledDataSourceToMap(keyForConfigNameDataSourceMap, comboPooledDataSource);
-
-			return comboPooledDataSource;
+			return setComboPooledDataSourceToMapAndReturnDataSource(keyForConfigNameDataSourceMap,
+					comboPooledDataSource);
 		}
 	}
 
@@ -141,18 +150,29 @@ public class ConnectionFactory {
 		return comboPooledDataSource;
 	}
 
-	private static void setComboPooledDataSourceToMap(String key,
-			ComboPooledDataSource comboPooledDataSource) {
-		configNameDataSourceMap.put(key, comboPooledDataSource);
-
-		String keyForDbConfigDataSourceMap = getKeyForDbConfigDataSourceMap(comboPooledDataSource);
-		if (!dbConfigDataSourceMap.containsKey(keyForDbConfigDataSourceMap))
-			synchronized (keyForDbConfigDataSourceMap.intern()) {
-				dbConfigDataSourceMap.putIfAbsent(keyForDbConfigDataSourceMap,
-						comboPooledDataSource);
-			}
+	private static ComboPooledDataSource setComboPooledDataSourceToMapAndReturnDataSource(
+			String key, ComboPooledDataSource comboPooledDataSource) {
+		setToConfigNameDataSourceMap(key, comboPooledDataSource);
+		return setToDbConfigComboPooledDataSourceMap(comboPooledDataSource);
 	}
 
+	private static void setToConfigNameDataSourceMap(String key,
+			ComboPooledDataSource comboPooledDataSource) {
+		configNameDataSourceMap.put(key, comboPooledDataSource);
+	}
 
+	private static ComboPooledDataSource setToDbConfigComboPooledDataSourceMap(
+			ComboPooledDataSource comboPooledDataSource) {
+		String keyForDbConfigDataSourceMap = getKeyForDbConfigDataSourceMap(comboPooledDataSource);
+		if (dbConfigDataSourceMap.containsKey(keyForDbConfigDataSourceMap))
+			return dbConfigDataSourceMap.get(keyForDbConfigDataSourceMap);
+		synchronized (keyForDbConfigDataSourceMap.intern()) {
+			if (dbConfigDataSourceMap.containsKey(keyForDbConfigDataSourceMap))
+				return dbConfigDataSourceMap.get(keyForDbConfigDataSourceMap);
+
+			dbConfigDataSourceMap.putIfAbsent(keyForDbConfigDataSourceMap, comboPooledDataSource);
+			return comboPooledDataSource;
+		}
+	}
 
 }
