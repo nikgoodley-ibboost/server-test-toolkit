@@ -24,52 +24,6 @@ public class ConnectionFactory {
 	private ConnectionFactory() {
 	}
 
-	private static String getKeyForDbConfigDataSourceMap(ComboPooledDataSource comboPooledDataSource) {
-		return StringUtil.concat(comboPooledDataSource.getJdbcUrl()
-				+ comboPooledDataSource.getUser());
-	}
-
-	public static Connection getConnection(DbConfig dbConfig) {
-		try {
-			ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(dbConfig, null);
-			return getConnection(comboPooledDataSource);
-		} catch (SQLException e) {
-			throw new DbConnectionException(e.getMessage(), e);
-		}
-	}
-
-	private static ComboPooledDataSource getComboPooledDataSource(final DbConfig dbConfig,
-			final ComboPooledDataSource comboPooledDataSource) {
-		AbstractCacheAccess<String, ComboPooledDataSource> abstractCacheAccess = new AbstractCacheAccess<String, ComboPooledDataSource>(
-				dbConfigDataSourceMap) {
-			@Override
-			protected ComboPooledDataSource createValue() {
-				if (comboPooledDataSource != null)
-					return comboPooledDataSource;
-				return dbConfig.getComboPooledDataSource();
-			}
-		};
-
-		return abstractCacheAccess.getObject(getKeyForDbConfigDataSourceMap(dbConfig),
-				configNameDataSourceMap);
-	}
-
-	private static String getKeyForDbConfigDataSourceMap(DbConfig dbConfig) {
-		return dbConfig.getIdenticalKey();
-	}
-
-	public static Connection getConnection(ComboPooledDataSource comboPooledDataSource)
-			throws SQLException {
-		synchronized (getConnectionSynchronizedKey(comboPooledDataSource)) {
-			return comboPooledDataSource.getConnection();
-		}
-	}
-
-	private static String getConnectionSynchronizedKey(ComboPooledDataSource comboPooledDataSource) {
-		return StringUtil.concat(getKeyForDbConfigDataSourceMap(comboPooledDataSource),
-				"connection").intern();
-	}
-
 	public static Connection getConnection() {
 		try {
 			LOGGER.info("use default c3p0 config");
@@ -91,7 +45,7 @@ public class ConnectionFactory {
 			ComboPooledDataSource comboPooledDataSource = ComboPooledDataSourceFactory
 					.getDefaultComboPooledDataSource();
 			judgeIfConfigLegal(comboPooledDataSource);
-			defaultComboPooledDataSource = setToDbConfigComboPooledDataSourceMap(comboPooledDataSource);
+			defaultComboPooledDataSource = getComboPooledDataSource(null, comboPooledDataSource);
 
 			return defaultComboPooledDataSource;
 		}
@@ -100,6 +54,43 @@ public class ConnectionFactory {
 	private static void judgeIfConfigLegal(ComboPooledDataSource comboPooledDataSource) {
 		if (comboPooledDataSource.getDriverClass() == null)
 			throw new DbConfigException("no config in classPath or driverClass not configured");
+	}
+
+	private static ComboPooledDataSource getComboPooledDataSource(final DbConfig dbConfig,
+			final ComboPooledDataSource comboPooledDataSource) {
+		AbstractCacheAccess<String, ComboPooledDataSource> abstractCacheAccess = new AbstractCacheAccess<String, ComboPooledDataSource>(
+				dbConfigDataSourceMap) {
+			@Override
+			protected ComboPooledDataSource createValue() {
+				if (comboPooledDataSource != null)
+					return comboPooledDataSource;
+				return dbConfig.getComboPooledDataSource();
+			}
+		};
+		String keyForDbConfigDataSourceMap = dbConfig == null ? getKeyForDbConfigDataSourceMap(comboPooledDataSource)
+				: getKeyForDbConfigDataSourceMap(dbConfig);
+		return abstractCacheAccess.getObject(keyForDbConfigDataSourceMap, configNameDataSourceMap);
+	}
+
+	private static String getKeyForDbConfigDataSourceMap(DbConfig dbConfig) {
+		return dbConfig.getIdenticalKey();
+	}
+
+	public static Connection getConnection(ComboPooledDataSource comboPooledDataSource)
+			throws SQLException {
+		synchronized (getConnectionSynchronizedKey(comboPooledDataSource)) {
+			return comboPooledDataSource.getConnection();
+		}
+	}
+
+	private static String getConnectionSynchronizedKey(ComboPooledDataSource comboPooledDataSource) {
+		return StringUtil.concat(getKeyForDbConfigDataSourceMap(comboPooledDataSource),
+				"connection").intern();
+	}
+
+	private static String getKeyForDbConfigDataSourceMap(ComboPooledDataSource comboPooledDataSource) {
+		return StringUtil.concat(comboPooledDataSource.getJdbcUrl()
+				+ comboPooledDataSource.getUser());
 	}
 
 	public static Connection getConnection(String configName) {
@@ -117,18 +108,15 @@ public class ConnectionFactory {
 	}
 
 	private static ComboPooledDataSource getComboPooledDataSource(final String configName,
-			String configPath) {
-		if (configPath == null)
-			configPath = "";
-		final String tmpConfigPath = configPath;
+			final String configPath) {
 		AbstractCacheAccess<String, ComboPooledDataSource> abstractCacheAccess = new AbstractCacheAccess<String, ComboPooledDataSource>(
 				dbConfigDataSourceMap) {
 
 			@Override
 			protected ComboPooledDataSource createValue() {
-				ComboPooledDataSource comboPooledDataSource = getComboPoolDataSource(configName,
-						tmpConfigPath);
-				return setToDbConfigComboPooledDataSourceMap(comboPooledDataSource);
+				ComboPooledDataSource comboPooledDataSource = ComboPooledDataSourceFactory
+						.getComboPooledDataSource(configName, configPath);
+				return getComboPooledDataSource(null, comboPooledDataSource);
 			}
 		};
 
@@ -138,25 +126,16 @@ public class ConnectionFactory {
 	}
 
 	private static String getKeyForConfigNameDataSourceMap(String configName, String configPath) {
-		return StringUtil.concat(configName, configPath);
+		return StringUtil.concat(configName, configPath == null ? "" : configPath);
 	}
 
-	private static ComboPooledDataSource getComboPoolDataSource(String configName, String configPath) {
-		ComboPooledDataSource comboPooledDataSource = null;
-		if (configPath.isEmpty())
-			comboPooledDataSource = ComboPooledDataSourceFactory
-					.getComboPooledDataSource(configName);
-		else {
-			System.setProperty("com.mchange.v2.c3p0.cfg.xml", configPath);
-			comboPooledDataSource = ComboPooledDataSourceFactory
-					.getComboPooledDataSource(configName);
+	public static Connection getConnection(DbConfig dbConfig) {
+		try {
+			ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(dbConfig, null);
+			return getConnection(comboPooledDataSource);
+		} catch (SQLException e) {
+			throw new DbConnectionException(e.getMessage(), e);
 		}
-		return comboPooledDataSource;
-	}
-
-	private static ComboPooledDataSource setToDbConfigComboPooledDataSourceMap(
-			ComboPooledDataSource comboPooledDataSource) {
-		return getComboPooledDataSource(null, comboPooledDataSource);
 	}
 
 }
