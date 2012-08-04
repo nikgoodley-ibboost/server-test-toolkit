@@ -1,5 +1,6 @@
 package org.test.toolkit.database;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,6 +19,23 @@ public class DbClient extends AbstractDbClient {
 	}
 
 	@Override
+	public ResultSet query(String sql, Object[] params) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = connection.prepareStatement(sql);
+			for (int i = 0; params != null && i < params.length; i++) {
+				pstmt.setObject(i + 1, params[i]);
+			}
+			rs = pstmt.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			String msg = String.format(LOG_FROMAT_FOR_SQL_EXCEPTION, sql, e.getMessage());
+			throw new DbExecuteException(msg, e);
+		}
+	}
+
+	@Override
 	public ResultSet query(String sql) {
 		LOGGER.info("execute sql: " + sql);
 		Statement createStatement;
@@ -27,6 +45,23 @@ public class DbClient extends AbstractDbClient {
 		} catch (SQLException e) {
 			String msg = String.format(LOG_FROMAT_FOR_SQL_EXCEPTION, sql, e.getMessage());
 			throw new DbExecuteException(msg, e);
+		}
+	}
+
+	@Override
+	public boolean execute(String sql, Object[] params) {
+		LOGGER.info("execute sql: " + sql);
+		PreparedStatement createStatement = null;
+		try {
+			createStatement = connection.prepareStatement(sql);
+			for (int i = 0; params != null && i < params.length; i++)
+				createStatement.setObject(i + 1, params[i]);
+			return createStatement.execute(sql);
+		} catch (SQLException e) {
+			String msg = String.format(LOG_FROMAT_FOR_SQL_EXCEPTION, sql, e.getMessage());
+			throw new DbExecuteException(msg, e);
+		} finally {
+			closeStatement(createStatement);
 		}
 	}
 
@@ -57,6 +92,20 @@ public class DbClient extends AbstractDbClient {
 			throw new DbExecuteException(msg, e);
 		} finally {
 			closeStatement(createStatement);
+		}
+	}
+
+	@Override
+	public int update(String sql, Object[] params) throws SQLException {
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection.prepareStatement(sql);
+			for (int i = 0; params != null && i < params.length; i++) {
+				pstmt.setObject(i + 1, params[i]);
+			}
+			return pstmt.executeUpdate();
+		} finally {
+			closeStatement(pstmt);
 		}
 	}
 

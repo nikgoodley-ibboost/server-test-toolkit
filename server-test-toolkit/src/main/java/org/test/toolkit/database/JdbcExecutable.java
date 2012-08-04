@@ -1,6 +1,7 @@
 package org.test.toolkit.database;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * @author fu.jian
@@ -15,5 +16,11 @@ public interface JdbcExecutable {
 	int update(String sql);
 
 	void close();
+
+	int update(String sql, Object[] params) throws SQLException;
+
+	ResultSet query(String sql, Object[] params) throws SQLException;
+
+	boolean execute(String sql, Object[] params);
 
 }
