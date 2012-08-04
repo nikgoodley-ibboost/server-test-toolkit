@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.log4j.Logger;
 import org.test.toolkit.database.config.DbConfig;
 import org.test.toolkit.database.exception.DbConnectionException;
 
@@ -12,7 +13,10 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class ConnectionFactory {
 
-	private static volatile Map<DbConfig, ComboPooledDataSource> configDataSourceMap = new ConcurrentHashMap<DbConfig, ComboPooledDataSource>();
+	private static final Logger LOGGER=Logger.getLogger(ConnectionFactory.class);
+
+	private static final ComboPooledDataSource DEFAULT_COMBOPOOLEDDATASOURCE=new ComboPooledDataSource();
+  	private static volatile Map<DbConfig, ComboPooledDataSource> configDataSourceMap = new ConcurrentHashMap<DbConfig, ComboPooledDataSource>();
 
 	private ConnectionFactory() {
 	}
@@ -27,6 +31,15 @@ public class ConnectionFactory {
 			throw new DbConnectionException(e.getMessage(), e);
 		}
 	}
+
+	public static Connection getConnection() {
+		try {
+			LOGGER.info("use default config for db connection");
+  			return DEFAULT_COMBOPOOLEDDATASOURCE.getConnection();
+		} catch (SQLException e) {
+			throw new DbConnectionException(e.getMessage(), e);
+ 		}
+ 	}
 
 	private static ComboPooledDataSource getComboPooledDataSource(DbConfig dbConfig) {
 		if (configDataSourceMap.containsKey(dbConfig))
