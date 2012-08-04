@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.test.toolkit.database.exception.DbExecuteException;
 
@@ -34,23 +35,47 @@ public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcE
 		}
 	}
 
-	public List<HashMap<String, ?>> toRecordMapList(ResultSet resultSet) {
+	public <T> List<T> toJavabeanList(ResultSet resultSet, Class<T> javaBeanClass) {
+		List<T> list = new ArrayList<T>();
+ 		try {
+			while (resultSet.next()) {
+				T entity = javaBeanClass.newInstance();
+  				ResultSetMetaData resultSetMetaData=resultSet.getMetaData();
+				int columnCount = resultSetMetaData.getColumnCount();
+				for(int index=0;index<columnCount;index++){
+					String key=resultSetMetaData.getColumnName(index);
+					Object value=resultSet.getObject(index);
+ 	 				BeanUtils.copyProperty(entity, key, value);
+   				}
+ 				list.add(entity);
+			}
+			return list;
+		} catch (Exception e) {
+			throw new DbExecuteException(e.getMessage(), e);
+		}
+	}
+
+	public List<HashMap<String, ?>> toMapList(ResultSet resultSet) {
 		List<HashMap<String, ?>> list = new ArrayList<HashMap<String, ?>>();
-		List<String> columnNames = getAllColumns(resultSet);
-		try {
+ 		try {
 			while (resultSet.next()) {
 				HashMap<String, Object> hashMap = new HashMap<String, Object>();
-				for (String columnName : columnNames) {
-					Object value = resultSet.getObject(columnName);
-					hashMap.put(columnName, value);
-				}
-				list.add(hashMap);
+ 				ResultSetMetaData resultSetMetaData=resultSet.getMetaData();
+				int columnCount = resultSetMetaData.getColumnCount();
+				for(int index=0;index<columnCount;index++){
+					String key=resultSetMetaData.getColumnName(index);
+					Object value=resultSet.getObject(index);
+	 				hashMap.put(key, value);
+  				}
+
+ 				list.add(hashMap);
 			}
 			return list;
 		} catch (SQLException e) {
 			throw new DbExecuteException(e.getMessage(), e);
 		}
 	}
+
 
 	public <T> List<T> getValues(ResultSet resultSet, String columnName) {
 		ArrayList<T> arrayList = new ArrayList<T>();
