@@ -42,12 +42,13 @@ public class ConnectionFactory {
 		if (dbConfigDataSourceMap.containsKey(keyForDbConfigDataSourceMap))
 			return dbConfigDataSourceMap.get(keyForDbConfigDataSourceMap);
 
-		synchronized (keyForDbConfigDataSourceMap.intern()) {
+		synchronized (configNameDataSourceMap) {
 			if (dbConfigDataSourceMap.containsKey(keyForDbConfigDataSourceMap))
 				return dbConfigDataSourceMap.get(keyForDbConfigDataSourceMap);
 
 			ComboPooledDataSource comboPoolDataSource = dbConfig.getComboPooledDataSource();
 			dbConfigDataSourceMap.put(keyForDbConfigDataSourceMap, comboPoolDataSource);
+
 			return comboPoolDataSource;
 		}
 	}
@@ -166,7 +167,7 @@ public class ConnectionFactory {
 		String keyForDbConfigDataSourceMap = getKeyForDbConfigDataSourceMap(comboPooledDataSource);
 		if (dbConfigDataSourceMap.containsKey(keyForDbConfigDataSourceMap))
 			return dbConfigDataSourceMap.get(keyForDbConfigDataSourceMap);
-		synchronized (keyForDbConfigDataSourceMap.intern()) {
+		synchronized (configNameDataSourceMap) {
 			if (dbConfigDataSourceMap.containsKey(keyForDbConfigDataSourceMap))
 				return dbConfigDataSourceMap.get(keyForDbConfigDataSourceMap);
 
