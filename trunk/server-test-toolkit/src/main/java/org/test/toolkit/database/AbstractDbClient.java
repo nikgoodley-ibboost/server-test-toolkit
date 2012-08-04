@@ -94,8 +94,7 @@ public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcE
 		} catch (SQLException e) {
 			throw new DbExecuteException(e.getMessage(), e);
 		}
-
-	}
+ 	}
 
 	public void close() {
 		closeConnection(connection);
