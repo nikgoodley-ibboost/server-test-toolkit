@@ -4,7 +4,7 @@ import java.util.Map;
 
 public abstract class AbstractCacheAccess<K, V> {
 
-	private Map<K, V> map;
+	private volatile Map<K, V> map;
 
 	protected AbstractCacheAccess(Map<K, V> map) {
 		super();
