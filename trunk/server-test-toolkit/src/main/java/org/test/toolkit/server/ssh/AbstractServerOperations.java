@@ -2,6 +2,7 @@ package org.test.toolkit.server.ssh;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -18,8 +19,8 @@ import org.test.toolkit.server.ssh.command.Sed;
 import org.test.toolkit.server.ssh.command.Tail;
 import org.test.toolkit.server.ssh.command.Touch;
 import org.test.toolkit.server.ssh.command.Vmstat;
+import org.test.toolkit.server.ssh.performance.PerformanceData;
 import org.test.toolkit.util.CollectionUtil;
-
 
 /**
  * @author fu.jian
@@ -65,11 +66,17 @@ public abstract class AbstractServerOperations implements ServerOperations {
 		Command command = Touch.newInstance(fileName);
 		executeCommandWithoutResult(command);
 	}
-	
+
 	@Override
-	public Map<String, String> getPerformanceData() {
-		Command command = Vmstat.newInstance();
-		return executeCommandWithResult(command);
+	public Map<String, PerformanceData> getPerformanceData() {
+		Command command = Vmstat.newInstance(); 
+		Map<String, String> result = executeCommandWithResult(command);		
+		Map<String, PerformanceData> returnMap = new HashMap<String, PerformanceData>(result.size());
+		for (Map.Entry<String, String> entry : result.entrySet()) {
+			returnMap.put(entry.getKey(), Vmstat.parseString(entry.getValue()));
+		}
+
+		return returnMap;
 	}
 
 	@Override
