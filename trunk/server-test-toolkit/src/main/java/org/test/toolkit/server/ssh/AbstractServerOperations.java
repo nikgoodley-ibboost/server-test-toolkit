@@ -17,6 +17,7 @@ import org.test.toolkit.server.ssh.command.Mkdir;
 import org.test.toolkit.server.ssh.command.Sed;
 import org.test.toolkit.server.ssh.command.Tail;
 import org.test.toolkit.server.ssh.command.Touch;
+import org.test.toolkit.server.ssh.command.Vmstat;
 import org.test.toolkit.util.CollectionUtil;
 
 
@@ -63,6 +64,12 @@ public abstract class AbstractServerOperations implements ServerOperations {
 	public void createFileWithoutContent(String fileName) {
 		Command command = Touch.newInstance(fileName);
 		executeCommandWithoutResult(command);
+	}
+	
+	@Override
+	public Map<String, String> getPerformanceData() {
+		Command command = Vmstat.newInstance();
+		return executeCommandWithResult(command);
 	}
 
 	@Override
