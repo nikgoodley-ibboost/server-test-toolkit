@@ -18,10 +18,5 @@ public class DbConnectionException extends DbException {
 	public DbConnectionException(String message, Throwable cause) {
 		super(message, cause);
 	}
-
-	public DbConnectionException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
-
+ 
 }
