@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.test.toolkit.server.common.interfaces.RemoteConnection;
 import org.test.toolkit.server.ssh.command.Command;
-
+import org.test.toolkit.server.ssh.performance.PerformanceData;
 
 /**
  * @author fu.jian
@@ -49,6 +49,6 @@ public interface ServerOperations extends RemoteConnection {
 
 	public void cancelIptables();
 
-	public Map<String, String> getPerformanceData();
+	public Map<String, PerformanceData> getPerformanceData();
 
 }
