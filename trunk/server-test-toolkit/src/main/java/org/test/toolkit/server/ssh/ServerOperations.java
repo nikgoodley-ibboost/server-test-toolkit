@@ -49,4 +49,6 @@ public interface ServerOperations extends RemoteConnection {
 
 	public void cancelIptables();
 
+	public Map<String, String> getPerformanceData();
+
 }
