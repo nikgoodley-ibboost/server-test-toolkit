@@ -66,8 +66,7 @@ public class MonitorScheduleImpl implements MonitorSchedule{
 
 	@Override
 	public void start(){
-
-		Collection<ClassEntry<JobManage>> jobManageEntrys = jobManageConfig.readJobManageEntrys();
+ 		Collection<ClassEntry<JobManage>> jobManageEntrys = jobManageConfig.readJobManageEntrys();
 		for(ClassEntry<JobManage> classEntry: jobManageEntrys){
 			JobManage jobManage = classEntry.getClassInstance();
 			Map<JobDetail, List<Trigger>> jobs = jobManage.getJobs(scheduler);
