@@ -28,7 +28,7 @@ public class ClassEntry<T> {
 			return forName.newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new JobManageException(e);
+			throw new JobException(e);
 		}
 	}
 
