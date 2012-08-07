@@ -8,7 +8,16 @@ public final class XmlUtil {
 	}
 
 	public static Document getDocument(String xmlPath) {
-		return null;
+ 		InputStream resourceAsStream = ConfigUtil.class.getClassLoader().getResourceAsStream(path);
+		SAXReader saxReader = new SAXReader();
+		Document document;
+		try {
+			document = saxReader.read(resourceAsStream);
+		} catch (DocumentException e) {
+ 			e.printStackTrace();
+			throw new UtilException("parse xml fail:"+path, e);
+		}
+		return document;
 	}
 
 }
