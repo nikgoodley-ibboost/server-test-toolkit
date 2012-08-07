@@ -38,12 +38,14 @@ public final class JobUtil {
 		StringBuilder stringBuilder = new StringBuilder(JOB);
 		stringBuilder.append(_);
 		stringBuilder.append(jobName);
+		
 		return stringBuilder.toString();
 	}
 
 	public static Trigger getDefaultTrigger(String cronTab) {
 		ScheduleBuilder<CronTrigger> schedBuilder = CronScheduleBuilder.cronSchedule(cronTab);
 		Trigger trigger = TriggerBuilder.newTrigger().withSchedule(schedBuilder).build();
+		
 		return trigger;
 	}
 
