@@ -59,7 +59,7 @@ public class MonitorScheduleImpl implements MonitorSchedule{
  			return getInstance(defaultScheduler, DEFAULT_JOB_MANAGE_CONFIG);
 		} catch (SchedulerException e) {
 			e.printStackTrace();
-			throw new JobManageException(e);
+			throw new JobException(e);
 		}
 
 	}
@@ -77,7 +77,7 @@ public class MonitorScheduleImpl implements MonitorSchedule{
 				scheduler.start();
 			} catch (SchedulerException e) {
  				e.printStackTrace();
- 				throw new JobManageException(e);
+ 				throw new JobException(e);
 			}
 
 		}
