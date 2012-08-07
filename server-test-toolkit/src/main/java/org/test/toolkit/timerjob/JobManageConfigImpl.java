@@ -15,7 +15,7 @@ import org.test.toolkit.util.XmlUtil;
 
 public class JobManageConfigImpl implements JobManageConfig {
 
-	private final static String CONFIG_PATH = "jobManage.xml";
+	private final static String CONFIG_PATH = "job.xml";
 
 	@Override
 	public Collection<ClassEntry<JobManage>> readJobManageEntrys() {
