@@ -32,6 +32,22 @@ public class MonitorScheduleImpl implements MonitorSchedule{
 		this.jobManageConfig = jobManageConfig;
  	}
 
+ 	public static MonitorSchedule getInstance() {
+		try {
+			if (defaultScheduler == null) {
+				synchronized (MonitorScheduleImpl.class) {
+					if (defaultScheduler == null)
+						defaultScheduler = StdSchedulerFactory
+								.getDefaultScheduler();
+				}
+			}
+ 			return getInstance(defaultScheduler, DEFAULT_JOB_MANAGE_CONFIG);
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+			throw new JobException(e);
+		}
+ 	}
+
 	@Override
 	public void registerMBean(JmxMonitor jmxMonitor) {
 		QuartzSchedule quartzSchedule = new QuartzSchedule(this);
@@ -47,22 +63,6 @@ public class MonitorScheduleImpl implements MonitorSchedule{
 		 jmxMonitor.registerMBean(quartzSchedule, name);
 	}
 
-	public static MonitorSchedule getInstance() {
-		try {
-			if (defaultScheduler == null) {
-				synchronized (MonitorScheduleImpl.class) {
-					if (defaultScheduler == null)
-						defaultScheduler = StdSchedulerFactory
-								.getDefaultScheduler();
-				}
-			}
- 			return getInstance(defaultScheduler, DEFAULT_JOB_MANAGE_CONFIG);
-		} catch (SchedulerException e) {
-			e.printStackTrace();
-			throw new JobException(e);
-		}
-
-	}
 
 	@Override
 	public void start(){
