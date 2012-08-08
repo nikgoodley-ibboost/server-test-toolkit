@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jobs>
 	<job>
-		<parameter name="name" value="LogWatchJob" />
-		<parameter name="className" value="com.cisco.tool.log.LogWatchJobManage" /> 
+		<parameter name="name" value="PerformanceJob" />
+		<parameter name="className" value="org.test.toolkit.timerjob.performancejob.PerformanceJob" />
 	</job>
-	<job>
-		<parameter name="name" value="DbWatchJob" />
-		<parameter name="className" value="com.cisco.tool.dbwatch.DbWatchJobManage" /> 
-	</job>
-</jobs>
+ </jobs>
