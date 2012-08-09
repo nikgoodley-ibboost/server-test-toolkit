@@ -1,4 +1,4 @@
-package org.test.toolkit.timerjob.mbean;
+package org.test.toolkit.job.mbean;
 
 import java.lang.management.ManagementFactory;
 

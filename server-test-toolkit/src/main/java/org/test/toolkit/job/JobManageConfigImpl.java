@@ -1,4 +1,4 @@
-package org.test.toolkit.timerjob;
+package org.test.toolkit.job;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

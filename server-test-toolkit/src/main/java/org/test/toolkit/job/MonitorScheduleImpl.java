@@ -1,4 +1,4 @@
-package org.test.toolkit.timerjob;
+package org.test.toolkit.job;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,8 +13,8 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
-import org.test.toolkit.timerjob.mbean.JmxMonitor;
-import org.test.toolkit.timerjob.mbean.QuartzSchedule;
+import org.test.toolkit.job.mbean.JmxMonitor;
+import org.test.toolkit.job.mbean.QuartzSchedule;
 import org.test.toolkit.util.ValidationUtil;
 
 public class MonitorScheduleImpl implements MonitorSchedule{
