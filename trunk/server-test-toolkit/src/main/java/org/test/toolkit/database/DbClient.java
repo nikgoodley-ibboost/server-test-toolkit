@@ -8,6 +8,7 @@ import java.sql.Statement;
 import org.apache.log4j.Logger;
 import org.test.toolkit.database.config.DbConfig;
 import org.test.toolkit.database.exception.DbExecuteException;
+import org.test.toolkit.database.resultsethandle.ResultSetHandle;
 
 public class DbClient extends AbstractDbClient {
 
@@ -19,32 +20,42 @@ public class DbClient extends AbstractDbClient {
 	}
 
 	@Override
-	public ResultSet query(String sql, Object[] params) {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+	public <T> T query(String sql, Object[] params, ResultSetHandle<T> resultHandle) {
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
 		try {
-			pstmt = connection.prepareStatement(sql);
+			preparedStatement = connection.prepareStatement(sql);
 			for (int i = 0; params != null && i < params.length; i++) {
-				pstmt.setObject(i + 1, params[i]);
+				preparedStatement.setObject(i + 1, params[i]);
 			}
-			rs = pstmt.executeQuery();
-			return rs;
+			resultSet = preparedStatement.executeQuery();
+
+			return resultHandle.handle(resultSet);
 		} catch (SQLException e) {
 			String msg = String.format(LOG_FROMAT_FOR_SQL_EXCEPTION, sql, e.getMessage());
 			throw new DbExecuteException(msg, e);
+		} finally {
+			closeResultSet(resultSet);
+			closeStatement(preparedStatement);
 		}
 	}
 
 	@Override
-	public ResultSet query(String sql) {
+	public <T> T query(String sql, ResultSetHandle<T> resultHandle) {
 		LOGGER.info("execute sql: " + sql);
-		Statement createStatement;
+		Statement statement = null;
+		ResultSet resultSet = null;
 		try {
-			createStatement = connection.createStatement();
-			return createStatement.executeQuery(sql);
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+
+			return resultHandle.handle(resultSet);
 		} catch (SQLException e) {
 			String msg = String.format(LOG_FROMAT_FOR_SQL_EXCEPTION, sql, e.getMessage());
 			throw new DbExecuteException(msg, e);
+		} finally {
+			closeResultSet(resultSet);
+			closeStatement(statement);
 		}
 	}
 
@@ -97,15 +108,15 @@ public class DbClient extends AbstractDbClient {
 
 	@Override
 	public int update(String sql, Object[] params) throws SQLException {
-		PreparedStatement pstmt = null;
+		PreparedStatement preparedStatement = null;
 		try {
-			pstmt = connection.prepareStatement(sql);
+			preparedStatement = connection.prepareStatement(sql);
 			for (int i = 0; params != null && i < params.length; i++) {
-				pstmt.setObject(i + 1, params[i]);
+				preparedStatement.setObject(i + 1, params[i]);
 			}
-			return pstmt.executeUpdate();
+			return preparedStatement.executeUpdate();
 		} finally {
-			closeStatement(pstmt);
+			closeStatement(preparedStatement);
 		}
 	}
 
