@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jobs>
 	<job>
-		<parameter name="name" value="PerformanceJob" />
-		<parameter name="className" value="org.test.toolkit.timerjob.performancejob.PerformanceJob" />
+		<parameter name="name" value="SampleJob" />
+		<parameter name="className" value="org.test.toolkit.job...." />
 	</job>
  </jobs>
