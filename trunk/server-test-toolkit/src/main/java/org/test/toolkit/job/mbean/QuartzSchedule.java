@@ -1,6 +1,6 @@
-package org.test.toolkit.timerjob.mbean;
+package org.test.toolkit.job.mbean;
 
-import org.test.toolkit.timerjob.Schedulable;
+import org.test.toolkit.job.Schedulable;
 
  
 

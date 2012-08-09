@@ -1,6 +1,6 @@
-package org.test.toolkit.timerjob;
+package org.test.toolkit.job;
 
-import org.test.toolkit.timerjob.mbean.JmxMonitorImpl;
+import org.test.toolkit.job.mbean.JmxMonitorImpl;
 
 public final class QuartzExecute implements Schedulable {
 
