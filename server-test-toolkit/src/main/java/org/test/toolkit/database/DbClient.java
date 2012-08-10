@@ -8,7 +8,7 @@ import java.sql.Statement;
 import org.apache.log4j.Logger;
 import org.test.toolkit.database.config.DbConfig;
 import org.test.toolkit.database.exception.DbExecuteException;
-import org.test.toolkit.database.resultsethandle.ResultSetHandle;
+import org.test.toolkit.database.resultset.ResultSetHandle;
 
 public class DbClient extends AbstractDbClient {
 
