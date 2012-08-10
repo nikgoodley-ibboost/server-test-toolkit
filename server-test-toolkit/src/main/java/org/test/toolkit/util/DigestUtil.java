@@ -12,13 +12,17 @@ import java.security.NoSuchAlgorithmException;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
+/**
+ * @author fu.jian
+ * @date Aug 10, 2012
+ */
 public class DigestUtil {
 
 	public static final DigestAlgorithm DEFAULT_DIGEST_ALGORITHM = DigestAlgorithm.MD5;
 	/** * 1M */
+	private static final int DEFAULT_UPDATE_MESSAGE_DIGEST_SIZE = 1024 * 1024;
 
 	private static final Logger LOG = Logger.getLogger(DigestUtil.class);
-	private static final int DEFAULT_UPDATE_MESSAGE_DIGEST_SIZE = 1024 * 1024;
 
 	public enum DigestAlgorithm {
 		MD5("md5"), SHA_1("sha-1"), SHA_256("sha-256"), SHA_384("sha-384"), SHA_512("sha-512");
@@ -127,11 +131,10 @@ public class DigestUtil {
 		return getDigest(filePath, DEFAULT_DIGEST_ALGORITHM);
 	}
 
-	public static String getDigest(String filePath, DigestAlgorithm algorithm)
-			throws FileNotFoundException, IOException {
+	public static String getDigest(String filePath, DigestAlgorithm algorithm) throws FileNotFoundException,
+			IOException {
 		ValidationUtil.effectiveStr(filePath);
-		BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
-				filePath));
+		BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(filePath));
 		try {
 			return getDigest(bufferedInputStream, algorithm);
 		} finally {
@@ -139,8 +142,7 @@ public class DigestUtil {
 		}
 	}
 
-	public static String getDigest(InputStream inputStream, DigestAlgorithm algorithm)
-			throws IOException {
+	public static String getDigest(InputStream inputStream, DigestAlgorithm algorithm) throws IOException {
 		BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
 		try {
 			return new InputStreamDigestComputor(bufferedInputStream, algorithm).compute();
