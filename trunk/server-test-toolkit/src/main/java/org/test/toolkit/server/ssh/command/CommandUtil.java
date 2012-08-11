@@ -19,6 +19,7 @@ public final class CommandUtil {
 			return command;
 		command = command + " |grep '" + keyWords[0] + "'";
 		command = CommandUtil.addRemainGrepKey(command, keyWords);
+
 		return command;
 	}
 
