@@ -23,7 +23,7 @@ public final class JobUtil {
 	private JobUtil() {
 	}
 
-	public static void appendListenerToJob(Scheduler scheduler, JobDetail job,
+	static void appendListenerToJob(Scheduler scheduler, JobDetail job,
 			JobListener jobListener) {
 		Matcher<JobKey> matcher = KeyMatcher.keyEquals(job.getKey());
 		try {
@@ -34,22 +34,22 @@ public final class JobUtil {
 		}
 	}
 
-	public static String formatJobName(String jobName) {
+	static String formatJobName(String jobName) {
 		StringBuilder stringBuilder = new StringBuilder(JOB);
 		stringBuilder.append(_);
 		stringBuilder.append(jobName);
-		
+
 		return stringBuilder.toString();
 	}
 
-	public static Trigger getDefaultTrigger(String cronTab) {
+	static Trigger getDefaultTrigger(String cronTab) {
 		ScheduleBuilder<CronTrigger> schedBuilder = CronScheduleBuilder.cronSchedule(cronTab);
 		Trigger trigger = TriggerBuilder.newTrigger().withSchedule(schedBuilder).build();
-		
+
 		return trigger;
 	}
 
-	public static JobDetail getDefaultJobDetail(Class<? extends Job> jobClass, String jobName) {
+	static JobDetail getDefaultJobDetail(Class<? extends Job> jobClass, String jobName) {
 		JobDetail job = JobBuilder.newJob(jobClass).withIdentity(jobName).build();
 		return job;
 	}
