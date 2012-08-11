@@ -1,4 +1,4 @@
-package org.test.toolkit.job;
+package org.test.toolkit.job.config;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -13,13 +13,13 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.test.toolkit.util.XmlUtil;
 
-public class JobManageConfigImpl implements JobManageConfig {
+public class JobSourceConfigImpl implements JobSourceConfig {
 
 	private final static String CONFIG_PATH = "job.xml";
 
 	@Override
-	public Collection<ClassEntry<JobManage>> readJobManageEntrys() {
-		List<ClassEntry<JobManage>> list = new ArrayList<ClassEntry<JobManage>>();
+	public Collection<JobSourceEntry<JobSource>> getJobSourceEntrys() {
+		List<JobSourceEntry<JobSource>> list = new ArrayList<JobSourceEntry<JobSource>>();
 		Document document = XmlUtil.getDocument(CONFIG_PATH);
 
 		@SuppressWarnings("unchecked")
@@ -34,15 +34,15 @@ public class JobManageConfigImpl implements JobManageConfig {
 				hashMap.put(key.getValue(), value.getValue());
 			}
 
-			ClassEntry<JobManage> jobManageEntry = new ClassEntry<JobManage>();
-			setJobManageEntry(hashMap, jobManageEntry);
-			list.add(jobManageEntry);
+			JobSourceEntry<JobSource> jobSourceEntry = new JobSourceEntry<JobSource>();
+			setJobSourceEntry(hashMap, jobSourceEntry);
+			list.add(jobSourceEntry);
 		}
 
 		return list;
 	}
 
-	public void setJobManageEntry(Map<String, String> hashMap, ClassEntry<JobManage> jobManageEntry) {
+	public void setJobSourceEntry(Map<String, String> hashMap, JobSourceEntry<JobSource> jobManageEntry) {
 		try {
 			BeanUtils.copyProperties(jobManageEntry, hashMap);
 		} catch (IllegalAccessException e) {

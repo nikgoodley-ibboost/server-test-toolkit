@@ -1,4 +1,4 @@
-package org.test.toolkit.job;
+package org.test.toolkit.job.schedule;
 
 public interface Schedulable {
 

@@ -1,14 +1,12 @@
-package org.test.toolkit.job.mbean;
+package org.test.toolkit.job.jmx.mbean;
 
-import org.test.toolkit.job.Schedulable;
-
- 
+import org.test.toolkit.job.schedule.Schedulable;
 
 public class QuartzSchedule implements QuartzScheduleMBean {
-	
+
 	private Schedulable schedule;
-	
- 	public QuartzSchedule(Schedulable scheduleImpl) {
+
+	public QuartzSchedule(Schedulable scheduleImpl) {
 		super();
 		this.schedule = scheduleImpl;
 	}
@@ -16,7 +14,7 @@ public class QuartzSchedule implements QuartzScheduleMBean {
 	@Override
 	public void start() {
 		schedule.start();
- 	}
+	}
 
 	@Override
 	public void stop() {
@@ -26,7 +24,7 @@ public class QuartzSchedule implements QuartzScheduleMBean {
 	@Override
 	public String list() {
 		return schedule.list();
- 		 
+
 	}
 
- }
+}

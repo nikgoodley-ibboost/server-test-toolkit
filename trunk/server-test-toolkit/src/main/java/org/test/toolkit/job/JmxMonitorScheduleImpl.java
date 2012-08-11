@@ -13,29 +13,34 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
-import org.test.toolkit.job.mbean.JmxMonitor;
-import org.test.toolkit.job.mbean.QuartzSchedule;
+import org.test.toolkit.job.config.JobSource;
+import org.test.toolkit.job.config.JobSourceConfig;
+import org.test.toolkit.job.config.JobSourceConfigImpl;
+import org.test.toolkit.job.config.JobSourceEntry;
+import org.test.toolkit.job.exception.JobException;
+import org.test.toolkit.job.jmx.JmxMonitor;
+import org.test.toolkit.job.jmx.mbean.QuartzSchedule;
 import org.test.toolkit.util.ValidationUtil;
 
-public class MonitorScheduleImpl implements MonitorSchedule{
+public class JmxMonitorScheduleImpl implements JmxMonitorSchedulable{
 
-	private final static JobManageConfig DEFAULT_JOB_MANAGE_CONFIG = new JobManageConfigImpl();
+	private final static JobSourceConfig DEFAULT_JOB_MANAGE_CONFIG = new JobSourceConfigImpl();
 	private static Scheduler defaultScheduler;
 
-	private static MonitorSchedule instance;
+	private static JmxMonitorSchedulable instance;
 	private Scheduler scheduler;
-	private JobManageConfig jobManageConfig;
+	private JobSourceConfig jobManageConfig;
 
-	private MonitorScheduleImpl(Scheduler scheduler, JobManageConfig jobManageConfig) {
+	private JmxMonitorScheduleImpl(Scheduler scheduler, JobSourceConfig jobManageConfig) {
 		ValidationUtil.checkNull(scheduler, jobManageConfig);
 		this.scheduler = scheduler;
 		this.jobManageConfig = jobManageConfig;
  	}
 
- 	public static MonitorSchedule getInstance() {
+ 	public static JmxMonitorSchedulable getInstance() {
 		try {
 			if (defaultScheduler == null) {
-				synchronized (MonitorScheduleImpl.class) {
+				synchronized (JmxMonitorScheduleImpl.class) {
 					if (defaultScheduler == null)
 						defaultScheduler = StdSchedulerFactory
 								.getDefaultScheduler();
@@ -66,9 +71,9 @@ public class MonitorScheduleImpl implements MonitorSchedule{
 
 	@Override
 	public void start(){
- 		Collection<ClassEntry<JobManage>> jobManageEntrys = jobManageConfig.readJobManageEntrys();
-		for(ClassEntry<JobManage> classEntry: jobManageEntrys){
-			JobManage jobManage = classEntry.getClassInstance();
+ 		Collection<JobSourceEntry<JobSource>> jobSourceEntrys = jobManageConfig.getJobSourceEntrys();
+		for(JobSourceEntry<JobSource> classEntry: jobSourceEntrys){
+			JobSource jobManage = classEntry.getClassInstance();
 			Map<JobDetail, List<Trigger>> jobs = jobManage.getJobs(scheduler);
 
 			try {
@@ -83,12 +88,12 @@ public class MonitorScheduleImpl implements MonitorSchedule{
 
 	}
 
-	public static MonitorSchedule getInstance(Scheduler scheduler,
-			JobManageConfig jobManageConfig) {
+	public static JmxMonitorSchedulable getInstance(Scheduler scheduler,
+			JobSourceConfig jobManageConfig) {
 		if (instance == null)
-			synchronized (MonitorScheduleImpl.class) {
+			synchronized (JmxMonitorScheduleImpl.class) {
 				if (instance == null)
-					instance = new MonitorScheduleImpl(scheduler, jobManageConfig);
+					instance = new JmxMonitorScheduleImpl(scheduler, jobManageConfig);
 			}
 		return instance;
 	}
