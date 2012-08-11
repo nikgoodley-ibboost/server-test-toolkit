@@ -4,7 +4,13 @@ import org.test.toolkit.job.exception.JobException;
 
 public class JobEntry<T> {
 
+	/**
+	 * job name
+	 */
 	private String name;
+	/**
+	 * job className
+	 */
 	private String className;
 
 	public String getName() {

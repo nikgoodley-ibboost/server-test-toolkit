@@ -11,6 +11,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;
+import org.test.toolkit.job.exception.JobConfigException;
 import org.test.toolkit.util.XmlUtil;
 
 public class JobConfigImpl implements JobConfig {
@@ -18,7 +19,7 @@ public class JobConfigImpl implements JobConfig {
 	private final static String CONFIG_PATH = "job.xml";
 
 	@Override
-	public Collection<JobEntry<Job>> getJobSourceEntrys() {
+	public Collection<JobEntry<Job>> getJobEntrys() {
 		List<JobEntry<Job>> list = new ArrayList<JobEntry<Job>>();
 		Document document = XmlUtil.getDocument(CONFIG_PATH);
 
@@ -34,21 +35,21 @@ public class JobConfigImpl implements JobConfig {
 				hashMap.put(key.getValue(), value.getValue());
 			}
 
-			JobEntry<Job> jobSourceEntry = new JobEntry<Job>();
-			setJobSourceEntry(hashMap, jobSourceEntry);
-			list.add(jobSourceEntry);
+			JobEntry<Job> jobEntry = new JobEntry<Job>();
+			setJobEntry(hashMap, jobEntry);
+			list.add(jobEntry);
 		}
 
 		return list;
 	}
 
-	public void setJobSourceEntry(Map<String, String> hashMap, JobEntry<Job> jobManageEntry) {
+	public void setJobEntry(Map<String, String> hashMap, JobEntry<Job> jobEntry) {
 		try {
-			BeanUtils.copyProperties(jobManageEntry, hashMap);
+			BeanUtils.copyProperties(jobEntry, hashMap);
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			throw new JobConfigException(e.getMessage(), e);
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			throw new JobConfigException(e.getMessage(), e);
 		}
 	}
 
