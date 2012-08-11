@@ -2,7 +2,7 @@ package org.test.toolkit.server.common.user;
 
 
 /**
- *
+ * default port is {@link #DEFAULT_PORT}
  * @author Administrator
  *
  */
