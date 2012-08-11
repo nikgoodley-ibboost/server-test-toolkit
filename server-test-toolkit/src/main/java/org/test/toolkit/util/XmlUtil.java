@@ -18,7 +18,7 @@ public final class XmlUtil {
 		try {
 			document = saxReader.read(resourceAsStream);
 		} catch (DocumentException e) {
- 			throw new RuntimeException("parse xml fail:"+xmlPath, e);
+ 			throw new UtilException("parse xml fail:"+xmlPath, e);
 		}
 		return document;
 	}
