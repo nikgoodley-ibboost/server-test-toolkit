@@ -14,7 +14,7 @@ public class CommonSql {
 	}
 
 	public static String getSqlForTableRecordCount(String tableName) {
-		ValidationUtil.effectiveStr(tableName);
+		ValidationUtil.checkString(tableName);
 		return String.format(SQL_FORMAT_FOR_TABLE_RECORD_COUNT, tableName);
 
 	}

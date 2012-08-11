@@ -13,7 +13,7 @@ public class GroupCommands extends Command {
 	}
 
 	private static String toCommandStr(Command atLeastOneCommand, Command... otherCommands) {
-		ValidationUtil.nonNull(atLeastOneCommand);
+		ValidationUtil.checkNull(atLeastOneCommand);
 
 		StringBuilder commandStr = new StringBuilder(atLeastOneCommand.toString());
 		for (Command otherCommand : otherCommands) {

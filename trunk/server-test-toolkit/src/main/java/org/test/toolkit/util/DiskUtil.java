@@ -8,7 +8,7 @@ public class DiskUtil {
 
 	private DiskUtil(String filePath) {
 		super();
-		ValidationUtil.isExistedFile(filePath);
+		ValidationUtil.hasFile(filePath);
 		this.file = new File(filePath);
 	}
 

@@ -9,7 +9,7 @@ public final class StringUtil {
 	}
 
 	public static String concatWithSpace(String... strings) {
-		ValidationUtil.nonNull((Object[]) strings);
+		ValidationUtil.checkNull(strings);
 		StringBuffer stringBuffer = new StringBuffer();
 		for (String string : strings) {
 			stringBuffer.append(string);

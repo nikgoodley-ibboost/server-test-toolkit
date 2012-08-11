@@ -27,7 +27,7 @@ public final class FileUtil {
  	}
 
 	static byte[] generateBytesBySize(long sizeByByteUnit) {
-		ValidationUtil.effectivePositive(sizeByByteUnit);
+		ValidationUtil.checkPositive(sizeByByteUnit);
 
 		int allocateSize = 32;
 

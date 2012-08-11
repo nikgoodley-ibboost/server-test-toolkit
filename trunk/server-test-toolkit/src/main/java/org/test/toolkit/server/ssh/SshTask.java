@@ -31,8 +31,8 @@ public class SshTask implements Callable<OperationResult<String, String>> {
 	private Session session;
 
 	public SshTask(Session session, String command, boolean returnResult) {
-		ValidationUtil.effectiveStr(command);
-		ValidationUtil.nonNull(session);
+		ValidationUtil.checkString(command);
+		ValidationUtil.checkNull(session);
 
 		this.session = session;
 		this.command = command;
