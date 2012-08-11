@@ -2,7 +2,7 @@ package org.test.toolkit.database;
 
 import java.sql.SQLException;
 
-import org.test.toolkit.database.resultset.ResultSetHandle;
+import org.test.toolkit.database.resultset.handle.ResultSetHandle;
 
 /**
  * @author fu.jian

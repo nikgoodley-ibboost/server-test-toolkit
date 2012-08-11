@@ -1,4 +1,4 @@
-package org.test.toolkit.database.resultset;
+package org.test.toolkit.database.resultset.handle;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
