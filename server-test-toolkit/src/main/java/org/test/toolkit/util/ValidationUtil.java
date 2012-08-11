@@ -17,8 +17,8 @@ public final class ValidationUtil {
 	 *             : <li>file path be null or empty <li>file path not found.
 	 */
 	public static void checkFileExist(String... filePaths) {
+		checkString(filePaths);
 		for (String filePath : filePaths) {
-			checkString(filePath);
 			checkFileExist(new File(filePath));
 		}
 	}
@@ -61,7 +61,8 @@ public final class ValidationUtil {
 	}
 
 	public static boolean hasFile(File file) {
-		return file != null && file.exists();
+		checkNull(file);
+		return file.exists();
 	}
 
 	/**

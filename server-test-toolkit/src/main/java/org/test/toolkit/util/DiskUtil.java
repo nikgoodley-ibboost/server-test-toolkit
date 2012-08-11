@@ -8,7 +8,7 @@ public class DiskUtil {
 
 	private DiskUtil(String filePath) {
 		super();
-		ValidationUtil.hasFile(filePath);
+		ValidationUtil.checkFileExist(filePath);
 		this.file = new File(filePath);
 	}
 
@@ -21,8 +21,8 @@ public class DiskUtil {
 	}
 
 	/**
-	 * * according to disk file path right and other control factor to computer.
-	 * * @return
+	 * according to disk file path right and other control factor to compute.
+	 * @return
 	 */
 	public long getUsableSpace() {
 		return file.getUsableSpace();
