@@ -4,12 +4,15 @@ import org.test.toolkit.server.common.user.ServerUser;
 
 
 /**
- * DEFAULT_PORT = {@code FtpUser#DEFAULT_PORT}
+ *
  * @author Administrator
  *
  */
 public class FtpUser extends ServerUser{
 
+	/**
+	 *  DEFAULT_PORT = {@value}
+	 */
 	public final static int DEFAULT_PORT = 21;
 
  	public FtpUser(String host, int port, String username, String password) {
