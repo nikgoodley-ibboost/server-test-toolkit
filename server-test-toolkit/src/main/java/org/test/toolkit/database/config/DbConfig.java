@@ -13,25 +13,28 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class DbConfig {
 
-	private static final int DEFAULT_MAX_POOL_SIZE = 5;
+	/**
+	 * {@value}}
+	 */
+	public static final int DEFAULT_MAX_POOL_SIZE = 5;
 
-	private String driverClass;
-	private String jdbcUrl;
-	private String user;
-	private String password;
-	private String automaticTestTable;
+	protected String driverClass;
+	protected String jdbcUrl;
+	protected String user;
+	protected String password;
+	protected String automaticTestTable;
 
-	private int minPoolSize;
-	private int maxPoolSize;
-	private int initialPoolSize;
-	private int maxIdleTime;
-	private int acquireIncrement;
-	private int acquireRetryAttempts;
-	private int acquireRetryDelay;
-	private int checkoutTimeout;
+	protected int minPoolSize;
+	protected int maxPoolSize;
+	protected int initialPoolSize;
+	protected int maxIdleTime;
+	protected int acquireIncrement;
+	protected int acquireRetryAttempts;
+	protected int acquireRetryDelay;
+	protected int checkoutTimeout;
 
-	private boolean testConnectionOnCheckin;
-	private boolean testConnectionOnCheckout;
+	protected boolean testConnectionOnCheckin;
+	protected boolean testConnectionOnCheckout;
 
 	protected DbConfig() {
 		super();
