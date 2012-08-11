@@ -86,18 +86,18 @@ public class SshServerOperations extends AbstractServerOperations {
 
 	private Map<String, String> invokeSshTasks(Collection<SshTask> commandTasks) {
 		Map<String, String> resultMap = new HashMap<String, String>();
-		List<Future<OperationResult<String, String>>> futures = new ArrayList<Future<OperationResult<String, String>>>();
+		List<Future<SshTaskResult<String, String>>> futures = new ArrayList<Future<SshTaskResult<String, String>>>();
 		try {
 			futures = newCachedThreadPool.invokeAll(commandTasks, COMMAND_EXECUTE_TIME_OUT_SECONDS,
 					TimeUnit.SECONDS);
-			for (Future<OperationResult<String, String>> future : futures) {
+			for (Future<SshTaskResult<String, String>> future : futures) {
 				if (future.isCancelled()) {
 					String message = String.format(" not return after: [%d][%s]",
 							COMMAND_EXECUTE_TIME_OUT_SECONDS, TimeUnit.SECONDS.toString());
 					throw new ServerTimeoutException(message);
 				}
-				OperationResult<String, String> operationResult = future.get();
-				resultMap.put(operationResult.getKey(), operationResult.getValue());
+				SshTaskResult<String, String> operationResult = future.get();
+				resultMap.put(operationResult.getHost(), operationResult.getResult());
 			}
 		} catch (InterruptedException e) {
 			LOGGER.error(e.getMessage(), e);

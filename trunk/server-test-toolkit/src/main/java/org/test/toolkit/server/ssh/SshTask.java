@@ -22,7 +22,7 @@ import com.jcraft.jsch.Session;
  * @author fu.jian
  * @date Jul 25, 2012
  */
-public class SshTask implements Callable<OperationResult<String, String>> {
+public class SshTask implements Callable<SshTaskResult<String, String>> {
 
 	private static final Logger LOGGER = Logger.getLogger(SshTask.class);
 
@@ -40,7 +40,7 @@ public class SshTask implements Callable<OperationResult<String, String>> {
 	}
 
 	@Override
-	public OperationResult<String, String> call() throws Exception {
+	public SshTaskResult<String, String> call() throws Exception {
 		LOGGER.info("[Server] [Execute command] [Begin] command is: (" + command + ")");
 
 		InputStream inputStream = null;
@@ -88,12 +88,12 @@ public class SshTask implements Callable<OperationResult<String, String>> {
 	 * @return
 	 * @throws IOException
 	 */
-	private OperationResult<String, String> getResult(InputStream inputStream) throws IOException {
+	private SshTaskResult<String, String> getResult(InputStream inputStream) throws IOException {
 		String hostAsKey = session.getHost();
-		OperationResult<String, String> operationResult = new OperationResult<String, String>(hostAsKey, null);
+		SshTaskResult<String, String> operationResult = new SshTaskResult<String, String>(hostAsKey, null);
 		if (isReturnResult) {
 			judgeIfOverSize(inputStream);
-			operationResult.setValue(IOUtils.toString(inputStream));
+			operationResult.setResult(IOUtils.toString(inputStream));
 		}
 		LOGGER.info("[Server] [Execute command] [End] [Success] command is: (" + command + ")");
 
