@@ -4,10 +4,10 @@ import java.io.InputStream;
 
 import org.test.toolkit.server.common.user.SshUser;
 import org.test.toolkit.server.common.util.JSchUtil.JSchSessionUtil;
-import org.test.toolkit.server.ftp.command.GetSftpCommand;
-import org.test.toolkit.server.ftp.command.PutSftpCommand;
-import org.test.toolkit.server.ftp.command.SftpCommandWithResult;
-import org.test.toolkit.server.ftp.command.SftpCommandWithoutResult;
+import org.test.toolkit.server.ftp.command.sftp.GetSftpCommand;
+import org.test.toolkit.server.ftp.command.sftp.PutSftpCommand;
+import org.test.toolkit.server.ftp.command.sftp.SftpCommandWithResult;
+import org.test.toolkit.server.ftp.command.sftp.SftpCommandWithoutResult;
 
 import com.jcraft.jsch.Session;
 
