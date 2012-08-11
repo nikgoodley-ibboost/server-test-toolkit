@@ -1,17 +1,17 @@
 package org.test.toolkit.server.common.user;
 
 public class ServerUser {
-	
+
 	public static final String HOST = "host";
 	public static final String PORT = "port";
 	public static final String USERNAME = "username";
 	public static final String PASSWORD = "password";
- 
+
  	private String host;
 	private int port;
 	private String username;
 	private String password;
-	
+
 	public ServerUser(String host, int port, String username, String password) {
 		super();
 		this.host = host;
@@ -35,7 +35,7 @@ public class ServerUser {
 	public String getPassword() {
 		return password;
 	}
- 
+
 	@Override
 	public String toString() {
 		return "ServerUser [host=" + host + ", port=" + port + ", username="
