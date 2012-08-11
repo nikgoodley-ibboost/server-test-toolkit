@@ -21,7 +21,7 @@ public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcE
 	}
 
 	public long getTotalCount(String tableName) {
-		ValidationUtil.nonNull(tableName);
+		ValidationUtil.checkNull(tableName);
 
 		String sqlForTableRecordCount = CommonSql.getSqlForTableRecordCount(tableName);
 		List<HashMap<String, ?>> resultList = query(sqlForTableRecordCount, new ToMapListHandle());

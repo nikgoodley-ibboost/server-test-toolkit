@@ -27,7 +27,7 @@ public class MonitorScheduleImpl implements MonitorSchedule{
 	private JobManageConfig jobManageConfig;
 
 	private MonitorScheduleImpl(Scheduler scheduler, JobManageConfig jobManageConfig) {
-		ValidationUtil.nonNull(scheduler, jobManageConfig);
+		ValidationUtil.checkNull(scheduler, jobManageConfig);
 		this.scheduler = scheduler;
 		this.jobManageConfig = jobManageConfig;
  	}

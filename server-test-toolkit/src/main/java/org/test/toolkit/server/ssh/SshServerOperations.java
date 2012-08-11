@@ -40,7 +40,7 @@ public class SshServerOperations extends AbstractServerOperations {
 	private List<SshUser> allSshUsers;
 
 	private SshServerOperations(SshUser atLeastOneSshUser, SshUser... otherSshUsers) {
-		ValidationUtil.nonNull(atLeastOneSshUser);
+		ValidationUtil.checkNull(atLeastOneSshUser);
 		allSshUsers = CollectionUtil.getList(atLeastOneSshUser, otherSshUsers);
 		connect();
 	}
@@ -67,7 +67,7 @@ public class SshServerOperations extends AbstractServerOperations {
 
 	@Override
 	public Map<String, String> executeCommand(String command, boolean returnResult) {
-		ValidationUtil.effectiveStr(command);
+		ValidationUtil.checkString(command);
 
 		Collection<SshTask> sshTasks = formatSshTasks(command, returnResult);
 		return invokeSshTasks(sshTasks);

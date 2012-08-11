@@ -12,7 +12,7 @@ public class GetSftpCommand extends SftpCommandWithResult {
 
 	public GetSftpCommand(Session session, String storagePath) {
 		super(session);
-		ValidationUtil.nonNull(storagePath);
+		ValidationUtil.checkNull(storagePath);
 
 		this.storagePath = storagePath;
 	}

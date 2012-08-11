@@ -45,7 +45,7 @@ public final class JSchUtil {
 	public static class JSchSessionUtil {
 
 		public static Session getSession(ServerUser serverUser) {
-			ValidationUtil.nonNull(serverUser);
+			ValidationUtil.checkNull(serverUser);
 			LOGGER.info("[Server] [Create connnection] [begin] with: " + serverUser);
 
 			Session session;

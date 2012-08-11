@@ -10,59 +10,58 @@ public final class ValidationUtil {
 	}
 
 	/**
-	 * Checks for effective list with exception
-	 *
-	 * @throws IllegalArgumentException
-	 *
-	 */
-	public static <T> void effectiveList(List<T> list) {
-		if (!isEffectiveList(list)) {
-			throw new IllegalArgumentException("list");
-		}
-	}
-
-	/**
-	 * Checks for effective list
-	 *
-	 * @return effective
-	 * @throws IllegalArgumentException
-	 *
-	 */
-	public static <T> boolean isEffectiveList(List<T> list) {
-		return (list != null && list.size() > 0);
-	}
-
-	/**
-	 * Checks for exist file with exception
-	 *
-	 * @param file
-	 * @throws IllegalArgumentException
-	 */
-	public static void existedFile(File... files) {
-		for (File file : files) {
-			boolean existedFile = isExistedFile(file);
-			if (!existedFile)
-				throw new IllegalArgumentException("file path no existed:" + file.getPath());
-		}
-	}
-
-	public static boolean isExistedFile(File file) {
-		return file != null && file.exists();
-	}
-
-	/**
 	 * Checks for exist file with exception
 	 *
 	 * @param file
 	 * @throws IllegalArgumentException
 	 *             : <li>file path be null or empty <li>file path not found.
 	 */
-	public static void existedFile(String... filePaths) {
+	public static void checkFileExist(String... filePaths) {
 		for (String filePath : filePaths) {
-			effectiveStr(filePath);
-			existedFile(new File(filePath));
+			checkString(filePath);
+			checkFileExist(new File(filePath));
 		}
+	}
 
+	/**
+	 * Checks for effective string with exception
+	 *
+	 * @param str
+	 */
+	public static void checkString(String... strings) {
+		for (String string : strings)
+			if (!isEffectiveString(string)) {
+				throw new IllegalArgumentException("illegal string");
+			}
+	}
+
+	/**
+	 * Checks for effective string with judgments
+	 *
+	 * @param string
+	 * @return
+	 */
+	public static boolean isEffectiveString(String string) {
+		return string != null && !string.isEmpty();
+	}
+
+	/**
+	 * Checks for exist file with exception
+	 *
+	 * @param file
+	 * @throws IllegalArgumentException
+	 */
+	public static void checkFileExist(File... files) {
+		checkNull(files);
+		for (File file : files) {
+			boolean fileExist = hasFile(file);
+			if (!fileExist)
+				throw new IllegalArgumentException("file path no existed:" + file.getPath());
+		}
+	}
+
+	public static boolean hasFile(File file) {
+		return file != null && file.exists();
 	}
 
 	/**
@@ -71,9 +70,9 @@ public final class ValidationUtil {
 	 *             : filePath be null or empty
 	 * @return
 	 */
-	public static boolean isExistedFile(String filePath) {
-		effectiveStr(filePath);
-		return isExistedFile(new File(filePath));
+	public static boolean hasFile(String filePath) {
+		checkString(filePath);
+		return hasFile(new File(filePath));
 	}
 
 	/**
@@ -81,7 +80,7 @@ public final class ValidationUtil {
 	 *
 	 * @param data
 	 */
-	public static void effectiveData(byte[] data) {
+	public static void checkData(byte[] data) {
 		if (!isEffectiveData(data)) {
 			throw new IllegalArgumentException("illegal data");
 		}
@@ -100,9 +99,9 @@ public final class ValidationUtil {
 	 * @param numbers
 	 * @throws IllegalArgumentException
 	 */
-	public static void effectivePositive(Number... numbers) {
+	public static void checkPositive(Number... numbers) {
 		for (Number number : numbers)
-			if (!isEffectivePositive(number))
+			if (!isPositive(number))
 				throw new IllegalArgumentException("number shouldn't < 0, current number is: "
 						+ number);
 	}
@@ -112,33 +111,19 @@ public final class ValidationUtil {
 	 *
 	 * @param number
 	 */
-	public static boolean isEffectivePositive(Number number) {
+	public static boolean isPositive(Number number) {
 		return number.doubleValue() > 0;
 	}
 
-	/**
-	 * Checks for effective string with exception
-	 *
-	 * @param str
-	 */
-	public static void effectiveStr(String... strs) {
-		for (String str : strs)
-			if (!isEffectiveStr(str)) {
-				throw new IllegalArgumentException("illegal string");
+	public static void checkNull(Object atLeastOneObject, Object... otherObjects) {
+		List<Object> list = CollectionUtil.getList(atLeastOneObject, otherObjects);
+		for (Object object : list)
+			if (isNull(object)) {
+				throw new IllegalArgumentException("null object");
 			}
 	}
 
-	/**
-	 * Checks for effective string with judgments
-	 *
-	 * @param str
-	 * @return
-	 */
-	public static boolean isEffectiveStr(String str) {
-		return str != null && str.length() > 0;
-	}
-
-	public static void nonNull(Object... objects) {
+	public static void checkNull(Object[] objects) {
 		for (Object object : objects)
 			if (isNull(object)) {
 				throw new IllegalArgumentException("null object");

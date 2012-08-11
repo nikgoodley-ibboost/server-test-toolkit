@@ -14,7 +14,7 @@ public class Sed extends Command {
  
 	public static Sed newInstanceForGetLineNumbersWithKey(String filePath,
 			String keyword) {
-		ValidationUtil.effectiveStr(filePath);
+		ValidationUtil.checkString(filePath);
 
 		String commandStr = String.format("sed -n '/%s/=' %s ", keyword,
 				filePath);
@@ -31,7 +31,7 @@ public class Sed extends Command {
 	 */
 	public static Sed newInstanceForModifyFile(String filePath, int line,
 			String newContentForLine, String tmpFilePath) {
-		ValidationUtil.nonNull(filePath, tmpFilePath);
+		ValidationUtil.checkNull(filePath, tmpFilePath);
 
 		String commandStr = String.format("sed -e '%dc\\%s' %s >%s ", line,
 				newContentForLine, filePath, tmpFilePath);
@@ -40,7 +40,7 @@ public class Sed extends Command {
 
 	public static Sed newInstanceForGetContentBetweenLines(String filePath,
 			int startLine, int endLine, String... keywords) {
-		ValidationUtil.effectiveStr(filePath);
+		ValidationUtil.checkString(filePath);
 
 		String commandStr = String.format("sed -n '%d,%dp' %s", startLine,
 				endLine, filePath);
@@ -56,7 +56,7 @@ public class Sed extends Command {
 	 * @return
 	 */
 	public static Sed newInstanceForGetLineNumber(String filePath) {
-		ValidationUtil.effectiveStr(filePath);
+		ValidationUtil.checkString(filePath);
 
 		String commandStr = String.format("sed -n '$=' %s", filePath);
 		return new Sed(commandStr);

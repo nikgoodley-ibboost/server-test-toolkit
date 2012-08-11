@@ -133,7 +133,7 @@ public class DigestUtil {
 
 	public static String getDigest(String filePath, DigestAlgorithm algorithm) throws FileNotFoundException,
 			IOException {
-		ValidationUtil.effectiveStr(filePath);
+		ValidationUtil.checkString(filePath);
 		BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(filePath));
 		try {
 			return getDigest(bufferedInputStream, algorithm);

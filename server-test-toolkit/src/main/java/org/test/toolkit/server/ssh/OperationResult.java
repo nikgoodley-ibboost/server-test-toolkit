@@ -13,7 +13,7 @@ public class OperationResult<K, V> {
 	 * @param value
 	 */
 	public OperationResult(K key, V value) {
-  		ValidationUtil.nonNull(key);
+  		ValidationUtil.checkNull(key);
 		
 		this.key = key;
 		this.value = value;

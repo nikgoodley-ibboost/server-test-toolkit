@@ -8,7 +8,7 @@ public final class PathUtil {
 	}
 
 	public static String formatPath(String path) {
-		ValidationUtil.effectiveStr(path);
+		ValidationUtil.checkString(path);
 		String returnPath = path.trim();
 		if (!returnPath.startsWith(SPLIT))
 			returnPath = SPLIT + returnPath;

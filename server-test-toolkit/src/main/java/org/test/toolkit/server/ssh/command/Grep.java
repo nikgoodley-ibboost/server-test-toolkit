@@ -21,7 +21,7 @@ public class Grep extends Command {
 
 	private static String toCommandStr(String path, String keyWord,
 			String... otherKeyWords) {
- 		ValidationUtil.effectiveStr(keyWord,path);
+ 		ValidationUtil.checkString(keyWord,path);
 
 		String commandStr = String.format(GREP_COMMAND_FORMAT, keyWord, path);
 		return CommandUtil.addAllGrepKey(commandStr, otherKeyWords);

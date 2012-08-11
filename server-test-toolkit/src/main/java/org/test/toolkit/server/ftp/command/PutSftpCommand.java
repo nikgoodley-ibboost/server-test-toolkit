@@ -17,7 +17,7 @@ public class PutSftpCommand extends SftpCommandWithoutResult {
 	public PutSftpCommand(Session session, InputStream srcInputStream, String dstFolder,
 			String dstFileName) {
 		super(session);
-		ValidationUtil.nonNull(srcInputStream, dstFileName);
+		ValidationUtil.checkNull(srcInputStream, dstFileName);
 
 		this.srcInputStream = srcInputStream;
 		this.dstFolder = dstFolder;

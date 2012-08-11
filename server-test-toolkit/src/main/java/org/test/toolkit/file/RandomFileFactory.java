@@ -5,7 +5,7 @@ import org.test.toolkit.util.ValidationUtil;
 public class RandomFileFactory {
 
 	public static RandomFile newRandomFile(FileType fileType) {
-		ValidationUtil.nonNull(fileType);
+		ValidationUtil.checkNull(fileType);
 
 		if (fileType == FileType.Text.TXT)
 			return new TxtFile();
