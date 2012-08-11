@@ -84,12 +84,12 @@ public class ConnectionFactory {
 	}
 
 	private static String getConnectionSynchronizedKey(ComboPooledDataSource comboPooledDataSource) {
-		return StringUtil.concat(getKeyForDbConfigDataSourceMap(comboPooledDataSource),
+		return StringUtil.concatDirectly(getKeyForDbConfigDataSourceMap(comboPooledDataSource),
 				"connection").intern();
 	}
 
 	private static String getKeyForDbConfigDataSourceMap(ComboPooledDataSource comboPooledDataSource) {
-		return StringUtil.concat(comboPooledDataSource.getJdbcUrl()
+		return StringUtil.concatDirectly(comboPooledDataSource.getJdbcUrl()
 				+ comboPooledDataSource.getUser());
 	}
 
@@ -126,7 +126,7 @@ public class ConnectionFactory {
 	}
 
 	private static String getKeyForConfigNameDataSourceMap(String configName, String configPath) {
-		return StringUtil.concat(configName, configPath == null ? "" : configPath);
+		return StringUtil.concatDirectly(configName, configPath == null ? "" : configPath);
 	}
 
 	public static Connection getConnection(DbConfig dbConfig) {
