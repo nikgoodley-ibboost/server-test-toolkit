@@ -19,7 +19,7 @@ public final class StringUtil {
   		return stringBuffer.toString().trim();
 	}
 
-	public static String concat(String... strings) {
+	public static String concatDirectly(String... strings) {
  		StringBuffer stringBuffer = new StringBuffer();
 		for (String string : strings) {
 			stringBuffer.append(string);

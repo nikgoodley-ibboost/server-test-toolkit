@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
  * @author fu.jian
  * @date Aug 10, 2012
  */
-public class DigestUtil {
+public final class DigestUtil {
 
 	public static final DigestAlgorithm DEFAULT_DIGEST_ALGORITHM = DigestAlgorithm.MD5;
 	/** * 1M */
@@ -24,51 +24,7 @@ public class DigestUtil {
 
 	private static final Logger LOG = Logger.getLogger(DigestUtil.class);
 
-	public static enum DigestAlgorithm {
-
-		MD5("md5"), SHA_1("sha-1"), SHA_256("sha-256"), SHA_384("sha-384"), SHA_512("sha-512");
-
-		private String value;
-
-		private DigestAlgorithm(String value) {
-			this.value = value;
-		}
-
-		@Override
-		public String toString() {
-			return value.toLowerCase();
-		}
-	}
-
-	private static abstract class DigestComputor {
-		private DigestAlgorithm algorithm;
-
-		public DigestComputor(DigestAlgorithm algorithm) {
-			super();
-			this.algorithm = algorithm;
-		}
-
-		String compute() {
-			MessageDigest instance;
-			try {
-				instance = MessageDigest.getInstance(algorithm.toString());
-				updateMessageDigest(instance);
-				return hex(instance.digest());
-			} catch (NoSuchAlgorithmException e) {
-				LOG.error(e.getMessage(), e);
-				throw new UnsupportedOperationException(e.getMessage(), e);
-			}
-		}
-
-		private String hex(byte[] arr) {
-			StringBuffer sb = new StringBuffer();
-			for (int i = 0; i < arr.length; ++i) {
-				sb.append(Integer.toHexString((arr[i] & 0xFF) | 0x100).substring(1, 3));
-			}
-			return sb.toString();
-		}
-
-		abstract void updateMessageDigest(MessageDigest instance);
+	private DigestUtil() {
 	}
 
 	private static class ByteBufferDigestComputor extends DigestComputor {
@@ -133,10 +89,11 @@ public class DigestUtil {
 		return getDigest(filePath, DEFAULT_DIGEST_ALGORITHM);
 	}
 
-	public static String getDigest(String filePath, DigestAlgorithm algorithm) throws FileNotFoundException,
-			IOException {
+	public static String getDigest(String filePath, DigestAlgorithm algorithm)
+			throws FileNotFoundException, IOException {
 		ValidationUtil.checkString(filePath);
-		BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(filePath));
+		BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
+				filePath));
 		try {
 			return getDigest(bufferedInputStream, algorithm);
 		} finally {
@@ -144,7 +101,8 @@ public class DigestUtil {
 		}
 	}
 
-	public static String getDigest(InputStream inputStream, DigestAlgorithm algorithm) throws IOException {
+	public static String getDigest(InputStream inputStream, DigestAlgorithm algorithm)
+			throws IOException {
 		BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
 		try {
 			return new InputStreamDigestComputor(bufferedInputStream, algorithm).compute();
@@ -156,5 +114,52 @@ public class DigestUtil {
 		} finally {
 			IOUtils.closeQuietly(bufferedInputStream);
 		}
+	}
+
+	public static enum DigestAlgorithm {
+
+		MD5("md5"), SHA_1("sha-1"), SHA_256("sha-256"), SHA_384("sha-384"), SHA_512("sha-512");
+
+		private String value;
+
+		private DigestAlgorithm(String value) {
+			this.value = value;
+		}
+
+		@Override
+		public String toString() {
+			return value.toLowerCase();
+		}
+	}
+
+	private static abstract class DigestComputor {
+		private DigestAlgorithm algorithm;
+
+		public DigestComputor(DigestAlgorithm algorithm) {
+			super();
+			this.algorithm = algorithm;
+		}
+
+		String compute() {
+			MessageDigest instance;
+			try {
+				instance = MessageDigest.getInstance(algorithm.toString());
+				updateMessageDigest(instance);
+				return hex(instance.digest());
+			} catch (NoSuchAlgorithmException e) {
+				LOG.error(e.getMessage(), e);
+				throw new UnsupportedOperationException(e.getMessage(), e);
+			}
+		}
+
+		private String hex(byte[] arr) {
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < arr.length; ++i) {
+				sb.append(Integer.toHexString((arr[i] & 0xFF) | 0x100).substring(1, 3));
+			}
+			return sb.toString();
+		}
+
+		abstract void updateMessageDigest(MessageDigest instance);
 	}
 }
