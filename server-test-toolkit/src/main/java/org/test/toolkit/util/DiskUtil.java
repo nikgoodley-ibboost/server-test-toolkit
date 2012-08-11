@@ -2,6 +2,11 @@ package org.test.toolkit.util;
 
 import java.io.File;
 
+/**
+ * compute the space for disk in bytes
+ * @author fu.jian
+ *
+ */
 public class DiskUtil {
 
 	private final File file;
@@ -42,6 +47,7 @@ public class DiskUtil {
 		builder.append("DiskUtil [file=");
 		builder.append(file.getAbsolutePath());
 		builder.append("]");
+
 		return builder.toString();
 	}
 }
