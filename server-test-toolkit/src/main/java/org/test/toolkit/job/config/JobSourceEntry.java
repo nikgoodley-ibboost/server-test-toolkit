@@ -1,6 +1,8 @@
-package org.test.toolkit.job;
+package org.test.toolkit.job.config;
 
-public class ClassEntry<T> {
+import org.test.toolkit.job.exception.JobException;
+
+public class JobSourceEntry<T> {
 
 	private String name;
 	private String className;
@@ -24,8 +26,8 @@ public class ClassEntry<T> {
 	public T getClassInstance() {
 		try {
 			@SuppressWarnings("unchecked")
-			Class<T> forName = (Class<T>) Class.forName(className);
-			return forName.newInstance();
+			Class<T> clazz = (Class<T>) Class.forName(className);
+			return clazz.newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new JobException(e);
@@ -34,7 +36,7 @@ public class ClassEntry<T> {
 
 	@Override
 	public String toString() {
-		return "ClassEntry [name=" + name + ", className=" + className + "]";
+		return "JobSourceEntry [name=" + name + ", className=" + className + "]";
 	}
 
 }

@@ -1,4 +1,4 @@
-package org.test.toolkit.job.mbean;
+package org.test.toolkit.job.jmx;
 
 import java.lang.management.ManagementFactory;
 

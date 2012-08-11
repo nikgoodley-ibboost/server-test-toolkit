@@ -1,25 +1,26 @@
 package org.test.toolkit.job;
 
-import org.test.toolkit.job.mbean.JmxMonitorImpl;
+import org.test.toolkit.job.jmx.JmxMonitorImpl;
+import org.test.toolkit.job.schedule.Schedulable;
 
-public final class QuartzExecute implements Schedulable {
+public final class JobExecutor implements Schedulable {
 
-	private MonitorSchedule monitorSchedule;
-	private static volatile QuartzExecute instance;
+	private JmxMonitorSchedulable monitorSchedule;
+	private static volatile JobExecutor instance;
 
-	private QuartzExecute(MonitorSchedule monitorSchedule) {
+	private JobExecutor(JmxMonitorSchedulable monitorSchedule) {
 		this.monitorSchedule = monitorSchedule;
 	}
 
-	public static QuartzExecute getInstance() {
+	public static JobExecutor getInstance() {
 		if (instance != null)
 			return instance;
 
-		synchronized (QuartzExecute.class) {
+		synchronized (JobExecutor.class) {
 			if (instance != null)
 				return instance;
 
-			instance = new QuartzExecute(MonitorScheduleImpl.getInstance());
+			instance = new JobExecutor(JmxMonitorScheduleImpl.getInstance());
 			return instance;
 		}
 	}
@@ -41,7 +42,7 @@ public final class QuartzExecute implements Schedulable {
 	}
 
 	public static void main(String[] args) {
-		QuartzExecute.getInstance().start();
+		JobExecutor.getInstance().start();
 	}
 
 }
