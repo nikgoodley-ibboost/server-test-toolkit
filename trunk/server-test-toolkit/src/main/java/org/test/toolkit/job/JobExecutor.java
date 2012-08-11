@@ -5,10 +5,10 @@ import org.test.toolkit.job.schedule.Schedulable;
 
 public final class JobExecutor implements Schedulable {
 
-	private JmxMonitorSchedulable monitorSchedule;
+	private Job monitorSchedule;
 	private static volatile JobExecutor instance;
 
-	private JobExecutor(JmxMonitorSchedulable monitorSchedule) {
+	private JobExecutor(Job monitorSchedule) {
 		this.monitorSchedule = monitorSchedule;
 	}
 
@@ -20,7 +20,7 @@ public final class JobExecutor implements Schedulable {
 			if (instance != null)
 				return instance;
 
-			instance = new JobExecutor(JmxMonitorScheduleImpl.getInstance());
+			instance = new JobExecutor(JobImpl.getInstance());
 			return instance;
 		}
 	}

@@ -22,25 +22,25 @@ import org.test.toolkit.job.jmx.JmxMonitor;
 import org.test.toolkit.job.jmx.mbean.QuartzSchedule;
 import org.test.toolkit.util.ValidationUtil;
 
-public class JmxMonitorScheduleImpl implements JmxMonitorSchedulable{
+public class JobImpl implements Job{
 
 	private final static JobSourceConfig DEFAULT_JOB_MANAGE_CONFIG = new JobSourceConfigImpl();
 	private static Scheduler defaultScheduler;
 
-	private static JmxMonitorSchedulable instance;
+	private static Job instance;
 	private Scheduler scheduler;
 	private JobSourceConfig jobManageConfig;
 
-	private JmxMonitorScheduleImpl(Scheduler scheduler, JobSourceConfig jobManageConfig) {
+	private JobImpl(Scheduler scheduler, JobSourceConfig jobManageConfig) {
 		ValidationUtil.checkNull(scheduler, jobManageConfig);
 		this.scheduler = scheduler;
 		this.jobManageConfig = jobManageConfig;
  	}
 
- 	public static JmxMonitorSchedulable getInstance() {
+ 	public static Job getInstance() {
 		try {
 			if (defaultScheduler == null) {
-				synchronized (JmxMonitorScheduleImpl.class) {
+				synchronized (JobImpl.class) {
 					if (defaultScheduler == null)
 						defaultScheduler = StdSchedulerFactory
 								.getDefaultScheduler();
@@ -88,12 +88,12 @@ public class JmxMonitorScheduleImpl implements JmxMonitorSchedulable{
 
 	}
 
-	public static JmxMonitorSchedulable getInstance(Scheduler scheduler,
+	public static Job getInstance(Scheduler scheduler,
 			JobSourceConfig jobManageConfig) {
 		if (instance == null)
-			synchronized (JmxMonitorScheduleImpl.class) {
+			synchronized (JobImpl.class) {
 				if (instance == null)
-					instance = new JmxMonitorScheduleImpl(scheduler, jobManageConfig);
+					instance = new JobImpl(scheduler, jobManageConfig);
 			}
 		return instance;
 	}
