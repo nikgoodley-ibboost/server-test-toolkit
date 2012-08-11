@@ -5,6 +5,6 @@ import java.util.Collection;
 
 public interface JobConfig {
 
-	Collection<JobEntry<Job>> getJobSourceEntrys();
+	Collection<JobEntry<Job>> getJobEntrys();
 
 }

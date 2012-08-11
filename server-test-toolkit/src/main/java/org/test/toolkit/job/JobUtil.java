@@ -24,9 +24,9 @@ public final class JobUtil {
 	private JobUtil() {
 	}
 
-	static void appendListenerToJob(Scheduler scheduler, JobDetail job,
+	static void appendListenerToJob(Scheduler scheduler, JobDetail jobDetail,
 			JobListener jobListener) {
-		Matcher<JobKey> matcher = KeyMatcher.keyEquals(job.getKey());
+		Matcher<JobKey> matcher = KeyMatcher.keyEquals(jobDetail.getKey());
 		try {
 			scheduler.getListenerManager().addJobListener(jobListener, matcher);
 		} catch (SchedulerException e) {
