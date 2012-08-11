@@ -13,34 +13,34 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
-import org.test.toolkit.job.config.JobSource;
-import org.test.toolkit.job.config.JobSourceConfig;
-import org.test.toolkit.job.config.JobSourceConfigImpl;
-import org.test.toolkit.job.config.JobSourceEntry;
+import org.test.toolkit.job.config.Job;
+import org.test.toolkit.job.config.JobConfig;
+import org.test.toolkit.job.config.JobConfigImpl;
+import org.test.toolkit.job.config.JobEntry;
 import org.test.toolkit.job.exception.JobException;
-import org.test.toolkit.job.jmx.JmxMonitor;
-import org.test.toolkit.job.jmx.mbean.QuartzSchedule;
+import org.test.toolkit.job.jmx.JmxMonitorImpl;
+import org.test.toolkit.job.jmx.mbean.JobCenterMoniter;
 import org.test.toolkit.util.ValidationUtil;
 
-public class JobImpl implements Job{
+public class JobCenterImpl implements JobCenter{
 
-	private final static JobSourceConfig DEFAULT_JOB_MANAGE_CONFIG = new JobSourceConfigImpl();
+	private final static JobConfig DEFAULT_JOB_MANAGE_CONFIG = new JobConfigImpl();
 	private static Scheduler defaultScheduler;
 
-	private static Job instance;
+	private static JobCenter instance;
 	private Scheduler scheduler;
-	private JobSourceConfig jobManageConfig;
+	private JobConfig jobManageConfig;
 
-	private JobImpl(Scheduler scheduler, JobSourceConfig jobManageConfig) {
+	private JobCenterImpl(Scheduler scheduler, JobConfig jobManageConfig) {
 		ValidationUtil.checkNull(scheduler, jobManageConfig);
 		this.scheduler = scheduler;
 		this.jobManageConfig = jobManageConfig;
  	}
 
- 	public static Job getInstance() {
+ 	public static JobCenter getInstance() {
 		try {
 			if (defaultScheduler == null) {
-				synchronized (JobImpl.class) {
+				synchronized (JobCenterImpl.class) {
 					if (defaultScheduler == null)
 						defaultScheduler = StdSchedulerFactory
 								.getDefaultScheduler();
@@ -54,8 +54,8 @@ public class JobImpl implements Job{
  	}
 
 	@Override
-	public void registerMBean(JmxMonitor jmxMonitor) {
-		QuartzSchedule quartzSchedule = new QuartzSchedule(this);
+	public void registerMBean() {
+		JobCenterMoniter quartzSchedule = new JobCenterMoniter(this);
 		ObjectName name=null;
 		 try {
 			 name = new ObjectName("com.cisco.jmx:type=quartz");
@@ -65,16 +65,16 @@ public class JobImpl implements Job{
  			e.printStackTrace();
 		}
 
-		 jmxMonitor.registerMBean(quartzSchedule, name);
+		 JmxMonitorImpl.getInstance().registerMBean(quartzSchedule, name);
 	}
 
 
 	@Override
 	public void start(){
- 		Collection<JobSourceEntry<JobSource>> jobSourceEntrys = jobManageConfig.getJobSourceEntrys();
-		for(JobSourceEntry<JobSource> classEntry: jobSourceEntrys){
-			JobSource jobManage = classEntry.getClassInstance();
-			Map<JobDetail, List<Trigger>> jobs = jobManage.getJobs(scheduler);
+ 		Collection<JobEntry<Job>> jobSourceEntrys = jobManageConfig.getJobSourceEntrys();
+		for(JobEntry<Job> classEntry: jobSourceEntrys){
+			Job jobManage = classEntry.getClassInstance();
+			Map<JobDetail, List<Trigger>> jobs = jobManage.getJobDetails(scheduler);
 
 			try {
 				scheduler.scheduleJobs(jobs, true);
@@ -88,12 +88,12 @@ public class JobImpl implements Job{
 
 	}
 
-	public static Job getInstance(Scheduler scheduler,
-			JobSourceConfig jobManageConfig) {
+	public static JobCenter getInstance(Scheduler scheduler,
+			JobConfig jobManageConfig) {
 		if (instance == null)
-			synchronized (JobImpl.class) {
+			synchronized (JobCenterImpl.class) {
 				if (instance == null)
-					instance = new JobImpl(scheduler, jobManageConfig);
+					instance = new JobCenterImpl(scheduler, jobManageConfig);
 			}
 		return instance;
 	}

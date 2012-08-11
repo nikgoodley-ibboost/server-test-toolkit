@@ -2,11 +2,11 @@ package org.test.toolkit.job.jmx.mbean;
 
 import org.test.toolkit.job.schedule.Schedulable;
 
-public class QuartzSchedule implements QuartzScheduleMBean {
+public class JobCenterMoniter implements JobCenterMoniterMBean {
 
 	private Schedulable schedule;
 
-	public QuartzSchedule(Schedulable scheduleImpl) {
+	public JobCenterMoniter(Schedulable scheduleImpl) {
 		super();
 		this.schedule = scheduleImpl;
 	}

@@ -2,7 +2,7 @@ package org.test.toolkit.job.config;
 
 import org.test.toolkit.job.exception.JobException;
 
-public class JobSourceEntry<T> {
+public class JobEntry<T> {
 
 	private String name;
 	private String className;
@@ -36,7 +36,7 @@ public class JobSourceEntry<T> {
 
 	@Override
 	public String toString() {
-		return "JobSourceEntry [name=" + name + ", className=" + className + "]";
+		return "JobEntry [name=" + name + ", className=" + className + "]";
 	}
 
 }

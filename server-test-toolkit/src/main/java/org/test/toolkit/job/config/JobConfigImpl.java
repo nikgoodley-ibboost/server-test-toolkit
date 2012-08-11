@@ -13,13 +13,13 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.test.toolkit.util.XmlUtil;
 
-public class JobSourceConfigImpl implements JobSourceConfig {
+public class JobConfigImpl implements JobConfig {
 
 	private final static String CONFIG_PATH = "job.xml";
 
 	@Override
-	public Collection<JobSourceEntry<JobSource>> getJobSourceEntrys() {
-		List<JobSourceEntry<JobSource>> list = new ArrayList<JobSourceEntry<JobSource>>();
+	public Collection<JobEntry<Job>> getJobSourceEntrys() {
+		List<JobEntry<Job>> list = new ArrayList<JobEntry<Job>>();
 		Document document = XmlUtil.getDocument(CONFIG_PATH);
 
 		@SuppressWarnings("unchecked")
@@ -34,7 +34,7 @@ public class JobSourceConfigImpl implements JobSourceConfig {
 				hashMap.put(key.getValue(), value.getValue());
 			}
 
-			JobSourceEntry<JobSource> jobSourceEntry = new JobSourceEntry<JobSource>();
+			JobEntry<Job> jobSourceEntry = new JobEntry<Job>();
 			setJobSourceEntry(hashMap, jobSourceEntry);
 			list.add(jobSourceEntry);
 		}
@@ -42,7 +42,7 @@ public class JobSourceConfigImpl implements JobSourceConfig {
 		return list;
 	}
 
-	public void setJobSourceEntry(Map<String, String> hashMap, JobSourceEntry<JobSource> jobManageEntry) {
+	public void setJobSourceEntry(Map<String, String> hashMap, JobEntry<Job> jobManageEntry) {
 		try {
 			BeanUtils.copyProperties(jobManageEntry, hashMap);
 		} catch (IllegalAccessException e) {

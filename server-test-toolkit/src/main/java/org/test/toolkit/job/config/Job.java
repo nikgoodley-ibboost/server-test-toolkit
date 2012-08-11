@@ -7,8 +7,8 @@ import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;
 
-public interface JobSource {
+public interface Job {
 
-	Map<JobDetail, List<Trigger>> getJobs(Scheduler scheduler);
+	Map<JobDetail, List<Trigger>> getJobDetails(Scheduler scheduler);
 
 }
