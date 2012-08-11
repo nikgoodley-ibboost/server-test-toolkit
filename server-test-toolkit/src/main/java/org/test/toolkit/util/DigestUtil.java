@@ -24,10 +24,10 @@ public class DigestUtil {
 
 	private static final Logger LOG = Logger.getLogger(DigestUtil.class);
 
-	public enum DigestAlgorithm {
-		
+	public static enum DigestAlgorithm {
+
 		MD5("md5"), SHA_1("sha-1"), SHA_256("sha-256"), SHA_384("sha-384"), SHA_512("sha-512");
-		
+
 		private String value;
 
 		private DigestAlgorithm(String value) {
