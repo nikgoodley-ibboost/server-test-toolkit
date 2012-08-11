@@ -4,8 +4,8 @@ import java.io.InputStream;
 
 import org.test.toolkit.server.common.user.SshUser;
 import org.test.toolkit.server.common.util.JSchUtil.JSchSessionUtil;
-import org.test.toolkit.server.ftp.command.sftp.GetSftpCommand;
-import org.test.toolkit.server.ftp.command.sftp.PutSftpCommand;
+import org.test.toolkit.server.ftp.command.sftp.SftpGetCommand;
+import org.test.toolkit.server.ftp.command.sftp.SftpPutCommand;
 import org.test.toolkit.server.ftp.command.sftp.SftpCommandWithResult;
 import org.test.toolkit.server.ftp.command.sftp.SftpCommandWithoutResult;
 
@@ -34,13 +34,13 @@ public class SftpRemoteStorage extends AbstractRemoteStroage {
 
 	@Override
 	public InputStream getFile(String storagePath) {
-		SftpCommandWithResult sftpGetCommand = new GetSftpCommand(session, storagePath);
+		SftpCommandWithResult sftpGetCommand = new SftpGetCommand(session, storagePath);
  		return (InputStream) sftpGetCommand.executeWithResult();
  	}
 
 	@Override
 	public void storeFile(InputStream srcInputStream, String dstFolder, String dstFileName) {
-		SftpCommandWithoutResult sftpPutCommand = new PutSftpCommand(session, srcInputStream, dstFolder,
+		SftpCommandWithoutResult sftpPutCommand = new SftpPutCommand(session, srcInputStream, dstFolder,
 				dstFileName);
 		sftpPutCommand.execute();
 	}
