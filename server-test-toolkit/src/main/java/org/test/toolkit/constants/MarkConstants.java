@@ -12,7 +12,12 @@ public final class MarkConstants {
 	 */
 	public static final String SPLIT = "/";
 
-	private MarkConstants() {
+	/**
+	 * {@value}
+	 */
+	public static final String UNDERLINE = "_";
+
+ 	private MarkConstants() {
 	}
 
 }

@@ -14,11 +14,12 @@ import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.matchers.KeyMatcher;
+import org.test.toolkit.constants.MarkConstants;
 
 public final class JobUtil {
 
-	public static final String JOB = "job";
-	public static final String _ = "_";
+	private static final String JOB = "job";
+	private static final String _ = MarkConstants.UNDERLINE;
 
 	private JobUtil() {
 	}

@@ -226,11 +226,11 @@ public class DbConfig {
 	}
 
 	private String getSetMethodName(String name) {
-		return StringUtil.concat("set",name.substring(0, 1).toUpperCase(), name.substring(1));
+		return StringUtil.concatDirectly("set",name.substring(0, 1).toUpperCase(), name.substring(1));
 	}
 
 	public String getIdenticalKey() {
-		return StringUtil.concat(this.jdbcUrl,this.user);
+		return StringUtil.concatDirectly(this.jdbcUrl,this.user);
 	}
 
 	public static DbConfig fromMap(Map<String, ?> map) {
