@@ -8,11 +8,11 @@ public class ServerUser {
 	public static final String PASSWORD = "password";
 
  	private String host;
-	private int port;
-	private String username;
-	private String password;
+ 	private int port;
+ 	private String username;
+ 	private String password;
 
-	public ServerUser(String host, int port, String username, String password) {
+	protected ServerUser(String host, int port, String username, String password) {
 		super();
 		this.host = host;
 		this.port = port;
