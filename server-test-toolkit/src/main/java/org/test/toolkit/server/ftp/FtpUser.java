@@ -4,7 +4,7 @@ import org.test.toolkit.server.common.user.ServerUser;
 
 
 /**
- *
+ * default port is {@link #DEFAULT_PORT}
  * @author Administrator
  *
  */
