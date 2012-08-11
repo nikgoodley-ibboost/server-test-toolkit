@@ -107,7 +107,7 @@ public class DbClient extends AbstractDbClient {
 	}
 
 	@Override
-	public int update(String sql, Object[] params) throws SQLException {
+	public int update(String sql, Object[] params){
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(sql);
@@ -115,7 +115,9 @@ public class DbClient extends AbstractDbClient {
 				preparedStatement.setObject(i + 1, params[i]);
 			}
 			return preparedStatement.executeUpdate();
-		} finally {
+		} catch (SQLException e) {
+			throw new DbExecuteException(e.getMessage(),e);
+ 		} finally {
 			closeStatement(preparedStatement);
 		}
 	}
