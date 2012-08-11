@@ -7,10 +7,10 @@ public class ServerUser {
 	public static final String USERNAME = "username";
 	public static final String PASSWORD = "password";
 
- 	private String host;
- 	private int port;
- 	private String username;
- 	private String password;
+ 	protected String host;
+ 	protected int port;
+ 	protected String username;
+ 	protected String password;
 
 	protected ServerUser(String host, int port, String username, String password) {
 		super();
