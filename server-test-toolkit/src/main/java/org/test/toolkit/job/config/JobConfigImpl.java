@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.commons.beanutils.BeanUtils;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.test.toolkit.job.exception.JobConfigException;
 import org.test.toolkit.util.XmlUtil;
@@ -21,7 +22,12 @@ public class JobConfigImpl implements JobConfig {
 	@Override
 	public Collection<JobEntry<Job>> getJobEntrys() {
 		List<JobEntry<Job>> list = new ArrayList<JobEntry<Job>>();
-		Document document = XmlUtil.getDocument(CONFIG_PATH);
+		Document document=null;
+		try {
+			document = XmlUtil.getDocument(CONFIG_PATH);
+		} catch (DocumentException e) {
+			throw new JobConfigException(e.getMessage(),e);
+ 		}
 
 		@SuppressWarnings("unchecked")
 		List<Element> jobs = document.selectNodes("//job");
