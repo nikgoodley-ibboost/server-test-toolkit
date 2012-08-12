@@ -21,9 +21,6 @@ public final class JobUtil {
 	private static final String JOB = "job";
 	private static final String _ = MarkConstants.UNDERLINE;
 
-	private JobUtil() {
-	}
-
 	static void appendListenerToJob(Scheduler scheduler, JobDetail jobDetail,
 			JobListener jobListener) {
 		Matcher<JobKey> matcher = KeyMatcher.keyEquals(jobDetail.getKey());
@@ -53,6 +50,9 @@ public final class JobUtil {
 	static JobDetail getDefaultJobDetail(Class<? extends Job> jobClass, String jobName) {
 		JobDetail job = JobBuilder.newJob(jobClass).withIdentity(jobName).build();
 		return job;
+	}
+
+	private JobUtil() {
 	}
 
 }
