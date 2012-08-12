@@ -18,6 +18,8 @@ import org.test.toolkit.util.XmlUtil;
 public class JobConfigImpl implements JobConfig {
 
 	private final static String DEFAULT_CONFIG_PATH = "job.xml";
+	private String configPath;
+
 
 	public static JobConfigImpl getInstance() {
 		return new JobConfigImpl(DEFAULT_CONFIG_PATH);
@@ -27,9 +29,7 @@ public class JobConfigImpl implements JobConfig {
 		return new JobConfigImpl(configPath);
 	}
 
-	private String configPath;
-
-	private JobConfigImpl(String configPath) {
+ 	private JobConfigImpl(String configPath) {
 		super();
 		this.configPath = configPath;
 	}
