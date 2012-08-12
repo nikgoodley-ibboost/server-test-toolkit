@@ -16,6 +16,10 @@ public abstract class RandomFile {
 	protected InputStream fileInputStream;
 	protected byte[] byteArray;
 
+	public static String newContent() {
+		return UUID.randomUUID().toString();
+	}
+
 	public long getFileSize() {
 		return fileSize;
 	}
@@ -68,10 +72,6 @@ public abstract class RandomFile {
 
 	private String formatFileName() {
 		return new SimpleDateFormat("yyyyMMddhhmm").format(new Date()).substring(4) + "_" + sha + extension;
-	}
-
-	public static String newContent() {
-		return UUID.randomUUID().toString();
 	}
 
 }
