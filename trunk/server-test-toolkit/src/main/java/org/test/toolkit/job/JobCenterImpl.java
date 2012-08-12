@@ -30,12 +30,6 @@ public class JobCenterImpl implements JobCenter {
 	private Scheduler scheduler;
 	private JobConfig jobConfig;
 
-	private JobCenterImpl(Scheduler scheduler, JobConfig jobConfig) {
-		ValidationUtil.checkNull(scheduler, jobConfig);
-		this.scheduler = scheduler;
-		this.jobConfig = jobConfig;
-	}
-
 	public static JobCenter getInstance() {
 		try {
 			return getInstance(StdSchedulerFactory.getDefaultScheduler(), new JobConfigImpl());
@@ -54,13 +48,19 @@ public class JobCenterImpl implements JobCenter {
 		return instance;
 	}
 
+	private JobCenterImpl(Scheduler scheduler, JobConfig jobConfig) {
+		ValidationUtil.checkNull(scheduler, jobConfig);
+		this.scheduler = scheduler;
+		this.jobConfig = jobConfig;
+	}
+
 	@Override
 	public void registerMBean() {
 		JobCenterSchedule jobCenterSchedule = new JobCenterSchedule(this);
- 		try {
+		try {
 			ObjectName name = new ObjectName("com.cisco.jmx:type=quartz");
 			JmxMonitorImpl.getInstance().registerMBean(jobCenterSchedule, name);
- 		} catch (MalformedObjectNameException e) {
+		} catch (MalformedObjectNameException e) {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			e.printStackTrace();
@@ -82,8 +82,8 @@ public class JobCenterImpl implements JobCenter {
 				e.printStackTrace();
 				throw new JobException(e);
 			}
- 		}
- 	}
+		}
+	}
 
 	@Override
 	public void stop() {
@@ -109,7 +109,7 @@ public class JobCenterImpl implements JobCenter {
 			return stringBuffer.toString();
 		} catch (SchedulerException e) {
 			throw new JobExecuteException(e.getMessage(), e);
- 		}
+		}
 
 	}
 }
