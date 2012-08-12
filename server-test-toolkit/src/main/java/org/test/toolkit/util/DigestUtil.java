@@ -24,7 +24,20 @@ public final class DigestUtil {
 
 	private static final Logger LOG = Logger.getLogger(DigestUtil.class);
 
-	private DigestUtil() {
+	public static enum DigestAlgorithm {
+
+		MD5("md5"), SHA_1("sha-1"), SHA_256("sha-256"), SHA_384("sha-384"), SHA_512("sha-512");
+
+		private String value;
+
+		private DigestAlgorithm(String value) {
+			this.value = value;
+		}
+
+		@Override
+		public String toString() {
+			return value.toLowerCase();
+		}
 	}
 
 	private static class ByteBufferDigestComputor extends DigestComputor {
@@ -39,6 +52,37 @@ public final class DigestUtil {
 		void updateMessageDigest(MessageDigest instance) {
 			instance.update(byteBuffer);
 		}
+	}
+
+	private static abstract class DigestComputor {
+		private DigestAlgorithm algorithm;
+
+		public DigestComputor(DigestAlgorithm algorithm) {
+			super();
+			this.algorithm = algorithm;
+		}
+
+		String compute() {
+			MessageDigest instance;
+			try {
+				instance = MessageDigest.getInstance(algorithm.toString());
+				updateMessageDigest(instance);
+				return hex(instance.digest());
+			} catch (NoSuchAlgorithmException e) {
+				LOG.error(e.getMessage(), e);
+				throw new UnsupportedOperationException(e.getMessage(), e);
+			}
+		}
+
+		private String hex(byte[] arr) {
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < arr.length; ++i) {
+				sb.append(Integer.toHexString((arr[i] & 0xFF) | 0x100).substring(1, 3));
+			}
+			return sb.toString();
+		}
+
+		abstract void updateMessageDigest(MessageDigest instance);
 	}
 
 	private static class ByteArrayDigestComputor extends DigestComputor {
@@ -116,50 +160,7 @@ public final class DigestUtil {
 		}
 	}
 
-	public static enum DigestAlgorithm {
-
-		MD5("md5"), SHA_1("sha-1"), SHA_256("sha-256"), SHA_384("sha-384"), SHA_512("sha-512");
-
-		private String value;
-
-		private DigestAlgorithm(String value) {
-			this.value = value;
-		}
-
-		@Override
-		public String toString() {
-			return value.toLowerCase();
-		}
+	private DigestUtil() {
 	}
 
-	private static abstract class DigestComputor {
-		private DigestAlgorithm algorithm;
-
-		public DigestComputor(DigestAlgorithm algorithm) {
-			super();
-			this.algorithm = algorithm;
-		}
-
-		String compute() {
-			MessageDigest instance;
-			try {
-				instance = MessageDigest.getInstance(algorithm.toString());
-				updateMessageDigest(instance);
-				return hex(instance.digest());
-			} catch (NoSuchAlgorithmException e) {
-				LOG.error(e.getMessage(), e);
-				throw new UnsupportedOperationException(e.getMessage(), e);
-			}
-		}
-
-		private String hex(byte[] arr) {
-			StringBuffer sb = new StringBuffer();
-			for (int i = 0; i < arr.length; ++i) {
-				sb.append(Integer.toHexString((arr[i] & 0xFF) | 0x100).substring(1, 3));
-			}
-			return sb.toString();
-		}
-
-		abstract void updateMessageDigest(MessageDigest instance);
-	}
 }
