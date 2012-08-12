@@ -132,6 +132,7 @@ public class SshTask implements Callable<SshTaskResult<String, String>> {
 		builder.append(", isReturnResult=");
 		builder.append(isReturnResult);
 		builder.append("]");
+
 		return builder.toString();
 	}
 }
