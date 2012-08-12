@@ -15,9 +15,6 @@ import org.test.toolkit.util.ValidationUtil;
 
 public final class FileUtil {
 
-	private FileUtil() {
- 	}
-
 	static String calcuteSHA_1(byte[] byteArray) {
 		return DigestUtil.getDigest(byteArray, DigestAlgorithm.SHA_1);
 	}
@@ -70,5 +67,8 @@ public final class FileUtil {
 	static String getRandomString() {
 		return UUID.randomUUID().toString();
 	}
+
+	private FileUtil() {
+ 	}
 
 }

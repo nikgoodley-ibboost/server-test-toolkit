@@ -17,18 +17,10 @@ public class JpgFile extends RandomFile {
 
 	public static final String EXTENSION = FileType.Image.JPG.toString();
 
-	public JpgFile() {
-		this(getRandomWidthOrHeight(), getRandomWidthOrHeight());
- 	}
-	
-	public JpgFile(int width, int height) {
-		super(EXTENSION, getContentBytes(width, height));
-	}
-
 	private static int getRandomWidthOrHeight() {
 		return new Random().nextInt(1024);
 	}
-	
+
  	private static byte[] getContentBytes(int width, int height) {
 		if (width <= 0 || height <= 0)
 			throw new IllegalArgumentException(String.format("width[%d] or height[%d] < 0 "
@@ -52,7 +44,14 @@ public class JpgFile extends RandomFile {
 		} finally {
 			IOUtils.closeQuietly(bufferedOutputStream);
 		}
+ 	}
 
+	public JpgFile() {
+		this(getRandomWidthOrHeight(), getRandomWidthOrHeight());
+ 	}
+
+	public JpgFile(int width, int height) {
+		super(EXTENSION, getContentBytes(width, height));
 	}
 
-}
+ }

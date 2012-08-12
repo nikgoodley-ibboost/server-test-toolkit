@@ -29,4 +29,6 @@ public class RandomFileFactory {
 		return new TxtFile(sizeByByteUnit);
 	}
 
-}
+	private RandomFileFactory(){
+ 	}
+ }
