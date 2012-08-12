@@ -20,9 +20,6 @@ public final class JSchUtil {
 
 	private static final Logger LOGGER = Logger.getLogger(JSchUtil.class);
 
-	private JSchUtil() {
-	}
-
 	public static class JSchExceptionUtil {
 
 		public static <T extends UncheckedServerOperationException> T jSchExceptionToUncheckedServerConnectionException(
@@ -111,5 +108,8 @@ public final class JSchUtil {
 				channel.disconnect();
 		}
 
+	}
+
+ 	private JSchUtil() {
 	}
 }
