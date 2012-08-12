@@ -5,10 +5,6 @@ import java.util.List;
 
 public final class ValidationUtil {
 
-	private ValidationUtil() {
-
-	}
-
 	/**
 	 * Checks for exist file with exception
 	 *
@@ -141,4 +137,6 @@ public final class ValidationUtil {
 		return object == null;
 	}
 
+	private ValidationUtil() {
+	}
 }

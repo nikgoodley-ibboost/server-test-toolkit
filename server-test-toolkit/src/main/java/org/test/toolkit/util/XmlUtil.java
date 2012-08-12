@@ -8,9 +8,6 @@ import org.dom4j.io.SAXReader;
 
 public final class XmlUtil {
 
-	private XmlUtil() {
-	}
-
 	public static Document getDocument(String xmlPath) {
  		InputStream resourceAsStream = XmlUtil.class.getClassLoader().getResourceAsStream(xmlPath);
 		SAXReader saxReader = new SAXReader();
@@ -21,6 +18,9 @@ public final class XmlUtil {
  			throw new UtilException("parse xml fail:"+xmlPath, e);
 		}
 		return document;
+	}
+
+	private XmlUtil() {
 	}
 
 }

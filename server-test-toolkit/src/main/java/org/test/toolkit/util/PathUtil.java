@@ -7,9 +7,6 @@ import static org.test.toolkit.constants.MarkConstants.*;
  */
 public final class PathUtil {
 
-	private PathUtil() {
-	}
-
 	/**
 	 * path formatted to : /xx/yy/zz
 	 *
@@ -27,4 +24,6 @@ public final class PathUtil {
 		return returnPath;
 	}
 
+	private PathUtil() {
+	}
 }

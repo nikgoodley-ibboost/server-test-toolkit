@@ -16,9 +16,6 @@ import java.util.Map;
  */
 public final class JavaBeanUtil {
 
-	private JavaBeanUtil(){
- 	}
-
 	public static <T> T toJavaBean(Map<String, ?> map, Class<T> javaBeanClazz)
 			throws IntrospectionException, IllegalAccessException, InstantiationException,
 			InvocationTargetException {
@@ -57,4 +54,8 @@ public final class JavaBeanUtil {
 		}
 		return returnMap;
 	}
+
+	private JavaBeanUtil(){
+ 	}
+
 }

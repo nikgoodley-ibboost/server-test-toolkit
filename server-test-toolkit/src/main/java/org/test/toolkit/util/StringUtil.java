@@ -5,9 +5,6 @@ import org.test.toolkit.constants.MarkConstants;
 
 public final class StringUtil {
 
-	private StringUtil() {
-	}
-
 	public static String concatWithSpace(String... strings) {
 		ValidationUtil.checkNull(strings);
 		StringBuffer stringBuffer = new StringBuffer();
@@ -28,4 +25,6 @@ public final class StringUtil {
    		return stringBuffer.toString().trim();
 	}
 
+	private StringUtil() {
+	}
 }
