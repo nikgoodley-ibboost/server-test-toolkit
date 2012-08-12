@@ -17,17 +17,40 @@ import org.test.toolkit.util.XmlUtil;
 
 public class JobConfigImpl implements JobConfig {
 
-	private final static String CONFIG_PATH = "job.xml";
+	private final static String DEFAULT_CONFIG_PATH = "job.xml";
+
+	public static JobConfigImpl getInstance() {
+		return new JobConfigImpl(DEFAULT_CONFIG_PATH);
+	}
+
+	public static JobConfigImpl getInstance(String configPath) {
+		return new JobConfigImpl(configPath);
+	}
+
+	private String configPath;
+
+	private JobConfigImpl(String configPath) {
+		super();
+		this.configPath = configPath;
+	}
+
+	public String getConfigPath() {
+		return configPath;
+	}
+
+	public void setConfigPath(String configPath) {
+		this.configPath = configPath;
+	}
 
 	@Override
 	public Collection<JobEntry<Job>> getJobEntrys() {
 		List<JobEntry<Job>> list = new ArrayList<JobEntry<Job>>();
-		Document document=null;
+		Document document = null;
 		try {
-			document = XmlUtil.getDocument(CONFIG_PATH);
+			document = XmlUtil.getDocument(configPath);
 		} catch (DocumentException e) {
-			throw new JobConfigException(e.getMessage(),e);
- 		}
+			throw new JobConfigException(e.getMessage(), e);
+		}
 
 		@SuppressWarnings("unchecked")
 		List<Element> jobs = document.selectNodes("//job");
