@@ -30,7 +30,7 @@ public class SshTask implements Callable<SshTaskResult<String, String>> {
 	private boolean isReturnResult;
 	private Session session;
 
-	public SshTask(Session session, String command, boolean returnResult) {
+	SshTask(Session session, String command, boolean returnResult) {
 		ValidationUtil.checkString(command);
 		ValidationUtil.checkNull(session);
 
