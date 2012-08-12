@@ -33,8 +33,7 @@ public final class JavaBeanUtil {
 		return obj;
 	}
 
-	public static Map<String, Object> toMap(Object javaBeanInstance) throws IntrospectionException,
-			IllegalAccessException, InvocationTargetException {
+	public static Map<String, Object> toMap(Object javaBeanInstance) throws ReflectiveOperationException, IntrospectionException {
  		Class<?> type = javaBeanInstance.getClass();
 		BeanInfo beanInfo = Introspector.getBeanInfo(type);
 		Map<String, Object> returnMap = new HashMap<String, Object>();
