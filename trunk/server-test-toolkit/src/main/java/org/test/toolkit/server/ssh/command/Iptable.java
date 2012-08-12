@@ -9,11 +9,7 @@ public class Iptable extends Command {
 	private static final String IPTABLE_COMMAND_FORMAT_FOR_BLOCK_CONNECTIONS = "/sbin/iptables -t filter -A %s %s -j DROP";
 	private static final String IPTABLE_COMMAND_FORMAT_FOR_CLEAR_RULES = "/sbin/iptables -F";
 
-	private Iptable(String commandStr) {
-		super(commandStr);
-	}
-
-	public static Iptable newInstanceForClearIptables() {
+ 	public static Iptable newInstanceForClearIptables() {
 		return new Iptable(IPTABLE_COMMAND_FORMAT_FOR_CLEAR_RULES);
 	}
 
@@ -23,5 +19,9 @@ public class Iptable extends Command {
 
 		return new Iptable(comandStr);
  	}
+
+	private Iptable(String commandStr) {
+		super(commandStr);
+	}
 
 }

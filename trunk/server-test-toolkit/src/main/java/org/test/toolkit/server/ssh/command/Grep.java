@@ -10,10 +10,6 @@ public class Grep extends Command {
 
 	private static final String GREP_COMMAND_FORMAT = "grep '%s' %s";
 
- 	private Grep(String commandStr) {
-		super(commandStr);
-	}
-	
 	public static Grep newInstance(String path, String atLeastOneKeyword,
 			String... otherKeywords) {
 		return new Grep(toCommandStr(path, atLeastOneKeyword, otherKeywords));
@@ -27,5 +23,9 @@ public class Grep extends Command {
 		return CommandUtil.addAllGrepKey(commandStr, otherKeyWords);
 
 	}
-  
+
+	private Grep(String commandStr) {
+		super(commandStr);
+	}
+
 }

@@ -6,9 +6,6 @@ package org.test.toolkit.server.ssh.command;
  */
 public final class CommandUtil {
 
-	private CommandUtil() {
- 	}
-
 	/**
 	 * @param command
 	 * @param keyWords
@@ -34,5 +31,8 @@ public final class CommandUtil {
 		}
 		return command;
 	}
+
+	private CommandUtil() {
+ 	}
 
 }

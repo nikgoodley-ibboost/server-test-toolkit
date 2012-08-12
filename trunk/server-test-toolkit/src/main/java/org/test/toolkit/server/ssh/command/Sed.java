@@ -7,12 +7,8 @@ import org.test.toolkit.util.ValidationUtil;
  * @date Jul 26, 2012
  */
 public class Sed extends Command {
- 
-	private Sed(String commandStr) {
-		super(commandStr);
-	}
- 
-	public static Sed newInstanceForGetLineNumbersWithKey(String filePath,
+
+ 	public static Sed newInstanceForGetLineNumbersWithKey(String filePath,
 			String keyword) {
 		ValidationUtil.checkString(filePath);
 
@@ -51,7 +47,7 @@ public class Sed extends Command {
 
 	/**
 	 * command: (1) sed -n '$=' /opt/webex/idmap/log/result.log (2) wc -l
-	 * 
+	 *
 	 * @param filePath
 	 * @return
 	 */
@@ -60,6 +56,10 @@ public class Sed extends Command {
 
 		String commandStr = String.format("sed -n '$=' %s", filePath);
 		return new Sed(commandStr);
+	}
+
+	private Sed(String commandStr) {
+		super(commandStr);
 	}
 
 }

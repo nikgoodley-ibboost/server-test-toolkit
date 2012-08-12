@@ -8,9 +8,6 @@ import java.util.UUID;
  */
 public final class GroupCommandFactory {
 
-	private GroupCommandFactory() {
-	}
-
 	public static GroupCommands changeFile(String path, int lineNumber, String newContentForLine, String backupPath) {
 		String tmpFileName = getRandomFileName(path);
 
@@ -28,6 +25,9 @@ public final class GroupCommandFactory {
 
 	private static String getRandomFileName(String path) {
 		return UUID.randomUUID().toString() + path.substring(path.lastIndexOf("."));
+	}
+
+	private GroupCommandFactory() {
 	}
 
 }

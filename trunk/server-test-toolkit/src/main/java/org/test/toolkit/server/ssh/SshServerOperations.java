@@ -39,6 +39,11 @@ public class SshServerOperations extends AbstractServerOperations {
 
 	private List<SshUser> allSshUsers;
 
+	public static SshServerOperations getInstance(SshUser atLeaseOneSshUser,
+			SshUser... otherSshUsers) throws UncheckedServerOperationException {
+		return new SshServerOperations(atLeaseOneSshUser, otherSshUsers);
+	}
+
 	private SshServerOperations(SshUser atLeastOneSshUser, SshUser... otherSshUsers) {
 		ValidationUtil.checkNull(atLeastOneSshUser);
 		allSshUsers = CollectionUtil.getList(atLeastOneSshUser, otherSshUsers);
@@ -60,12 +65,7 @@ public class SshServerOperations extends AbstractServerOperations {
 		LOGGER.info("[Server] [Complete Init IP-Session Map] " + ipSessionMap);
 	}
 
-	public static SshServerOperations getInstance(SshUser atLeaseOneSshUser,
-			SshUser... otherSshUsers) throws UncheckedServerOperationException {
-		return new SshServerOperations(atLeaseOneSshUser, otherSshUsers);
-	}
-
-	@Override
+ 	@Override
 	public Map<String, String> executeCommand(String command, boolean returnResult) {
 		ValidationUtil.checkString(command);
 
