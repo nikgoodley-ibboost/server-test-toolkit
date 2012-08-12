@@ -72,7 +72,7 @@ public abstract class AbstractServerOperations implements ServerOperations {
 		Map<String, String> result = executeCommandWithResult(command);
 		Map<String, PerformanceData> returnMap = new HashMap<String, PerformanceData>(result.size());
 		for (Map.Entry<String, String> entry : result.entrySet()) {
-			returnMap.put(entry.getKey(), Vmstat.parseString(entry.getValue()));
+			returnMap.put(entry.getKey(), PerformanceData.parsePerformanceData(entry.getValue()));
 		}
 
 		return returnMap;
@@ -106,12 +106,12 @@ public abstract class AbstractServerOperations implements ServerOperations {
 	}
 
 	@Override
-	public void blockConnections(String atLeastOneIp, String... otherIps) {
-		blockConnections(true, atLeastOneIp, otherIps);
+	public void blockConnectionsWithIp(String atLeastOneIp, String... otherIps) {
+		blockConnectionsWithIp(true, atLeastOneIp, otherIps);
 	}
 
 	@Override
-	public void blockConnections(boolean isOutput, String atLeastOneIp, String... otherIps) {
+	public void blockConnectionsWithIp(boolean isOutput, String atLeastOneIp, String... otherIps) {
 		List<String> allIps = CollectionUtil.getList(atLeastOneIp, otherIps);
 
 		for (String ip : allIps) {
@@ -121,7 +121,7 @@ public abstract class AbstractServerOperations implements ServerOperations {
 	}
 
 	@Override
-	public void changeFile(String path, int lineNumber, String newContentForLine, String backupPath) {
+	public void modifyFile(String path, int lineNumber, String newContentForLine, String backupPath) {
 		GroupCommands groupCommands = GroupCommandFactory.changeFile(path, lineNumber, newContentForLine,
 				backupPath);
 		executeCommandWithoutResult(groupCommands);

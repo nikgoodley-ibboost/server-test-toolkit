@@ -37,11 +37,11 @@ public interface ServerOperations extends RemoteConnection {
 
 	public Map<String, Long> getLineNumberForFile(String filePath);
 
-	public void blockConnections(String atLeastOneIp, String... otherIps);
+	public void blockConnectionsWithIp(String atLeastOneIp, String... otherIps);
 
-	public void blockConnections(boolean isOutput, String atLeastOneIp, String... otherIps);
+	public void blockConnectionsWithIp(boolean isOutput, String atLeastOneIp, String... otherIps);
 
-	public void changeFile(String path, int lineNumber, String newContentForLine, String backupPath);
+	public void modifyFile(String path, int lineNumber, String newContentForLine, String backupPath);
 
 	public Map<String, List<String>> getLineNumbersWithKeyword(String filePath, String keyword);
 

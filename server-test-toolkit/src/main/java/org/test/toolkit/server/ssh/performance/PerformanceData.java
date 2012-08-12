@@ -1,5 +1,6 @@
 package org.test.toolkit.server.ssh.performance;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -10,7 +11,7 @@ import org.apache.commons.beanutils.BeanUtils;
  *  r  b   swpd   free   buff  cache     si   so       bi    bo     in   cs      us sy id wa st
  *  1  0    112 1670000 236252 2652656    0    0       0     6       0    1       0  0 100  0  0
  * </pre>
- * 
+ *
  * @author fu.jian
  * @date Aug 6, 2012
  */
@@ -34,8 +35,27 @@ public class PerformanceData {
 	private int sy;
 	private int st;
 
-	public PerformanceData() {
-		super();
+	public static PerformanceData parsePerformanceData(String str) {
+		int startIndexForKeys = str.indexOf(" r");
+		int endIndexForKeys = str.indexOf(" st") + 3;
+		String[] keys = subStrAndSplitWithSpace(str, startIndexForKeys, endIndexForKeys);
+
+		int startIndexForValues = endIndexForKeys;
+		int endIndexForValues = str.length();
+		String[] values = subStrAndSplitWithSpace(str, startIndexForValues, endIndexForValues);
+
+		HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
+		for (int i = 0; i < keys.length; i++) {
+			hashMap.put(keys[i], Integer.valueOf(values[i]));
+		}
+
+		return fromMap(hashMap);
+	}
+
+	private static String[] subStrAndSplitWithSpace(String str, int startIndex, int endIndex) {
+		String rawKeys = str.substring(startIndex, endIndex);
+		String[] keys = rawKeys.trim().split("(\\s)+");
+		return keys;
 	}
 
 	public static PerformanceData fromMap(Map<String, Integer> map) {
@@ -47,6 +67,10 @@ public class PerformanceData {
 		}
 
 		return performanceData;
+	}
+
+	public PerformanceData() {
+		super();
 	}
 
 	public int getB() {
@@ -235,6 +259,7 @@ public class PerformanceData {
 		builder.append(", st=");
 		builder.append(st);
 		builder.append("]");
+
 		return builder.toString();
 	}
 
