@@ -40,20 +40,6 @@ public final class DigestUtil {
 		}
 	}
 
-	private static class ByteBufferDigestComputor extends DigestComputor {
-		private final ByteBuffer byteBuffer;
-
-		public ByteBufferDigestComputor(ByteBuffer byteBuffer, DigestAlgorithm algorithm) {
-			super(algorithm);
-			this.byteBuffer = byteBuffer;
-		}
-
-		@Override
-		void updateMessageDigest(MessageDigest instance) {
-			instance.update(byteBuffer);
-		}
-	}
-
 	private static abstract class DigestComputor {
 		private DigestAlgorithm algorithm;
 
@@ -83,6 +69,20 @@ public final class DigestUtil {
 		}
 
 		abstract void updateMessageDigest(MessageDigest instance);
+	}
+
+	private static class ByteBufferDigestComputor extends DigestComputor {
+		private final ByteBuffer byteBuffer;
+
+		public ByteBufferDigestComputor(ByteBuffer byteBuffer, DigestAlgorithm algorithm) {
+			super(algorithm);
+			this.byteBuffer = byteBuffer;
+		}
+
+		@Override
+		void updateMessageDigest(MessageDigest instance) {
+			instance.update(byteBuffer);
+		}
 	}
 
 	private static class ByteArrayDigestComputor extends DigestComputor {

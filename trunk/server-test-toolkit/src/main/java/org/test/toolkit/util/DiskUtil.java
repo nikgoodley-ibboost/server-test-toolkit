@@ -4,6 +4,7 @@ import java.io.File;
 
 /**
  * compute the space for disk in bytes
+ *
  * @author fu.jian
  *
  */
@@ -11,14 +12,14 @@ public class DiskUtil {
 
 	private final File file;
 
+	public static DiskUtil getInstance(String filePath) {
+		return new DiskUtil(filePath);
+	}
+
 	private DiskUtil(String filePath) {
 		super();
 		ValidationUtil.checkFileExist(filePath);
 		this.file = new File(filePath);
-	}
-
-	public static DiskUtil getInstance(String filePath) {
-		return new DiskUtil(filePath);
 	}
 
 	public long getTotalSpace() {
@@ -27,6 +28,7 @@ public class DiskUtil {
 
 	/**
 	 * according to disk file path right and other control factor to compute.
+	 *
 	 * @return
 	 */
 	public long getUsableSpace() {

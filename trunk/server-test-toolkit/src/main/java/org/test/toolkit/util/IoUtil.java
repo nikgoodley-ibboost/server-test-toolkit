@@ -9,10 +9,7 @@ import org.apache.commons.io.IOUtils;
 
 public final class IoUtil {
 
-	private IoUtil() {
- 	}
-
-	/**
+ 	/**
 	 * @param inputStream
 	 * @param localFilePath
 	 * @throws IOException
@@ -27,5 +24,8 @@ public final class IoUtil {
 			IOUtils.closeQuietly(inputStream);
 		}
 	}
+
+	private IoUtil() {
+ 	}
 
 }
