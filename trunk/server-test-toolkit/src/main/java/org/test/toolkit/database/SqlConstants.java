@@ -2,10 +2,6 @@ package org.test.toolkit.database;
 
 public final class SqlConstants {
 
-	private SqlConstants(){
-
-	}
-
 	public final static String SPACE = " ";
 	public final static String SELECT = "SELECT";
 	public final static String FROM = "FROM";
@@ -39,5 +35,8 @@ public final class SqlConstants {
 	public final static String LEFT_BRACKET = "(";
 	public final static String RIGHT_BRACKET = ")";
 	public final static String PERCENTSIGN = "%";
+
+ 	private SqlConstants(){
+ 	}
 
 }
