@@ -8,7 +8,7 @@ import org.test.toolkit.server.common.user.ServerUser;
  * @author Administrator
  *
  */
-public class FtpUser extends ServerUser{
+public final class FtpUser extends ServerUser{
 
 	/**
 	 *  DEFAULT_PORT = {@value}
