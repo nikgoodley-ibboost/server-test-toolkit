@@ -27,14 +27,22 @@ import org.test.toolkit.util.ValidationUtil;
 
 public class JobCenterImpl implements JobCenter {
 
-	private static JobCenter instance;
+	private static volatile JobCenter instance;
 
 	private Scheduler scheduler;
 	private JobConfig jobConfig;
 
 	public static JobCenter getInstance() {
 		try {
-			return getInstance(StdSchedulerFactory.getDefaultScheduler(), new JobConfigImpl());
+			return getInstance(StdSchedulerFactory.getDefaultScheduler(), JobConfigImpl.getInstance());
+		} catch (SchedulerException e) {
+ 			throw new JobException(e);
+		}
+	}
+
+	public static JobCenter getInstance(String configPath) {
+		try {
+			return getInstance(StdSchedulerFactory.getDefaultScheduler(), JobConfigImpl.getInstance(configPath));
 		} catch (SchedulerException e) {
  			throw new JobException(e);
 		}
