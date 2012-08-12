@@ -15,6 +15,7 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.matchers.KeyMatcher;
 import org.test.toolkit.constants.MarkConstants;
+import org.test.toolkit.job.exception.JobConfigException;
 
 public final class JobUtil {
 
@@ -27,8 +28,7 @@ public final class JobUtil {
 		try {
 			scheduler.getListenerManager().addJobListener(jobListener, matcher);
 		} catch (SchedulerException e) {
-			e.printStackTrace();
-			throw new RuntimeException("add listener fail:", e);
+ 			throw new JobConfigException("add listener fail:", e);
 		}
 	}
 

@@ -63,8 +63,8 @@ public class PerformanceData {
 		try {
 			BeanUtils.copyProperties(performanceData, map);
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			throw new RuntimeException(e.getMessage(), e);
+ 		}
 
 		return performanceData;
 	}

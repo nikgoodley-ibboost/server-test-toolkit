@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.management.MalformedObjectNameException;
+import javax.management.JMException;
 import javax.management.ObjectName;
 
 import org.quartz.JobDetail;
@@ -17,8 +17,10 @@ import org.test.toolkit.job.config.Job;
 import org.test.toolkit.job.config.JobConfig;
 import org.test.toolkit.job.config.JobConfigImpl;
 import org.test.toolkit.job.config.JobEntry;
+import org.test.toolkit.job.exception.JobConfigException;
 import org.test.toolkit.job.exception.JobException;
 import org.test.toolkit.job.exception.JobExecuteException;
+import org.test.toolkit.job.exception.JobMonitorException;
 import org.test.toolkit.job.jmx.JmxMonitorImpl;
 import org.test.toolkit.job.jmx.mbean.JobCenterSchedule;
 import org.test.toolkit.util.ValidationUtil;
@@ -34,8 +36,7 @@ public class JobCenterImpl implements JobCenter {
 		try {
 			return getInstance(StdSchedulerFactory.getDefaultScheduler(), new JobConfigImpl());
 		} catch (SchedulerException e) {
-			e.printStackTrace();
-			throw new JobException(e);
+ 			throw new JobException(e);
 		}
 	}
 
@@ -60,11 +61,9 @@ public class JobCenterImpl implements JobCenter {
 		try {
 			ObjectName name = new ObjectName("com.cisco.jmx:type=quartz");
 			JmxMonitorImpl.getInstance().registerMBean(jobCenterSchedule, name);
-		} catch (MalformedObjectNameException e) {
-			e.printStackTrace();
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
+		} catch (JMException e) {
+			throw new JobMonitorException(e.getMessage(), e);
+ 		}
 
 	}
 
@@ -79,8 +78,7 @@ public class JobCenterImpl implements JobCenter {
 				scheduler.scheduleJobs(jobDetails, true);
 				scheduler.start();
 			} catch (SchedulerException e) {
-				e.printStackTrace();
-				throw new JobException(e);
+ 				throw new JobConfigException(e.getMessage(),e);
 			}
 		}
 	}
@@ -91,7 +89,7 @@ public class JobCenterImpl implements JobCenter {
 			if (scheduler.isStarted())
 				scheduler.clear();
 		} catch (SchedulerException e) {
-			e.printStackTrace();
+			throw new JobExecuteException(e.getMessage(),e);
 		}
 	}
 
