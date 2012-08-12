@@ -12,7 +12,7 @@ import org.test.toolkit.database.DbUtil.DbCloseUtil;
  */
 public class JdbcClosableImpl implements JdbcClosable {
 
-	public JdbcClosableImpl() {
+	protected JdbcClosableImpl() {
 	}
 
 	@Override

@@ -4,9 +4,6 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public final class ComboPooledDataSourceFactory {
 
-	private ComboPooledDataSourceFactory() {
-	}
-
 	static ComboPooledDataSource getDefaultComboPooledDataSource() {
 		return new ComboPooledDataSource();
 	}
@@ -24,4 +21,6 @@ public final class ComboPooledDataSourceFactory {
 		}
 	}
 
+	private ComboPooledDataSourceFactory() {
+	}
 }

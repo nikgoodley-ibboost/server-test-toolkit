@@ -15,10 +15,7 @@ public class DbUtil {
 
 	private static final Logger LOGGER = Logger.getLogger(DbUtil.class);
 
-	private DbUtil() {
-	}
-
-	public static class DbCloseUtil {
+	public static final class DbCloseUtil {
 
 		public static void closeStatement(Statement createStatement) {
 			try {
@@ -46,6 +43,13 @@ public class DbUtil {
 			}
 		}
 
+		private DbCloseUtil(){
+
+		}
+
+	}
+
+	private DbUtil() {
 	}
 
 }

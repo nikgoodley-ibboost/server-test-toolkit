@@ -21,9 +21,6 @@ public class ConnectionFactory {
 	private static volatile ConcurrentHashMap<String, ComboPooledDataSource> dbConfigDataSourceMap = new ConcurrentHashMap<String, ComboPooledDataSource>();
 	private static volatile ConcurrentHashMap<String, ComboPooledDataSource> configNameDataSourceMap = new ConcurrentHashMap<String, ComboPooledDataSource>();
 
-	private ConnectionFactory() {
-	}
-
 	public static Connection getConnection() {
 		try {
 			LOGGER.info("use default c3p0 config");
@@ -136,6 +133,9 @@ public class ConnectionFactory {
 		} catch (SQLException e) {
 			throw new DbConnectionException(e.getMessage(), e);
 		}
+	}
+
+	private ConnectionFactory() {
 	}
 
 }
