@@ -1,6 +1,6 @@
 package org.test.toolkit.job.config;
 
-import org.test.toolkit.job.exception.JobException;
+import org.test.toolkit.job.exception.JobConfigException;
 
 public class JobEntry<T> {
 
@@ -35,8 +35,7 @@ public class JobEntry<T> {
 			Class<T> clazz = (Class<T>) Class.forName(className);
 			return clazz.newInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new JobException(e);
+ 			throw new JobConfigException(e.getMessage(),e);
 		}
 	}
 
