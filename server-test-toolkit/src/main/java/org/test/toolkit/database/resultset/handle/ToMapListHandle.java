@@ -9,6 +9,11 @@ import java.util.List;
 
 import org.test.toolkit.database.exception.DbExecuteException;
 
+/**
+ * MapList's map is column name: column value
+ * @author fu.jian
+ * @date Aug 13, 2012
+ */
 public class ToMapListHandle implements ResultSetHandle<List<HashMap<String, ?>>> {
 
 	@Override
