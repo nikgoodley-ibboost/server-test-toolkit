@@ -26,12 +26,11 @@ public final class FileUtil {
 	static byte[] generateBytesBySize(long sizeByByteUnit) {
 		ValidationUtil.checkPositive(sizeByByteUnit);
 
-		int allocateSize = 32;
-
 		ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
 		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(byteOutputStream, 1024 * 512);
 
-		int storeSize = 0;
+		int allocateSize = 32;
+ 		int storeSize = 0;
 		byte[] bytes = null;
 		try {
 			while (storeSize < sizeByByteUnit) {
