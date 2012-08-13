@@ -36,7 +36,7 @@ public class JobCenterImpl implements JobCenter {
 		try {
 			return getInstance(StdSchedulerFactory.getDefaultScheduler(), JobConfigImpl.getInstance());
 		} catch (SchedulerException e) {
- 			throw new JobException(e);
+ 			throw new JobConfigException(e);
 		}
 	}
 
@@ -44,7 +44,7 @@ public class JobCenterImpl implements JobCenter {
 		try {
 			return getInstance(StdSchedulerFactory.getDefaultScheduler(), JobConfigImpl.getInstance(configPath));
 		} catch (SchedulerException e) {
- 			throw new JobException(e);
+ 			throw new JobConfigException(e);
 		}
 	}
 
