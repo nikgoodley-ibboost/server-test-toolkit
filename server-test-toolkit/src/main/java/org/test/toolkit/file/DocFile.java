@@ -12,11 +12,7 @@ public class DocFile extends RandomFile {
 
 	public static final String EXTENSION = FileType.DOC.toString();
 	private static final String WORD_TYPE = "WordDocument";
-
-	public DocFile() {
-		super(EXTENSION, getContentBytes());
-	}
-
+	
 	private static byte[] getContentBytes() {
 		byte byteArray[] = FileUtil.getRandomBytes();
 		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
@@ -35,4 +31,10 @@ public class DocFile extends RandomFile {
 			IOUtils.closeQuietly(byteArrayOutputStream);
 		}
 	}
+
+	public DocFile() {
+		super(EXTENSION, getContentBytes());
+	}
+
+
 }
