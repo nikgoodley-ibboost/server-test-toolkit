@@ -1,49 +1,29 @@
 package org.test.toolkit.file;
 
-public interface FileType {
+enum FileCategory {
+	Image, DOCUMENT, PLAIN_TXT, OTHER;
+}
 
-	public String getExtension();
+public enum FileType {
 
-	public enum Image implements FileType {
+	DOC(FileCategory.DOCUMENT), JPG(FileCategory.Image), GIF(FileCategory.Image), TXT(FileCategory.PLAIN_TXT), PDF(
+			FileCategory.OTHER);
 
-		JPG;
+	private FileCategory type;
 
-		public String toString() {
-			return "." + super.toString().toLowerCase();
-		}
-
-		@Override
-		public String getExtension() {
- 			return toString();
-		};
+	private FileType(FileCategory t) {
+		this.type = t;
 	}
 
-	public enum Document implements FileType {
-
-		DOC;
-
-		public String toString() {
-			return "." + super.toString().toLowerCase();
-		};
-
-		@Override
-		public String getExtension() {
- 			return toString();
-		};
+	public FileCategory getType() {
+		return type;
 	}
 
-	public enum Text implements FileType {
-
-		TXT;
-
-		public String toString() {
-			return "." + super.toString().toLowerCase();
-		};
-
-		@Override
-		public String getExtension() {
- 			return toString();
-		};
+	public String toString() {
+		return "." + super.toString().toLowerCase();
 	}
 
+	public String getExtension() {
+		return toString();
+	}
 }

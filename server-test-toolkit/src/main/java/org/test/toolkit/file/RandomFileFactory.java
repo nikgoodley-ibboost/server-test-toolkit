@@ -7,18 +7,20 @@ public class RandomFileFactory {
 	public static RandomFile newRandomFile(FileType fileType) {
 		ValidationUtil.checkNull(fileType);
 
-		if (fileType == FileType.Text.TXT)
+		if (fileType == FileType.TXT)
 			return new TxtFile();
-		if (fileType == FileType.Document.DOC)
+		if (fileType == FileType.DOC)
 			return new DocFile();
-		if (fileType == FileType.Image.JPG)
+		if (fileType == FileType.JPG)
 			return new JpgFile();
+		if (fileType == FileType.PDF)
+			return new PdfFile();
 
 		throw new UnsupportedOperationException("not support this file type: " + fileType.toString());
 	}
 
 	public static RandomFile newRandomFileForTxt() {
-		return newRandomFile(FileType.Text.TXT);
+		return newRandomFile(FileType.TXT);
 	}
 
 	public static RandomFile newRandomFileForJpg(int width, int height) {
@@ -29,6 +31,6 @@ public class RandomFileFactory {
 		return new TxtFile(sizeByByteUnit);
 	}
 
-	private RandomFileFactory(){
- 	}
- }
+	private RandomFileFactory() {
+	}
+}
