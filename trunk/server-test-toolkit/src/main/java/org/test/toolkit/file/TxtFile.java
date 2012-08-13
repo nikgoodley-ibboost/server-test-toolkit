@@ -6,7 +6,7 @@ package org.test.toolkit.file;
  */
 public class TxtFile extends RandomFile {
 
-	public static final String EXTENSION = FileType.Text.TXT.toString();
+	public static final String EXTENSION = FileType.TXT.toString();
 
 	public TxtFile() {
 		this(FileUtil.getRandomSizeInByteUnit());

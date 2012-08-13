@@ -15,7 +15,7 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 public class JpgFile extends RandomFile {
 
-	public static final String EXTENSION = FileType.Image.JPG.toString();
+	public static final String EXTENSION = FileType.JPG.toString();
 
 	private static int getRandomWidthOrHeight() {
 		return new Random().nextInt(1024);
