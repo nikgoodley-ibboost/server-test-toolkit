@@ -18,7 +18,6 @@ import org.test.toolkit.job.config.JobConfig;
 import org.test.toolkit.job.config.JobConfigImpl;
 import org.test.toolkit.job.config.JobEntry;
 import org.test.toolkit.job.exception.JobConfigException;
-import org.test.toolkit.job.exception.JobException;
 import org.test.toolkit.job.exception.JobExecuteException;
 import org.test.toolkit.job.exception.JobMonitorException;
 import org.test.toolkit.job.jmx.JmxMonitorImpl;
