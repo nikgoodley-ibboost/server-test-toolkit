@@ -19,7 +19,7 @@ public class ToMapListHandle implements ResultSetHandle<List<HashMap<String, ?>>
 				HashMap<String, Object> hashMap = new HashMap<String, Object>();
 				ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 				int columnCount = resultSetMetaData.getColumnCount();
-				for (int index = 1; index < columnCount + 1; index++) {
+				for (int index = 1; index <= columnCount; index++) {
 					String key = resultSetMetaData.getColumnName(index);
 					Object value = resultSet.getObject(index);
 					hashMap.put(key, value);
