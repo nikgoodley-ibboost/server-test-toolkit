@@ -10,6 +10,7 @@ import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
+import org.test.toolkit.collections.Stack;
 import org.test.toolkit.constants.MarkConstants;
 import org.test.toolkit.services.zookeeper.operations.CreateNode;
 import org.test.toolkit.services.zookeeper.operations.CreateSequenceNodeOperation;
@@ -19,6 +20,7 @@ import org.test.toolkit.services.zookeeper.operations.GetChildrenOperation;
 import org.test.toolkit.services.zookeeper.operations.GetDataOperation;
 import org.test.toolkit.services.zookeeper.operations.SetDataOperation;
 import org.test.toolkit.services.zookeeper.operations.ZookeeperOperation;
+import org.test.toolkit.util.PathUtil;
 
 public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 
@@ -221,26 +223,8 @@ public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 			return;
 		}
 
-		assert path.startsWith(MarkConstants.SPLIT);
-		String tmpPath = path;
-		if (path.endsWith(MarkConstants.SPLIT)) {
-			tmpPath = path.substring(0, path.length() - 1);
-
-		}
-		SimpleStack<String> unCreatedPathStack = new SimpleStack<String>();
-		unCreatedPathStack.push(tmpPath);
-		int lastSlashPos = tmpPath.lastIndexOf(MarkConstants.SPLIT);
-		while (lastSlashPos != 0) {
-			tmpPath = tmpPath.substring(0, lastSlashPos);
-
-			state = exists(tmpPath, false);
-			if (state != null) {
-				break;
-			}
-
-			unCreatedPathStack.push(tmpPath);
-			lastSlashPos = tmpPath.lastIndexOf(MarkConstants.SPLIT);
-		}
+		String tmpPath=PathUtil.formatPath(path);
+		Stack<String> unCreatedPathStack = getUncreatedPath(tmpPath);
 		while (!unCreatedPathStack.empty()) {
 			try {
 				createPersistentNode(unCreatedPathStack.pop(), null);
@@ -248,6 +232,24 @@ public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 			}
 		}
  	}
+
+	private Stack<String> getUncreatedPath(String path) throws KeeperException,
+			InterruptedException {
+		Stat state;
+		Stack<String> unCreatedPathStack = new Stack<String>();
+		unCreatedPathStack.push(path);
+		int lastSlashPos = path.lastIndexOf(MarkConstants.SPLIT);
+		while (lastSlashPos != 0) {
+			path = path.substring(0, lastSlashPos);
+ 			state = exists(path, false);
+			if (state != null) {
+				break;
+			}
+ 			unCreatedPathStack.push(path);
+			lastSlashPos = path.lastIndexOf(MarkConstants.SPLIT);
+		}
+		return unCreatedPathStack;
+	}
 
  	@Override
 	public byte[] getData(final String siblePath, final boolean watch, final Stat stat)
