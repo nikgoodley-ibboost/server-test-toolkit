@@ -2,6 +2,7 @@ package org.test.toolkit.services.zookeeper;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Stack;
 
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.CreateMode;
@@ -10,7 +11,6 @@ import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
-import org.test.toolkit.collections.Stack;
 import org.test.toolkit.constants.MarkConstants;
 import org.test.toolkit.services.zookeeper.operations.CreateNode;
 import org.test.toolkit.services.zookeeper.operations.CreateSequenceNodeOperation;
