@@ -5,6 +5,7 @@ import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 
 public class GetDataOperation extends AbsZookeeperOperation<byte[]> {
+
 	private final String siblePath;
 	private final Stat stat;
 	private final boolean watch;
