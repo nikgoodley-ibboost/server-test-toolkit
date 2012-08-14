@@ -14,7 +14,7 @@ public interface ZookeeperAccess {
 
 	String createEphemeralNode(String path, byte[] data) throws KeeperException, InterruptedException;
 
-	String create(String path, byte data[]) throws KeeperException, InterruptedException;
+	String createPersistentNode(String path, byte data[]) throws KeeperException, InterruptedException;
 
 	List<String> getChildren(String path, boolean watch) throws KeeperException, InterruptedException;
 

@@ -8,24 +8,29 @@ import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.ZooKeeper;
-import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 import org.test.toolkit.constants.MarkConstants;
+import org.test.toolkit.services.zookeeper.operations.CreateNode;
+import org.test.toolkit.services.zookeeper.operations.CreateSequenceNodeOperation;
+import org.test.toolkit.services.zookeeper.operations.DeleteOperation;
+import org.test.toolkit.services.zookeeper.operations.ExistOperation;
+import org.test.toolkit.services.zookeeper.operations.GetChildrenOperation;
+import org.test.toolkit.services.zookeeper.operations.GetDataOperation;
+import org.test.toolkit.services.zookeeper.operations.SetDataOperation;
+import org.test.toolkit.services.zookeeper.operations.ZookeeperOperation;
 
 public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 
 	private static final Logger LOG = Logger.getLogger(ZookeeperAccessImpl.class);
-	private static final List<ACL> acl = ZooDefs.Ids.OPEN_ACL_UNSAFE;
-	private static final int RETRY_TIMES = 2;
+ 	private static final int RETRY_TIMES = 2;
 
 	protected volatile ZooKeeper zookeeper;
 
 	private final String connectString;
 	private final int sessionTimeout;
 	private volatile long sessionId;
- 
+
 	public static ZookeeperAccess getInstance(String connectString, int sessionTimeout) {
 		return new ZookeeperAccessImpl(connectString, sessionTimeout);
 	}
@@ -36,7 +41,7 @@ public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 		this.sessionTimeout = sessionTimeout;
 		createZookeeper(0);
  	}
-	
+
 	private synchronized void createZookeeper(int count) {
 		if (zookeeper == null) {
 			zookeeper = createZK(sessionId);
@@ -100,7 +105,7 @@ public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 		throw exception;
 	}
 
- 
+
 
 	private ZooKeeper createZK(final long sessionId) {
 		ZooKeeper zk = null;
@@ -122,53 +127,18 @@ public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 	@Override
 	public String createSequenceNode(final String parentPath, final String path, final byte[] data)
 			throws KeeperException, InterruptedException {
-		return executeZookeeperOperate(new ZookeeperOperation<String>() {
-			@Override
-			public String execute() throws KeeperException, InterruptedException {
-				if (null == zookeeper.exists(parentPath, false)) {
-					zookeeper.create(parentPath, null, acl, CreateMode.PERSISTENT);
-				}
-				return zookeeper.create(path, data, acl, CreateMode.EPHEMERAL_SEQUENTIAL);
-			}
-
-			@Override
-			public String operationName() {
-				return "createSequenceNode path " + path;
-			}
-
-		});
+		return executeZookeeperOperate(new CreateSequenceNodeOperation(zookeeper,path, parentPath, data));
 	}
 
 	@Override
 	public String createEphemeralNode(final String path, final byte[] data) throws KeeperException,
 			InterruptedException {
-		return executeZookeeperOperate(new ZookeeperOperation<String>() {
-			@Override
-			public String execute() throws KeeperException, InterruptedException {
-				return zookeeper.create(path, data, acl, CreateMode.EPHEMERAL);
-			}
-
-			@Override
-			public String operationName() {
-				return "createEphemeralNode path " + path;
-			}
-
-		});
+		return executeZookeeperOperate(new CreateNode(zookeeper,path, data,CreateMode.EPHEMERAL));
 	}
 
 	@Override
-	public String create(final String path, final byte data[]) throws KeeperException, InterruptedException {
-		return executeZookeeperOperate(new ZookeeperOperation<String>() {
-			@Override
-			public String execute() throws KeeperException, InterruptedException {
-				return zookeeper.create(path, data, acl, CreateMode.PERSISTENT);
-			}
-
-			@Override
-			public String operationName() {
-				return "create path " + path;
-			}
-		});
+	public String createPersistentNode(final String path, final byte data[]) throws KeeperException, InterruptedException {
+		return executeZookeeperOperate(new CreateNode(zookeeper,path, data,CreateMode.PERSISTENT));
 	}
 
 	@Override
@@ -190,24 +160,13 @@ public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 	@Override
 	public List<String> getChildren(final String path, final Watcher watch) throws KeeperException,
 			InterruptedException {
-		return executeZookeeperOperate(new ZookeeperOperation<List<String>>() {
-			@Override
-			public List<String> execute() throws KeeperException, InterruptedException {
-				return zookeeper.getChildren(path, watch);
-			}
-
-			@Override
-			public String operationName() {
-				return "getChildren path: " + path;
-			}
-		});
+		return executeZookeeperOperate(new GetChildrenOperation(zookeeper, path, watch));
 	}
 
 	@Override
 	public long getSessionId() {
 		return zookeeper.getSessionId();
-
-	}
+ 	}
 
 	@Override
 	public boolean isAvalable() {
@@ -226,17 +185,7 @@ public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 
 	@Override
 	public Stat exists(final String path, final Watcher watcher) throws KeeperException, InterruptedException {
-		return executeZookeeperOperate(new ZookeeperOperation<Stat>() {
-			@Override
-			public Stat execute() throws KeeperException, InterruptedException {
-				return zookeeper.exists(path, watcher);
-			}
-
-			@Override
-			public String operationName() {
-				return "exist path: " + path;
-			}
-		});
+		return executeZookeeperOperate(new ExistOperation(zookeeper,path, watcher));
 	}
 
 	@Override
@@ -256,46 +205,15 @@ public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 
 	@Override
 	public void delete(final String path, final int version) throws InterruptedException, KeeperException {
-		executeZookeeperOperate(new ZookeeperOperation<Object>() {
-			@Override
-			public Object execute() throws KeeperException, InterruptedException {
-				zookeeper.delete(path, version);
-				return null;
-			}
-
-			@Override
-			public String operationName() {
-				return "delete path: " + path;
-			}
-		});
+		executeZookeeperOperate(new DeleteOperation(zookeeper,path, version));
 	}
 
 	@Override
 	public Stat setData(final String path, final byte data[], final int version) throws KeeperException,
 			InterruptedException {
-		return executeZookeeperOperate(new ZookeeperOperation<Stat>() {
-			@Override
-			public Stat execute() throws KeeperException, InterruptedException {
-				if (data != null && data.length > 1024 * 1024) {
-					LOG.warn("setData is very large. path=" + path);
-				}
-				return zookeeper.setData(path, data, version);
-			}
-
-			@Override
-			public String operationName() {
-				return "set data path: " + path;
-			}
-		});
+		return executeZookeeperOperate(new SetDataOperation(zookeeper,data, version, path));
 	}
 
-	/**
-	 * Ensures that the given path exists with the given data, ACL and flags
-	 * 
-	 * @param path
-	 * @param acl
-	 * @param flags
-	 */
 	@Override
 	public void ensurePathExists(final String path) throws KeeperException, InterruptedException {
 		Stat state = exists(path, false);
@@ -325,28 +243,16 @@ public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 		}
 		while (!unCreatedPathStack.empty()) {
 			try {
-				create(unCreatedPathStack.pop(), null);
+				createPersistentNode(unCreatedPathStack.pop(), null);
 			} catch (KeeperException.NodeExistsException e) {
 			}
 		}
+ 	}
 
-	}
- 
-
-	@Override
+ 	@Override
 	public byte[] getData(final String siblePath, final boolean watch, final Stat stat)
 			throws KeeperException, InterruptedException {
-		return executeZookeeperOperate(new ZookeeperOperation<byte[]>() {
-			@Override
-			public byte[] execute() throws KeeperException, InterruptedException {
-				return zookeeper.getData(siblePath, watch, stat);
-			}
-
-			@Override
-			public String operationName() {
-				return "get data path: " + siblePath;
-			}
-		});
+		return executeZookeeperOperate(new GetDataOperation(zookeeper,siblePath, stat, watch));
 	}
 
 	@Override
@@ -365,8 +271,7 @@ public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 		});
 	}
 
- 
-	@Override
+ 	@Override
 	public String getConnectStr() {
 		return this.connectString;
 	}
