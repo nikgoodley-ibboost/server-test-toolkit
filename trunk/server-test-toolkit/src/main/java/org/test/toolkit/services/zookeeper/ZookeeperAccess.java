@@ -33,13 +33,13 @@ public interface ZookeeperAccess {
 
 	Stat setData(String path, byte data[], int version) throws KeeperException, InterruptedException;
 
-	void ensurePathExists(String path) throws KeeperException, InterruptedException;
+	void ensurePathExist(String path) throws KeeperException, InterruptedException;
 
 	byte[] getData(String siblePath, boolean watch, Stat stat) throws KeeperException, InterruptedException;
 
 	byte[] getData(String path, Watcher watcher, Stat stat) throws KeeperException, InterruptedException;
 
-	String getConnectStr();
+	String getConnectString();
 
 	void process(WatchedEvent event);
 
