@@ -22,10 +22,14 @@ import org.test.toolkit.services.zookeeper.operations.SetDataOperation;
 import org.test.toolkit.services.zookeeper.operations.ZookeeperOperation;
 import org.test.toolkit.util.PathUtil;
 
+/**
+ * @author fu.jian
+ * @date Aug 15, 2012
+ */
 public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 
 	private static final Logger LOG = Logger.getLogger(ZookeeperAccessImpl.class);
- 	private static final int RETRY_TIMES = 2;
+	private static final int RETRY_TIMES = 2;
 
 	protected volatile ZooKeeper zookeeper;
 
@@ -42,7 +46,7 @@ public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 		this.connectString = connectString;
 		this.sessionTimeout = sessionTimeout;
 		createZookeeper(0);
- 	}
+	}
 
 	private synchronized void createZookeeper(int count) {
 		if (zookeeper == null) {
@@ -88,27 +92,6 @@ public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 		}
 	}
 
-	protected <E> E executeZookeeperOperate(ZookeeperOperation<E> operation) throws KeeperException, InterruptedException {
-		KeeperException exception = null;
-		for (int i = 1; i <= RETRY_TIMES; i++) {
-			try {
-				return operation.execute();
-			} catch (KeeperException e) {
-				if ((e instanceof KeeperException.SessionExpiredException)
-						|| (e instanceof KeeperException.ConnectionLossException)) {
-
-					createZookeeper(i);
-					exception = e;
-				} else {
-					exception = e;
-				}
-			}
-		}
-		throw exception;
-	}
-
-
-
 	private ZooKeeper createZK(final long sessionId) {
 		ZooKeeper zk = null;
 		try {
@@ -129,46 +112,135 @@ public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 	@Override
 	public String createSequenceNode(final String parentPath, final String path, final byte[] data)
 			throws KeeperException, InterruptedException {
-		return executeZookeeperOperate(new CreateSequenceNodeOperation(zookeeper,path, parentPath, data));
+		return executeZookeeperOperate(new CreateSequenceNodeOperation(zookeeper, path, parentPath, data));
 	}
 
 	@Override
 	public String createEphemeralNode(final String path, final byte[] data) throws KeeperException,
 			InterruptedException {
-		return executeZookeeperOperate(new CreateNode(zookeeper,path, data,CreateMode.EPHEMERAL));
+		return executeZookeeperOperate(new CreateNode(zookeeper, path, data, CreateMode.EPHEMERAL));
 	}
 
 	@Override
-	public String createPersistentNode(final String path, final byte data[]) throws KeeperException, InterruptedException {
-		return executeZookeeperOperate(new CreateNode(zookeeper,path, data,CreateMode.PERSISTENT));
+	public <E> E executeZookeeperOperate(ZookeeperOperation<E> operation) throws KeeperException,
+			InterruptedException {
+		KeeperException exception = null;
+		for (int i = 1; i <= RETRY_TIMES; i++) {
+			try {
+				return operation.execute();
+			} catch (KeeperException e) {
+				if ((e instanceof KeeperException.SessionExpiredException)
+						|| (e instanceof KeeperException.ConnectionLossException)) {
+
+					createZookeeper(i);
+					exception = e;
+				} else {
+					exception = e;
+				}
+			}
+		}
+		throw exception;
+	}
+
+	@Override
+	public String createPersistentNode(final String path, final byte data[]) throws KeeperException,
+			InterruptedException {
+		return executeZookeeperOperate(new CreateNode(zookeeper, path, data, CreateMode.PERSISTENT));
 	}
 
 	@Override
 	public List<String> getChildren(final String path, final boolean watch) throws KeeperException,
 			InterruptedException {
-		return executeZookeeperOperate(new ZookeeperOperation<List<String>>() {
-			@Override
-			public List<String> execute() throws KeeperException, InterruptedException {
-				return zookeeper.getChildren(path, watch);
-			}
-
-			@Override
-			public String operationName() {
-				return "getChildren path: " + path;
-			}
-		});
+		return executeZookeeperOperate(new GetChildrenOperation(zookeeper, path, watch));
 	}
 
 	@Override
-	public List<String> getChildren(final String path, final Watcher watch) throws KeeperException,
+	public List<String> getChildren(final String path, final Watcher watcher) throws KeeperException,
 			InterruptedException {
-		return executeZookeeperOperate(new GetChildrenOperation(zookeeper, path, watch));
+		return executeZookeeperOperate(new GetChildrenOperation(zookeeper, path, watcher));
+	}
+
+	@Override
+	public Stat exists(final String path, final Watcher watcher) throws KeeperException, InterruptedException {
+		return executeZookeeperOperate(new ExistOperation(zookeeper, path, watcher));
+	}
+
+	@Override
+	public Stat exists(final String path, final boolean watch) throws KeeperException, InterruptedException {
+		return executeZookeeperOperate(new ExistOperation(zookeeper, path, watch));
+	}
+
+	@Override
+	public void delete(final String path, final int version) throws InterruptedException, KeeperException {
+		executeZookeeperOperate(new DeleteOperation(zookeeper, path, version));
+	}
+
+	@Override
+	public Stat setData(final String path, final byte data[], final int version) throws KeeperException,
+			InterruptedException {
+		return executeZookeeperOperate(new SetDataOperation(zookeeper, data, version, path));
+	}
+
+	@Override
+	public void ensurePathExists(final String path) throws KeeperException, InterruptedException {
+		Stat state = exists(path, false);
+		if (state != null) {
+			return;
+		}
+
+		String tmpPath = PathUtil.formatPath(path);
+		Stack<String> unCreatedPathStack = getUncreatedPath(tmpPath);
+		while (!unCreatedPathStack.empty()) {
+			try {
+				createPersistentNode(unCreatedPathStack.pop(), null);
+			} catch (KeeperException.NodeExistsException e) {
+			}
+		}
+	}
+
+	private Stack<String> getUncreatedPath(String path) throws KeeperException, InterruptedException {
+		Stat state;
+		Stack<String> unCreatedPathStack = new Stack<String>();
+		unCreatedPathStack.push(path);
+		int lastSlashPos = path.lastIndexOf(MarkConstants.SPLIT);
+		while (lastSlashPos != 0) {
+			path = path.substring(0, lastSlashPos);
+			state = exists(path, false);
+			if (state != null) {
+				break;
+			}
+			unCreatedPathStack.push(path);
+			lastSlashPos = path.lastIndexOf(MarkConstants.SPLIT);
+		}
+		return unCreatedPathStack;
+	}
+
+	@Override
+	public byte[] getData(final String path, final boolean watch, final Stat stat) throws KeeperException,
+			InterruptedException {
+		return executeZookeeperOperate(new GetDataOperation(zookeeper, path, watch, stat));
+	}
+
+	@Override
+	public byte[] getData(final String path, final Watcher watcher, final Stat stat) throws KeeperException,
+			InterruptedException {
+		return executeZookeeperOperate(new GetDataOperation(zookeeper, path, watcher, stat));
+	}
+
+	@Override
+	public String getConnectStr() {
+		return this.connectString;
+	}
+
+	@Override
+	public void process(WatchedEvent event) {
+		LOG.info("default wather event: " + event);
 	}
 
 	@Override
 	public long getSessionId() {
 		return zookeeper.getSessionId();
- 	}
+	}
 
 	@Override
 	public boolean isAvalable() {
@@ -183,103 +255,5 @@ public class ZookeeperAccessImpl implements Watcher, ZookeeperAccess {
 			}
 			return normal;
 		}
-	}
-
-	@Override
-	public Stat exists(final String path, final Watcher watcher) throws KeeperException, InterruptedException {
-		return executeZookeeperOperate(new ExistOperation(zookeeper,path, watcher));
-	}
-
-	@Override
-	public Stat exists(final String path, final boolean watcher) throws KeeperException, InterruptedException {
-		return executeZookeeperOperate(new ZookeeperOperation<Stat>() {
-			@Override
-			public Stat execute() throws KeeperException, InterruptedException {
-				return zookeeper.exists(path, watcher);
-			}
-
-			@Override
-			public String operationName() {
-				return "exist path: " + path;
-			}
-		});
-	}
-
-	@Override
-	public void delete(final String path, final int version) throws InterruptedException, KeeperException {
-		executeZookeeperOperate(new DeleteOperation(zookeeper,path, version));
-	}
-
-	@Override
-	public Stat setData(final String path, final byte data[], final int version) throws KeeperException,
-			InterruptedException {
-		return executeZookeeperOperate(new SetDataOperation(zookeeper,data, version, path));
-	}
-
-	@Override
-	public void ensurePathExists(final String path) throws KeeperException, InterruptedException {
-		Stat state = exists(path, false);
-		if (state != null) {
-			return;
-		}
-
-		String tmpPath=PathUtil.formatPath(path);
-		Stack<String> unCreatedPathStack = getUncreatedPath(tmpPath);
-		while (!unCreatedPathStack.empty()) {
-			try {
-				createPersistentNode(unCreatedPathStack.pop(), null);
-			} catch (KeeperException.NodeExistsException e) {
-			}
-		}
- 	}
-
-	private Stack<String> getUncreatedPath(String path) throws KeeperException,
-			InterruptedException {
-		Stat state;
-		Stack<String> unCreatedPathStack = new Stack<String>();
-		unCreatedPathStack.push(path);
-		int lastSlashPos = path.lastIndexOf(MarkConstants.SPLIT);
-		while (lastSlashPos != 0) {
-			path = path.substring(0, lastSlashPos);
- 			state = exists(path, false);
-			if (state != null) {
-				break;
-			}
- 			unCreatedPathStack.push(path);
-			lastSlashPos = path.lastIndexOf(MarkConstants.SPLIT);
-		}
-		return unCreatedPathStack;
-	}
-
- 	@Override
-	public byte[] getData(final String siblePath, final boolean watch, final Stat stat)
-			throws KeeperException, InterruptedException {
-		return executeZookeeperOperate(new GetDataOperation(zookeeper,siblePath, stat, watch));
-	}
-
-	@Override
-	public byte[] getData(final String path, final Watcher watcher, final Stat stat) throws KeeperException,
-			InterruptedException {
-		return executeZookeeperOperate(new ZookeeperOperation<byte[]>() {
-			@Override
-			public byte[] execute() throws KeeperException, InterruptedException {
-				return zookeeper.getData(path, watcher, stat);
-			}
-
-			@Override
-			public String operationName() {
-				return "get data path: " + path;
-			}
-		});
-	}
-
- 	@Override
-	public String getConnectStr() {
-		return this.connectString;
-	}
-
- 	@Override
-	public void process(WatchedEvent event) {
-		LOG.info("default wather event: " + event);
 	}
 }
