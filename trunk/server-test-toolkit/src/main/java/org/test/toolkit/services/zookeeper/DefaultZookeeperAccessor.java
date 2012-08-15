@@ -17,11 +17,11 @@ public class DefaultZookeeperAccessor extends AbstractZookeeperAccessor implemen
 
 	private static final Logger LOGGER = Logger.getLogger(DefaultZookeeperAccessor.class);
 
-	public static ZookeeperOperations getInstance(String connectString, int sessionTimeout) throws IOException {
+	public static ZookeeperOperations getInstance(String connectString, int sessionTimeout) {
 		return new DefaultZookeeperAccessor(connectString, sessionTimeout);
 	}
 
-	private DefaultZookeeperAccessor(String connectString, int sessionTimeout) throws IOException {
+	private DefaultZookeeperAccessor(String connectString, int sessionTimeout){
 		super(connectString, sessionTimeout);
 	}
 

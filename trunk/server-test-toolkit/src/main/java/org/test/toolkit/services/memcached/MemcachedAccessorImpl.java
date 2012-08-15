@@ -14,6 +14,7 @@ import java.util.concurrent.TimeoutException;
 import net.spy.memcached.AddrUtil;
 import net.spy.memcached.MemcachedClient;
 
+import org.test.toolkit.server.common.exception.ServerConnectionException;
 import org.test.toolkit.services.exception.ServiceExecuteException;
 import org.test.toolkit.services.exception.ServiceTimeoutException;
 import org.test.toolkit.util.CollectionUtil;
@@ -24,13 +25,17 @@ public class MemcachedAccessorImpl implements MemcachedAccessor {
 	private final MemcachedClient memcachedClient;
 
 	public MemcachedAccessorImpl(InetSocketAddress atLeastOneInetSocketAddress,
-			InetSocketAddress... otherInetSocketAddresses) throws IOException {
+			InetSocketAddress... otherInetSocketAddresses) {
 		ValidationUtil.checkNull(atLeastOneInetSocketAddress);
 		ValidationUtil.checkNull(otherInetSocketAddresses);
 
 		List<InetSocketAddress> list = CollectionUtil.getList(
 				atLeastOneInetSocketAddress, otherInetSocketAddresses);
-		memcachedClient = new MemcachedClient(list);
+		try {
+			memcachedClient = new MemcachedClient(list);
+		} catch (IOException e) {
+			throw new ServerConnectionException(e.getMessage(), e);
+		}
 	}
 
 	/**
@@ -38,11 +43,14 @@ public class MemcachedAccessorImpl implements MemcachedAccessor {
 	 *            : "host:port host2:port2"
 	 * @throws IOException
 	 */
-	public MemcachedAccessorImpl(String inetSocketAddressString)
-			throws IOException {
+	public MemcachedAccessorImpl(String inetSocketAddressString) {
 		ValidationUtil.checkString(inetSocketAddressString);
-		memcachedClient = new MemcachedClient(
-				AddrUtil.getAddresses(inetSocketAddressString));
+		try {
+			memcachedClient = new MemcachedClient(
+					AddrUtil.getAddresses(inetSocketAddressString));
+		} catch (IOException e) {
+			throw new ServerConnectionException(e.getMessage(), e);
+		}
 	}
 
 	@Override
@@ -119,7 +127,7 @@ public class MemcachedAccessorImpl implements MemcachedAccessor {
 			} catch (Exception e) {
 				failKeys.add(key);
 			}
- 		}
+		}
 		return failKeys;
 	}
 
@@ -128,7 +136,7 @@ public class MemcachedAccessorImpl implements MemcachedAccessor {
 		Future<Boolean> future = memcachedClient.delete(key);
 		try {
 			future.get(timeout, timeUnit);
- 		} catch (TimeoutException e) {
+		} catch (TimeoutException e) {
 			future.cancel(true);
 			throw new ServiceTimeoutException(e.getMessage(), e);
 		} catch (Exception e) {
