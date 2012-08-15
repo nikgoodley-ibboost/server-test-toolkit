@@ -9,13 +9,13 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.test.toolkit.database.exception.DbExecuteException;
 
-public class ToJavabeanListHandle<T> implements ResultSetHandle<List<T>> {
+public class ToJavabeanListHandler<T> implements ResultSetHandler<List<T>> {
 
-	private static final Logger LOGGER = Logger.getLogger(ToJavabeanListHandle.class);
+	private static final Logger LOGGER = Logger.getLogger(ToJavabeanListHandler.class);
 
 	private Class<T> javabeanClass;
 
-	public ToJavabeanListHandle(Class<T> javaBeanClass) {
+	public ToJavabeanListHandler(Class<T> javaBeanClass) {
 		this.javabeanClass = javaBeanClass;
 	}
 
