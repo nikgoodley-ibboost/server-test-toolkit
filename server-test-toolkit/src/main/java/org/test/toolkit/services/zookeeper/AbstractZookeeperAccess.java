@@ -21,9 +21,9 @@ import org.test.toolkit.services.zookeeper.operations.SetDataOperation;
 import org.test.toolkit.services.zookeeper.operations.ZookeeperOperation;
 import org.test.toolkit.util.PathUtil;
 
-public abstract class AbstractZookeeperAccess implements ZookeeperAccess, Watcher {
+public abstract class AbstractZookeeperAccess implements ZookeeperOperations, ZookeeperConnection, Watcher {
 
-	private static final Logger LOGGER = Logger.getLogger(ZookeeperAccessImpl.class);
+	private static final Logger LOGGER = Logger.getLogger(ZookeeperAccess.class);
 
 	protected String connectString;
 	protected int sessionTimeout;
@@ -36,10 +36,7 @@ public abstract class AbstractZookeeperAccess implements ZookeeperAccess, Watche
 		this.zookeeper = createZookeeper(connectString, sessionTimeout, this);
 		this.sessionId = zookeeper.getSessionId();
 	}
-
-	protected abstract ZooKeeper createZookeeper(String connectString, int sessionTimeout, Watcher watcher)
-			throws IOException;
-
+ 
 	@Override
 	public String createSequenceNode(final String parentPath, final String path, final byte[] data)
 			throws KeeperException, InterruptedException {
