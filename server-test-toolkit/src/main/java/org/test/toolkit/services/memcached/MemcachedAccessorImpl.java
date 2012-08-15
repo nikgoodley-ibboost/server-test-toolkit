@@ -18,11 +18,11 @@ import net.spy.memcached.MemcachedClient;
 import org.test.toolkit.util.CollectionUtil;
 import org.test.toolkit.util.ValidationUtil;
 
-public class MemcachedAccessImpl implements MemcachedAccess {
+public class MemcachedAccessorImpl implements MemcachedAccessor {
 
 	private final MemcachedClient memcachedClient;
 
-	public MemcachedAccessImpl(InetSocketAddress atLeastOneInetSocketAddress,
+	public MemcachedAccessorImpl(InetSocketAddress atLeastOneInetSocketAddress,
 			InetSocketAddress... otherInetSocketAddresses) throws IOException {
 		ValidationUtil.checkNull(atLeastOneInetSocketAddress);
 		ValidationUtil.checkNull(otherInetSocketAddresses);
@@ -37,7 +37,7 @@ public class MemcachedAccessImpl implements MemcachedAccess {
 	 *            : "host:port host2:port2"
 	 * @throws IOException
 	 */
-	public MemcachedAccessImpl(String inetSocketAddressString) throws IOException {
+	public MemcachedAccessorImpl(String inetSocketAddressString) throws IOException {
 		ValidationUtil.checkString(inetSocketAddressString);
 		memcachedClient = new MemcachedClient(AddrUtil.getAddresses(inetSocketAddressString));
 	}

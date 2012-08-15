@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import net.spy.memcached.MemcachedClient;
 
-public interface MemcachedAccess {
+public interface MemcachedAccessor {
 
 	MemcachedClient getMemcachedClient();
 
