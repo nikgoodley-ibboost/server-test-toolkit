@@ -20,7 +20,7 @@ public class DbClient extends AbstractDbClient {
 	}
 
 	@Override
-	public <T> T query(String sql, Object[] params, ResultSetHandler<T> resultHandle) {
+	public <T> T query(String sql, Object[] params, ResultSetHandler<T> resultSetHandler) {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try {
@@ -30,7 +30,7 @@ public class DbClient extends AbstractDbClient {
 			}
 			resultSet = preparedStatement.executeQuery();
 
-			return resultHandle.handle(resultSet);
+			return resultSetHandler.handle(resultSet);
 		} catch (SQLException e) {
 			String msg = String.format(LOG_FROMAT_FOR_SQL_EXCEPTION, sql, e.getMessage());
 			throw new DbExecuteException(msg, e);
@@ -41,7 +41,7 @@ public class DbClient extends AbstractDbClient {
 	}
 
 	@Override
-	public <T> T query(String sql, ResultSetHandler<T> resultHandle) {
+	public <T> T query(String sql, ResultSetHandler<T> resultSetHandler) {
 		LOGGER.info("execute sql: " + sql);
 		Statement statement = null;
 		ResultSet resultSet = null;
@@ -49,7 +49,7 @@ public class DbClient extends AbstractDbClient {
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sql);
 
-			return resultHandle.handle(resultSet);
+			return resultSetHandler.handle(resultSet);
 		} catch (SQLException e) {
 			String msg = String.format(LOG_FROMAT_FOR_SQL_EXCEPTION, sql, e.getMessage());
 			throw new DbExecuteException(msg, e);
