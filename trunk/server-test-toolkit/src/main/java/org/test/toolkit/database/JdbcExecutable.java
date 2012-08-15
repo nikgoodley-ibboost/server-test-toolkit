@@ -1,6 +1,6 @@
 package org.test.toolkit.database;
 
-import org.test.toolkit.database.resultset.handle.ResultSetHandle;
+import org.test.toolkit.database.resultset.handle.ResultSetHandler;
 
 /**
  * @author fu.jian
@@ -18,8 +18,8 @@ public interface JdbcExecutable {
 
 	boolean execute(String sql, Object[] params);
 
-	<T> T query(String sql, Object[] params, ResultSetHandle<T> resultHandle);
+	<T> T query(String sql, Object[] params, ResultSetHandler<T> resultHandle);
 
-	<T> T query(String sql, ResultSetHandle<T> resultHandle);
+	<T> T query(String sql, ResultSetHandler<T> resultHandle);
 
 }
