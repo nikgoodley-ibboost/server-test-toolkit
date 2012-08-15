@@ -1,6 +1,6 @@
 package org.test.toolkit.database;
 
-import org.test.toolkit.database.resultset.handle.ResultSetHandler;
+import org.test.toolkit.database.resultset.handler.ResultSetHandler;
 
 /**
  * @author fu.jian
