@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 
-import org.test.toolkit.database.resultset.handle.ToMapListHandler;
+import org.test.toolkit.database.resultset.handler.ToMapListHandler;
 import org.test.toolkit.util.ValidationUtil;
 
 /**
