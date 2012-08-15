@@ -11,20 +11,22 @@ public interface MemcachedAccessor {
 
 	MemcachedClient getMemcachedClient();
 
-	void set(String key, Object value, int cacheTime, long timeout, TimeUnit timeUnit);
+	void set(String key, Object value, int cacheTime, long timeout,
+			TimeUnit timeUnit);
 
-	Object get(String key) throws Exception;
+	Object get(String key);
 
-	Object asyncGet(String key, long timeout, TimeUnit timeUnit) throws Exception;
+	Object asyncGet(String key, long timeout, TimeUnit timeUnit);
 
-	Map<String, Object> getBulk(Collection<String> keys) throws Exception;
+	Map<String, Object> getBulk(Collection<String> keys);
 
-	Map<String, Object> asyncGetBulk(Collection<String> keys, long timeout, TimeUnit timeUnit)
-			throws Exception;
+	Map<String, Object> asyncGetBulk(Collection<String> keys, long timeout,
+			TimeUnit timeUnit);
 
-	List<String> deleteBulk(Collection<String> keys, long timeout, TimeUnit timeUnit);
+	List<String> deleteBulk(Collection<String> keys, long timeout,
+			TimeUnit timeUnit);
 
-	boolean delete(String key, long timeout, TimeUnit timeUnit);
+	void delete(String key, long timeout, TimeUnit timeUnit);
 
 	void flush();
 
