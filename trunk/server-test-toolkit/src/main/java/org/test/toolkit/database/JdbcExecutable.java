@@ -18,8 +18,8 @@ public interface JdbcExecutable {
 
 	boolean execute(String sql, Object[] params);
 
-	<T> T query(String sql, Object[] params, ResultSetHandler<T> resultHandle);
+	<T> T query(String sql, Object[] params, ResultSetHandler<T> resultSetHandler);
 
-	<T> T query(String sql, ResultSetHandler<T> resultHandle);
+	<T> T query(String sql, ResultSetHandler<T> resultSetHandler);
 
 }
