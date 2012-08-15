@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 
-import org.test.toolkit.database.resultset.handle.ToMapListHandle;
+import org.test.toolkit.database.resultset.handle.ToMapListHandler;
 import org.test.toolkit.util.ValidationUtil;
 
 /**
@@ -24,7 +24,7 @@ public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcE
 		ValidationUtil.checkNull(tableName);
 
 		String sqlForTableRecordCount = CommonSql.getSqlForTableRecordCount(tableName);
-		List<HashMap<String, ?>> resultList = query(sqlForTableRecordCount, new ToMapListHandle());
+		List<HashMap<String, ?>> resultList = query(sqlForTableRecordCount, new ToMapListHandler());
 		HashMap<String, ?> hashMap = resultList.get(0);
 		Object object = hashMap.get(SqlConstants.TOTALCOUNT);
 

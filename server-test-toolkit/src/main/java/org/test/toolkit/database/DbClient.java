@@ -8,7 +8,7 @@ import java.sql.Statement;
 import org.apache.log4j.Logger;
 import org.test.toolkit.database.config.DbConfig;
 import org.test.toolkit.database.exception.DbExecuteException;
-import org.test.toolkit.database.resultset.handle.ResultSetHandle;
+import org.test.toolkit.database.resultset.handle.ResultSetHandler;
 
 public class DbClient extends AbstractDbClient {
 
@@ -20,7 +20,7 @@ public class DbClient extends AbstractDbClient {
 	}
 
 	@Override
-	public <T> T query(String sql, Object[] params, ResultSetHandle<T> resultHandle) {
+	public <T> T query(String sql, Object[] params, ResultSetHandler<T> resultHandle) {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try {
@@ -41,7 +41,7 @@ public class DbClient extends AbstractDbClient {
 	}
 
 	@Override
-	public <T> T query(String sql, ResultSetHandle<T> resultHandle) {
+	public <T> T query(String sql, ResultSetHandler<T> resultHandle) {
 		LOGGER.info("execute sql: " + sql);
 		Statement statement = null;
 		ResultSet resultSet = null;
