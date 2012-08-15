@@ -43,9 +43,9 @@ public final class DigestUtil {
 	private static abstract class DigestComputor {
 		private DigestAlgorithm algorithm;
 
-		public DigestComputor(DigestAlgorithm algorithm) {
+		public DigestComputor(DigestAlgorithm digestAlgorithm) {
 			super();
-			this.algorithm = algorithm;
+			this.algorithm = digestAlgorithm;
 		}
 
 		String compute() {
@@ -74,8 +74,8 @@ public final class DigestUtil {
 	private static class ByteBufferDigestComputor extends DigestComputor {
 		private final ByteBuffer byteBuffer;
 
-		public ByteBufferDigestComputor(ByteBuffer byteBuffer, DigestAlgorithm algorithm) {
-			super(algorithm);
+		public ByteBufferDigestComputor(ByteBuffer byteBuffer, DigestAlgorithm digestAlgorithm) {
+			super(digestAlgorithm);
 			this.byteBuffer = byteBuffer;
 		}
 
@@ -88,8 +88,8 @@ public final class DigestUtil {
 	private static class ByteArrayDigestComputor extends DigestComputor {
 		private final byte[] byteArray;
 
-		public ByteArrayDigestComputor(byte[] byteArray, DigestAlgorithm algorithm) {
-			super(algorithm);
+		public ByteArrayDigestComputor(byte[] byteArray, DigestAlgorithm digestAlgorithm) {
+			super(digestAlgorithm);
 			this.byteArray = byteArray;
 		}
 
@@ -102,8 +102,8 @@ public final class DigestUtil {
 	private static class InputStreamDigestComputor extends DigestComputor {
 		private final InputStream inputStream;
 
-		public InputStreamDigestComputor(InputStream inputStream, DigestAlgorithm algorithm) {
-			super(algorithm);
+		public InputStreamDigestComputor(InputStream inputStream, DigestAlgorithm digestAlgorithm) {
+			super(digestAlgorithm);
 			this.inputStream = inputStream;
 		}
 
@@ -121,35 +121,35 @@ public final class DigestUtil {
 		}
 	}
 
-	public static String getDigest(ByteBuffer byteBuffer, DigestAlgorithm algorithm) {
-		return new ByteBufferDigestComputor(byteBuffer, algorithm).compute();
+	public static String getDigest(ByteBuffer byteBuffer, DigestAlgorithm digestAlgorithm) {
+		return new ByteBufferDigestComputor(byteBuffer, digestAlgorithm).compute();
 	}
 
-	public static String getDigest(byte[] byteArray, DigestAlgorithm algorithm) {
-		return new ByteArrayDigestComputor(byteArray, algorithm).compute();
+	public static String getDigest(byte[] byteArray, DigestAlgorithm digestAlgorithm) {
+		return new ByteArrayDigestComputor(byteArray, digestAlgorithm).compute();
 	}
 
 	public static String getDigest(String filePath) throws FileNotFoundException, IOException {
 		return getDigest(filePath, DEFAULT_DIGEST_ALGORITHM);
 	}
 
-	public static String getDigest(String filePath, DigestAlgorithm algorithm)
+	public static String getDigest(String filePath, DigestAlgorithm digestAlgorithm)
 			throws FileNotFoundException, IOException {
 		ValidationUtil.checkString(filePath);
 		BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
 				filePath));
 		try {
-			return getDigest(bufferedInputStream, algorithm);
+			return getDigest(bufferedInputStream, digestAlgorithm);
 		} finally {
 			IOUtils.closeQuietly(bufferedInputStream);
 		}
 	}
 
-	public static String getDigest(InputStream inputStream, DigestAlgorithm algorithm)
+	public static String getDigest(InputStream inputStream, DigestAlgorithm digestAlgorithm)
 			throws IOException {
 		BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
 		try {
-			return new InputStreamDigestComputor(bufferedInputStream, algorithm).compute();
+			return new InputStreamDigestComputor(bufferedInputStream, digestAlgorithm).compute();
 		} catch (RuntimeException runtimeException) {
 			if (runtimeException.getCause() instanceof IOException) {
 				throw (IOException) runtimeException.getCause();
