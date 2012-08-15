@@ -13,15 +13,15 @@ import org.test.toolkit.services.zookeeper.operations.ZookeeperOperation;
  * @author fu.jian
  * @date Aug 15, 2012
  */
-public class ZookeeperAccess extends AbstractZookeeperAccess implements Watcher {
+public class DefaultZookeeperAccessor extends AbstractZookeeperAccessor implements Watcher {
 
-	private static final Logger LOGGER = Logger.getLogger(ZookeeperAccess.class);
+	private static final Logger LOGGER = Logger.getLogger(DefaultZookeeperAccessor.class);
 
 	public static ZookeeperOperations getInstance(String connectString, int sessionTimeout) throws IOException {
-		return new ZookeeperAccess(connectString, sessionTimeout);
+		return new DefaultZookeeperAccessor(connectString, sessionTimeout);
 	}
 
-	private ZookeeperAccess(String connectString, int sessionTimeout) throws IOException {
+	private DefaultZookeeperAccessor(String connectString, int sessionTimeout) throws IOException {
 		super(connectString, sessionTimeout);
 	}
 

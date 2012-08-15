@@ -21,16 +21,16 @@ import org.test.toolkit.services.zookeeper.operations.SetDataOperation;
 import org.test.toolkit.services.zookeeper.operations.ZookeeperOperation;
 import org.test.toolkit.util.PathUtil;
 
-public abstract class AbstractZookeeperAccess implements ZookeeperOperations, ZookeeperConnection, Watcher {
+public abstract class AbstractZookeeperAccessor implements ZookeeperOperations, ZookeeperConnection, Watcher {
 
-	private static final Logger LOGGER = Logger.getLogger(ZookeeperAccess.class);
+	private static final Logger LOGGER = Logger.getLogger(DefaultZookeeperAccessor.class);
 
 	protected String connectString;
 	protected int sessionTimeout;
 	protected ZooKeeper zookeeper;
 	protected long sessionId;
 
-	protected AbstractZookeeperAccess(String connectString, int sessionTimeout) throws IOException {
+	protected AbstractZookeeperAccessor(String connectString, int sessionTimeout) throws IOException {
 		this.connectString = connectString;
 		this.sessionTimeout = sessionTimeout;
 		this.zookeeper = createZookeeper(connectString, sessionTimeout, this);
