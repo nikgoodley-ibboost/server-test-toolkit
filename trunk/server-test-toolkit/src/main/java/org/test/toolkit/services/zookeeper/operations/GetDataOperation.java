@@ -1,29 +1,41 @@
 package org.test.toolkit.services.zookeeper.operations;
 
 import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 
-public class GetDataOperation extends AbsZookeeperOperation<byte[]> {
+/**
+ * @author fu.jian
+ * @date Aug 15, 2012
+ */
+public class GetDataOperation extends AbsZookeeperOperationWithWatcher<byte[]> {
 
-	private final String siblePath;
+	private final String path;
 	private final Stat stat;
-	private final boolean watch;
 
-	public GetDataOperation(ZooKeeper zookeeper,String siblePath, Stat stat, boolean watch) {
-		super(zookeeper);
-		this.siblePath = siblePath;
+	public GetDataOperation(ZooKeeper zookeeper, String path, boolean watch, Stat stat) {
+		super(zookeeper, watch);
+		this.path = path;
 		this.stat = stat;
-		this.watch = watch;
+	}
+
+	public GetDataOperation(ZooKeeper zookeeper, String path, Watcher watcher, Stat stat) {
+		super(zookeeper, watcher);
+		this.path = path;
+		this.stat = stat;
 	}
 
 	@Override
 	public byte[] execute() throws KeeperException, InterruptedException {
-		return zookeeper.getData(siblePath, watch, stat);
+		if (hasExplicitWatcher)
+			return zookeeper.getData(path, watcher, stat);
+		
+		return zookeeper.getData(path, watch, stat);
 	}
 
 	@Override
 	public String operationName() {
-		return "get data path: " + siblePath;
+		return "get data path: " + path;
 	}
 }
