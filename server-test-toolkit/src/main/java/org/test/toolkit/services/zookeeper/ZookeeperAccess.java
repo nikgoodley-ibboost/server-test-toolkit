@@ -6,6 +6,7 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.data.Stat;
+import org.test.toolkit.services.zookeeper.operations.ZookeeperOperation;
 
 public interface ZookeeperAccess {
 
@@ -41,5 +42,7 @@ public interface ZookeeperAccess {
 	String getConnectStr();
 
 	void process(WatchedEvent event);
+
+	<T> T executeZookeeperOperate(ZookeeperOperation<T> operation) throws KeeperException, InterruptedException;
 
 }
