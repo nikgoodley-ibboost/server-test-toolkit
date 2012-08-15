@@ -6,19 +6,25 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 
-public class GetChildrenOperation extends AbsZookeeperOperation<List<String>> {
+public class GetChildrenOperation extends AbsZookeeperOperationWithWatcher<List<String>> {
 
 	private final String path;
-	private final Watcher watch;
 
-	public GetChildrenOperation(ZooKeeper zookeeper,String path, Watcher watch) {
-		super(zookeeper);
+	public GetChildrenOperation(ZooKeeper zookeeper, String path, Watcher watcher) {
+		super(zookeeper, watcher);
 		this.path = path;
-		this.watch = watch;
+	}
+
+	public GetChildrenOperation(ZooKeeper zookeeper, String path, boolean watch) {
+		super(zookeeper, watch);
+		this.path = path;
 	}
 
 	@Override
 	public List<String> execute() throws KeeperException, InterruptedException {
+		if (hasExplicitWatcher)
+			return zookeeper.getChildren(path, watcher);
+
 		return zookeeper.getChildren(path, watch);
 	}
 
