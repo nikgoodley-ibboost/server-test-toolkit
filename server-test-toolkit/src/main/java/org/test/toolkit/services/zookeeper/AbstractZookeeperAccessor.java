@@ -9,6 +9,7 @@ import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.test.toolkit.constants.MarkConstants;
+import org.test.toolkit.server.common.exception.ServerConnectionException;
 import org.test.toolkit.services.zookeeper.operations.CreateNode;
 import org.test.toolkit.services.zookeeper.operations.CreateSequenceNodeOperation;
 import org.test.toolkit.services.zookeeper.operations.DeleteOperation;
@@ -28,10 +29,14 @@ public abstract class AbstractZookeeperAccessor implements ZookeeperOperations,
 	protected long sessionId;
 
 	protected AbstractZookeeperAccessor(String connectString, int sessionTimeout)
-			throws IOException {
+			{
 		this.connectString = connectString;
 		this.sessionTimeout = sessionTimeout;
-		this.zookeeper = createZookeeper(connectString, sessionTimeout, this);
+		try {
+			this.zookeeper = createZookeeper(connectString, sessionTimeout, this);
+		} catch (IOException e) {
+			throw new ServerConnectionException(e.getMessage(),e);
+ 		}
 		this.sessionId = zookeeper.getSessionId();
 	}
 
