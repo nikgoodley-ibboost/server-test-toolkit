@@ -3,10 +3,10 @@ package org.test.toolkit.services.zookeeper;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
-import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
+import org.test.toolkit.services.exception.ServiceExecuteException;
 import org.test.toolkit.services.zookeeper.operations.ZookeeperOperation;
 
 /**
@@ -36,9 +36,12 @@ public class DefaultZookeeperAccessor extends AbstractZookeeperAccessor implemen
 	}
 
 	@Override
-	public <E> E executeZookeeperOperate(ZookeeperOperation<E> operation) throws KeeperException,
-			InterruptedException {
-		return operation.execute();
+	public <E> E executeZookeeperOperate(ZookeeperOperation<E> operation){
+		try {
+			return operation.execute();
+		} catch (Exception e) {
+			throw new ServiceExecuteException(e.getMessage(),e);
+ 		}
 	}
 
 }
