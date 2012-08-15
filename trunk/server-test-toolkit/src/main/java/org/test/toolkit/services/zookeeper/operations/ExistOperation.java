@@ -5,19 +5,26 @@ import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 
-public class ExistOperation extends AbsZookeeperOperation<Stat> {
-	private final String path;
-	private final Watcher watcher;
+public class ExistOperation extends AbsZookeeperOperationWithWatcher<Stat> {
 
-	public ExistOperation(ZooKeeper zookeeper,String path, Watcher watcher) {
-		super(zookeeper);
+	private final String path;
+
+	public ExistOperation(ZooKeeper zookeeper, String path, Watcher watcher) {
+		super(zookeeper, watcher);
 		this.path = path;
-		this.watcher = watcher;
+	}
+
+	public ExistOperation(ZooKeeper zookeeper, String path, boolean watch) {
+		super(zookeeper, watch);
+		this.path = path;
 	}
 
 	@Override
 	public Stat execute() throws KeeperException, InterruptedException {
-		return zookeeper.exists(path, watcher);
+		if (hasExplicitWatcher)
+			return zookeeper.exists(path, watcher);
+
+		return zookeeper.exists(path, watch);
 	}
 
 	@Override
