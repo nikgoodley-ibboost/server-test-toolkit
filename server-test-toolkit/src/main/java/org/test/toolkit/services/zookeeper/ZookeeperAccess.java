@@ -1,48 +1,44 @@
 package org.test.toolkit.services.zookeeper;
 
-import java.util.List;
+import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.data.Stat;
+import org.apache.zookeeper.ZooKeeper;
 import org.test.toolkit.services.zookeeper.operations.ZookeeperOperation;
 
-public interface ZookeeperAccess {
+/**
+ * @author fu.jian
+ * @date Aug 15, 2012
+ */
+public class ZookeeperAccess extends AbstractZookeeperAccess implements Watcher {
 
-	String createSequenceNode(String parentPath, String path, byte[] data) throws KeeperException,
-			InterruptedException;
+	private static final Logger LOGGER = Logger.getLogger(ZookeeperAccess.class);
 
-	String createEphemeralNode(String path, byte[] data) throws KeeperException, InterruptedException;
+	public static ZookeeperOperations getInstance(String connectString, int sessionTimeout) throws IOException {
+		return new ZookeeperAccess(connectString, sessionTimeout);
+	}
 
-	String createPersistentNode(String path, byte data[]) throws KeeperException, InterruptedException;
+	private ZookeeperAccess(String connectString, int sessionTimeout) throws IOException {
+		super(connectString, sessionTimeout);
+	}
 
-	List<String> getChildren(String path, boolean watch) throws KeeperException, InterruptedException;
+	public ZooKeeper createZookeeper(String connectString, int sessionTimeout, Watcher watcher)
+			throws IOException {
+		return new ZooKeeper(connectString, sessionTimeout, watcher);
+	}
 
-	List<String> getChildren(String path, Watcher watch) throws KeeperException, InterruptedException;
+	@Override
+	public void process(WatchedEvent event) {
+		LOGGER.info("proccess default wather event: " + event);
+	}
 
-	long getSessionId();
-
-	boolean isAvalable();
-
-	Stat exists(String path, Watcher watcher) throws KeeperException, InterruptedException;
-
-	Stat exists(String path, boolean watcher) throws KeeperException, InterruptedException;
-
-	void delete(String path, int version) throws InterruptedException, KeeperException;
-
-	Stat setData(String path, byte data[], int version) throws KeeperException, InterruptedException;
-
-	void ensurePathExist(String path) throws KeeperException, InterruptedException;
-
-	byte[] getData(String siblePath, boolean watch, Stat stat) throws KeeperException, InterruptedException;
-
-	byte[] getData(String path, Watcher watcher, Stat stat) throws KeeperException, InterruptedException;
-
-	String getConnectString();
-
-	void process(WatchedEvent event);
-
-	<T> T executeZookeeperOperate(ZookeeperOperation<T> operation) throws KeeperException, InterruptedException;
+	@Override
+	public <E> E executeZookeeperOperate(ZookeeperOperation<E> operation) throws KeeperException,
+			InterruptedException {
+		return operation.execute();
+	}
 
 }
