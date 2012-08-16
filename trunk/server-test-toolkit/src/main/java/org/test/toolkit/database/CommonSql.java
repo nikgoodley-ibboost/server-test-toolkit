@@ -7,6 +7,9 @@ import org.test.toolkit.util.ValidationUtil;
 
 public class CommonSql {
 
+	/**
+	 * {@value}
+	 */
 	private static final String SQL_FORMAT_FOR_TABLE_RECORD_COUNT = StringUtil.concatWithSpace(
 			SELECT, TOTALCOUNT, FROM, "%s");
 
