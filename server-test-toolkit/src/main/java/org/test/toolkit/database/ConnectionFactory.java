@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import org.test.toolkit.database.config.DbConfig;
 import org.test.toolkit.database.exception.DbConfigException;
 import org.test.toolkit.database.exception.DbConnectionException;
-import org.test.toolkit.multithread.AbstractCacheAccess;
+import org.test.toolkit.multithread.AbstractCacheAccessor;
 import org.test.toolkit.util.StringUtil;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -55,7 +55,7 @@ public class ConnectionFactory {
 
 	private static ComboPooledDataSource getComboPooledDataSource(final DbConfig dbConfig,
 			final ComboPooledDataSource comboPooledDataSource) {
-		AbstractCacheAccess<String, ComboPooledDataSource> abstractCacheAccess = new AbstractCacheAccess<String, ComboPooledDataSource>(
+		AbstractCacheAccessor<String, ComboPooledDataSource> abstractCacheAccess = new AbstractCacheAccessor<String, ComboPooledDataSource>(
 				dbConfigDataSourceMap) {
 			@Override
 			protected ComboPooledDataSource createValue() {
@@ -66,7 +66,7 @@ public class ConnectionFactory {
 		};
 		String keyForDbConfigDataSourceMap = dbConfig == null ? getKeyForDbConfigDataSourceMap(comboPooledDataSource)
 				: getKeyForDbConfigDataSourceMap(dbConfig);
-		return abstractCacheAccess.getObject(keyForDbConfigDataSourceMap, configNameDataSourceMap);
+		return abstractCacheAccess.getValue(keyForDbConfigDataSourceMap, configNameDataSourceMap);
 	}
 
 	private static String getKeyForDbConfigDataSourceMap(DbConfig dbConfig) {
@@ -106,7 +106,7 @@ public class ConnectionFactory {
 
 	private static ComboPooledDataSource getComboPooledDataSource(final String configName,
 			final String configPath) {
-		AbstractCacheAccess<String, ComboPooledDataSource> abstractCacheAccess = new AbstractCacheAccess<String, ComboPooledDataSource>(
+		AbstractCacheAccessor<String, ComboPooledDataSource> abstractCacheAccess = new AbstractCacheAccessor<String, ComboPooledDataSource>(
 				dbConfigDataSourceMap) {
 
 			@Override
@@ -117,7 +117,7 @@ public class ConnectionFactory {
 			}
 		};
 
-		return abstractCacheAccess.getObject(
+		return abstractCacheAccess.getValue(
 				getKeyForConfigNameDataSourceMap(configName, configPath), configNameDataSourceMap);
 
 	}
