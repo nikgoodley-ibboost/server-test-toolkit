@@ -36,7 +36,7 @@ public class DbConfig {
 	protected boolean testConnectionOnCheckin;
 	protected boolean testConnectionOnCheckout;
 
-	protected DbConfig() {
+	public DbConfig() {
 		super();
 	}
 
