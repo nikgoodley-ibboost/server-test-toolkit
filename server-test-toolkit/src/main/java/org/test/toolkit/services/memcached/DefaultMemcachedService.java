@@ -25,20 +25,20 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 
 	private final MemcachedClient memcachedClient;
 
-	private static abstract class GetFuture<M, N> {
+	private static abstract class AbstractFutureResult<M, N> {
 
 		protected Future<M> future;
 		protected long timeout;
 		protected TimeUnit timeUnit;
 
-		protected GetFuture(Future<M> future, long timeout, TimeUnit timeUnit) {
+		protected AbstractFutureResult(Future<M> future, long timeout, TimeUnit timeUnit) {
 			super();
 			this.future = future;
 			this.timeout = timeout;
 			this.timeUnit = timeUnit;
 		}
 
-		protected N get() {
+		protected N getResult() {
 			try {
 				return execute();
 			} catch (TimeoutException e) {
@@ -49,33 +49,43 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 			}
 		}
 
-		protected abstract N execute() throws TimeoutException,
-				InterruptedException, ExecutionException;
+		protected abstract N execute() throws TimeoutException, InterruptedException, ExecutionException;
 	}
 
-	private static class DefaultGetFuture<T> extends GetFuture<T, T> {
+	private static class DefaultFutureResult<T> extends AbstractFutureResult<T, T> {
 
-		protected DefaultGetFuture(Future<T> future, long timeout,
-				TimeUnit timeUnit) {
+		protected DefaultFutureResult(Future<T> future, long timeout, TimeUnit timeUnit) {
 			super(future, timeout, timeUnit);
 		}
 
 		@Override
-		protected T execute() throws TimeoutException, InterruptedException,
-				ExecutionException {
+		protected T execute() throws TimeoutException, InterruptedException, ExecutionException {
 			return future.get(timeout, timeUnit);
 		}
 
 	}
 
-	public DefaultMemcachedService(
-			InetSocketAddress atLeastOneInetSocketAddress,
+	public static DefaultMemcachedService getInstance(InetSocketAddress atLeastOneInetSocketAddress,
+			InetSocketAddress... otherInetSocketAddresses) {
+		return new DefaultMemcachedService(atLeastOneInetSocketAddress, otherInetSocketAddresses);
+	}
+
+	/**
+	 * @param inetSocketAddressString
+	 *            :<b>"host:port host2:port2"</b>
+	 * @return
+	 */
+	public static DefaultMemcachedService getInstance(String inetSocketAddressString) {
+		return new DefaultMemcachedService(inetSocketAddressString);
+	}
+
+	private DefaultMemcachedService(InetSocketAddress atLeastOneInetSocketAddress,
 			InetSocketAddress... otherInetSocketAddresses) {
 		ValidationUtil.checkNull(atLeastOneInetSocketAddress);
 		ValidationUtil.checkNull(otherInetSocketAddresses);
 
-		List<InetSocketAddress> list = CollectionUtil.getList(
-				atLeastOneInetSocketAddress, otherInetSocketAddresses);
+		List<InetSocketAddress> list = CollectionUtil.getList(atLeastOneInetSocketAddress,
+				otherInetSocketAddresses);
 		try {
 			memcachedClient = new MemcachedClient(list);
 		} catch (IOException e) {
@@ -85,14 +95,13 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 
 	/**
 	 * @param inetSocketAddressString
-	 *            : "host:port host2:port2"
+	 *            :<b>"host:port host2:port2"</b>
 	 * @throws IOException
 	 */
-	public DefaultMemcachedService(String inetSocketAddressString) {
+	private DefaultMemcachedService(String inetSocketAddressString) {
 		ValidationUtil.checkString(inetSocketAddressString);
 		try {
-			memcachedClient = new MemcachedClient(
-					AddrUtil.getAddresses(inetSocketAddressString));
+			memcachedClient = new MemcachedClient(AddrUtil.getAddresses(inetSocketAddressString));
 		} catch (IOException e) {
 			throw new ServerConnectionException(e.getMessage(), e);
 		}
@@ -104,11 +113,10 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 	}
 
 	@Override
-	public void set(String key, Object value, int cacheTime, long timeout,
-			TimeUnit timeUnit) {
+	public void set(String key, Object value, int cacheTime, long timeout, TimeUnit timeUnit) {
 		Future<Boolean> future = memcachedClient.set(key, cacheTime, value);
- 		new DefaultGetFuture<Boolean>(future, timeout, timeUnit).get();
- 	}
+		new DefaultFutureResult<Boolean>(future, timeout, timeUnit).getResult();
+	}
 
 	@Override
 	public Object get(String key) {
@@ -117,16 +125,9 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 
 	@Override
 	public Object asyncGet(String key, long timeout, TimeUnit timeUnit) {
-		Future<Object> f = memcachedClient.asyncGet(key);
-		try {
-			Object value = f.get(timeout, timeUnit);
-			return value;
-		} catch (TimeoutException e) {
-			f.cancel(true);
-			throw new ServiceTimeoutException(e.getMessage(), e);
-		} catch (Exception e) {
-			throw new ServiceExecuteException(e.getMessage(), e);
-		}
+		Future<Object> future = memcachedClient.asyncGet(key);
+		return new DefaultFutureResult<Object>(future, timeout, timeUnit).getResult();
+
 	}
 
 	@Override
@@ -135,29 +136,27 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 	}
 
 	@Override
-	public Map<String, Object> asyncGetBulk(Collection<String> keys,
-			long timeout, TimeUnit timeUnit) {
-		Map<String, Object> returnMap = new HashMap<String, Object>();
-		Map<String, Object> myObj = null;
+	public Map<String, Object> asyncGetBulk(final Collection<String> keys, long timeout, TimeUnit timeUnit) {
 		Future<Map<String, Object>> future = memcachedClient.asyncGetBulk(keys);
-		try {
-			myObj = future.get(timeout, timeUnit);
-			for (String key : keys) {
-				returnMap.put(key, myObj.get(key));
+
+		return new AbstractFutureResult<Map<String, Object>, Map<String, Object>>(future, timeout, timeUnit) {
+
+			@Override
+			protected Map<String, Object> execute() throws TimeoutException, InterruptedException,
+					ExecutionException {
+				Map<String, Object> result = future.get(timeout, timeUnit);
+				Map<String, Object> returnMap = new HashMap<String, Object>();
+				for (String key : keys) {
+					returnMap.put(key, result.get(key));
+				}
+				return returnMap;
 			}
-			return returnMap;
-		} catch (TimeoutException e) {
-			future.cancel(true);
-			throw new ServiceTimeoutException(e.getMessage(), e);
-		} catch (Exception e) {
-			throw new ServiceExecuteException(e.getMessage(), e);
-		}
+		}.getResult();
 
 	}
 
 	@Override
-	public List<String> deleteBulk(Collection<String> keys, long timeout,
-			TimeUnit timeUnit) {
+	public List<String> deleteBulk(Collection<String> keys, long timeout, TimeUnit timeUnit) {
 		List<String> failKeys = new ArrayList<String>();
 		for (String key : keys) {
 			try {
@@ -172,14 +171,8 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 	@Override
 	public void delete(String key, long timeout, TimeUnit timeUnit) {
 		Future<Boolean> future = memcachedClient.delete(key);
-		try {
-			future.get(timeout, timeUnit);
-		} catch (TimeoutException e) {
-			future.cancel(true);
-			throw new ServiceTimeoutException(e.getMessage(), e);
-		} catch (Exception e) {
-			throw new ServiceExecuteException(e.getMessage(), e);
-		}
+		new DefaultFutureResult<Boolean>(future, timeout, timeUnit).getResult();
+
 	}
 
 	@Override
