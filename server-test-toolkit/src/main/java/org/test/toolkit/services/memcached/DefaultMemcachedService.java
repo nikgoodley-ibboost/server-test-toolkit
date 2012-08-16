@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -24,7 +25,51 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 
 	private final MemcachedClient memcachedClient;
 
-	public DefaultMemcachedService(InetSocketAddress atLeastOneInetSocketAddress,
+	private static abstract class GetFuture<M, N> {
+
+		protected Future<M> future;
+		protected long timeout;
+		protected TimeUnit timeUnit;
+
+		protected GetFuture(Future<M> future, long timeout, TimeUnit timeUnit) {
+			super();
+			this.future = future;
+			this.timeout = timeout;
+			this.timeUnit = timeUnit;
+		}
+
+		protected N get() {
+			try {
+				return execute();
+			} catch (TimeoutException e) {
+				future.cancel(true);
+				throw new ServiceTimeoutException(e.getMessage(), e);
+			} catch (Exception e) {
+				throw new ServiceExecuteException(e.getMessage(), e);
+			}
+		}
+
+		protected abstract N execute() throws TimeoutException,
+				InterruptedException, ExecutionException;
+	}
+
+	private static class DefaultGetFuture<T> extends GetFuture<T, T> {
+
+		protected DefaultGetFuture(Future<T> future, long timeout,
+				TimeUnit timeUnit) {
+			super(future, timeout, timeUnit);
+		}
+
+		@Override
+		protected T execute() throws TimeoutException, InterruptedException,
+				ExecutionException {
+			return future.get(timeout, timeUnit);
+		}
+
+	}
+
+	public DefaultMemcachedService(
+			InetSocketAddress atLeastOneInetSocketAddress,
 			InetSocketAddress... otherInetSocketAddresses) {
 		ValidationUtil.checkNull(atLeastOneInetSocketAddress);
 		ValidationUtil.checkNull(otherInetSocketAddresses);
@@ -62,15 +107,8 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 	public void set(String key, Object value, int cacheTime, long timeout,
 			TimeUnit timeUnit) {
 		Future<Boolean> future = memcachedClient.set(key, cacheTime, value);
-		try {
-			future.get(timeout, timeUnit);
-		} catch (TimeoutException e) {
-			future.cancel(true);
-			throw new ServiceTimeoutException(e.getMessage(), e);
-		} catch (Exception e) {
-			throw new ServiceExecuteException(e.getMessage(), e);
-		}
-	}
+ 		new DefaultGetFuture<Boolean>(future, timeout, timeUnit).get();
+ 	}
 
 	@Override
 	public Object get(String key) {
