@@ -279,6 +279,7 @@ public class DbConfig {
 		builder.append(", testConnectionOnCheckout=");
 		builder.append(testConnectionOnCheckout);
 		builder.append("]");
+		
 		return builder.toString();
 	}
 }
