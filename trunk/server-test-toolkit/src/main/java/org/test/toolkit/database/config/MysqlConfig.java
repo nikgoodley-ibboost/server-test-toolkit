@@ -2,6 +2,9 @@ package org.test.toolkit.database.config;
 
 public class MysqlConfig extends DbConfig {
 
+	/**
+	 * {@value}
+	 */
 	private static final String JDBC_DRIVER_FOR_MYSQL = "com.mysql.jdbc.Driver";
 
 	public MysqlConfig(String url, String username, String password) {

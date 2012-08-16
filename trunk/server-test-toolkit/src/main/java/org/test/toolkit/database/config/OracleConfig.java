@@ -2,6 +2,9 @@ package org.test.toolkit.database.config;
 
 public class OracleConfig extends DbConfig {
 
+	/**
+	 * {@value}
+	 */
 	private static final String JDBC_DRIVER_FOR_ORACLE = "oracle.jdbc.driver.OracleDriver";
 
 	public OracleConfig(String url, String username, String password) {
