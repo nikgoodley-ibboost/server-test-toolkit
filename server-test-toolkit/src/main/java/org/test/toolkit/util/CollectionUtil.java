@@ -10,7 +10,7 @@ import java.util.List;
  */
 public final class CollectionUtil {
 
-	public static <T> List<T> getList(T atLeastOneT, T... otherTs) {
+	public static <T> List<T> toList(T atLeastOneT, T... otherTs) {
 		ArrayList<T> allTs = new ArrayList<T>(Arrays.asList(otherTs));
 		allTs.add(atLeastOneT);
 
