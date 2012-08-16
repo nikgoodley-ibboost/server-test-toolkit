@@ -21,7 +21,7 @@ public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcE
 	}
 
 	/**
-	 * @param tableName
+ 	 * @param tableName
 	 * @return all records count for the <code>tableName</code>
 	 */
 	public long getTotalCount(String tableName) {
