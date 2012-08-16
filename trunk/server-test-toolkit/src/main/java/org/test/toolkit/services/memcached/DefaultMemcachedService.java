@@ -84,7 +84,7 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 		ValidationUtil.checkNull(atLeastOneInetSocketAddress);
 		ValidationUtil.checkNull(otherInetSocketAddresses);
 
-		List<InetSocketAddress> list = CollectionUtil.getList(atLeastOneInetSocketAddress,
+		List<InetSocketAddress> list = CollectionUtil.toList(atLeastOneInetSocketAddress,
 				otherInetSocketAddresses);
 		try {
 			memcachedClient = new MemcachedClient(list);

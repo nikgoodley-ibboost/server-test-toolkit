@@ -112,7 +112,7 @@ public abstract class AbstractServerOperations implements ServerOperations {
 
 	@Override
 	public void blockConnectionsWithIp(boolean isOutput, String atLeastOneIp, String... otherIps) {
-		List<String> allIps = CollectionUtil.getList(atLeastOneIp, otherIps);
+		List<String> allIps = CollectionUtil.toList(atLeastOneIp, otherIps);
 
 		for (String ip : allIps) {
 			Command command = Iptable.newInstanceForBlockConnections(isOutput, ip);

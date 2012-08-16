@@ -113,7 +113,7 @@ public final class ValidationUtil {
 	}
 
 	public static void checkNull(Object atLeastOneObject, Object... otherObjects) {
-		List<Object> list = CollectionUtil.getList(atLeastOneObject, otherObjects);
+		List<Object> list = CollectionUtil.toList(atLeastOneObject, otherObjects);
 		for (Object object : list)
 			if (isNull(object)) {
 				throw new IllegalArgumentException("null object");

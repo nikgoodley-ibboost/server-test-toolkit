@@ -46,7 +46,7 @@ public class SshServerOperations extends AbstractServerOperations {
 
 	private SshServerOperations(SshUser atLeastOneSshUser, SshUser... otherSshUsers) {
 		ValidationUtil.checkNull(atLeastOneSshUser);
-		allSshUsers = CollectionUtil.getList(atLeastOneSshUser, otherSshUsers);
+		allSshUsers = CollectionUtil.toList(atLeastOneSshUser, otherSshUsers);
 		connect();
 	}
 
