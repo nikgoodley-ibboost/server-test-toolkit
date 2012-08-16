@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import org.test.toolkit.database.config.DbConfig;
 import org.test.toolkit.database.exception.DbConfigException;
 import org.test.toolkit.database.exception.DbConnectionException;
-import org.test.toolkit.multithread.AbstractCacheAccessor;
+import org.test.toolkit.multithread.AbstractSynchronizedCacheAccessor;
 import org.test.toolkit.util.StringUtil;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -55,7 +55,7 @@ public class ConnectionFactory {
 
 	private static ComboPooledDataSource getComboPooledDataSource(final DbConfig dbConfig,
 			final ComboPooledDataSource comboPooledDataSource) {
-		AbstractCacheAccessor<String, ComboPooledDataSource> abstractCacheAccess = new AbstractCacheAccessor<String, ComboPooledDataSource>(
+		AbstractSynchronizedCacheAccessor<String, ComboPooledDataSource> abstractCacheAccess = new AbstractSynchronizedCacheAccessor<String, ComboPooledDataSource>(
 				dbConfigDataSourceMap) {
 			@Override
 			protected ComboPooledDataSource createValue() {
@@ -106,7 +106,7 @@ public class ConnectionFactory {
 
 	private static ComboPooledDataSource getComboPooledDataSource(final String configName,
 			final String configPath) {
-		AbstractCacheAccessor<String, ComboPooledDataSource> abstractCacheAccess = new AbstractCacheAccessor<String, ComboPooledDataSource>(
+		AbstractSynchronizedCacheAccessor<String, ComboPooledDataSource> abstractCacheAccess = new AbstractSynchronizedCacheAccessor<String, ComboPooledDataSource>(
 				dbConfigDataSourceMap) {
 
 			@Override

@@ -2,11 +2,11 @@ package org.test.toolkit.multithread;
 
 import java.util.Map;
 
-public abstract class AbstractCacheAccessor<K, V> {
+public abstract class AbstractSynchronizedCacheAccessor<K, V> {
 
 	private volatile Map<K, V> map;
 
-	protected AbstractCacheAccessor(Map<K, V> map) {
+	protected AbstractSynchronizedCacheAccessor(Map<K, V> map) {
 		super();
 		this.map = map;
 	}
