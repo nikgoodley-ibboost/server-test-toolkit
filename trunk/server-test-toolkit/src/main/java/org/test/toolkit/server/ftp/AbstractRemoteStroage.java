@@ -30,7 +30,7 @@ public abstract class AbstractRemoteStroage implements RemoteStorage {
 	public void getFile(String storagePath, String localFilePath) {
 		InputStream inputStream = getFile(storagePath);
 		try {
-			IoUtil.InputStreamToFile(inputStream, localFilePath);
+			IoUtil.inputStreamToFile(inputStream, localFilePath);
  		} catch (Exception e) {
  			String message = e.getMessage();
 			LOGGER.error(message,e);

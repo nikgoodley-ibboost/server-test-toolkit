@@ -11,12 +11,12 @@ public final class IoUtil {
 
  	/**
 	 * @param inputStream
-	 * @param localFilePath
+	 * @param filePath
 	 * @throws IOException
 	 */
-	public static void InputStreamToFile(InputStream inputStream, String localFilePath)
+	public static void inputStreamToFile(InputStream inputStream, String filePath)
 			throws IOException {
-		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(localFilePath));
+		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(filePath));
 		try {
 			IOUtils.copy(inputStream, bufferedOutputStream);
 		} finally{
