@@ -20,6 +20,10 @@ public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcE
 		this.connection = connection;
 	}
 
+	/**
+	 * @param tableName
+	 * @return all records count for the <code>tableName</code>
+	 */
 	public long getTotalCount(String tableName) {
 		ValidationUtil.checkNull(tableName);
 
