@@ -40,7 +40,7 @@ public class DbConfig {
 		super();
 	}
 
-	protected DbConfig(String driverClass, String jdbcUrl, String user, String password) {
+	public DbConfig(String driverClass, String jdbcUrl, String user, String password) {
 		super();
 		this.driverClass = driverClass;
 		this.jdbcUrl = jdbcUrl;
