@@ -9,15 +9,12 @@ import org.test.toolkit.util.ValidationUtil;
 
 public class CommonSql {
 
-	/**
-	 * {@value}
-	 */
-	private final static String SQL_FORMAT_FOR_TABLE_RECORD_COUNT = StringUtil.concatWithSpace(
+ 	private final static String SQL_FORMAT_FOR_TABLE_RECORD_COUNT = StringUtil.concatWithSpace(
 			SELECT, TOTALCOUNT, FROM, "%s");
 
 	/**
 	 * @param tableName
-	 * @return use {@value #SQL_FORMAT_FOR_TABLE_RECORD_COUNT} and {@code tableName} to get sql for records count
+	 * @return use {@link #SQL_FORMAT_FOR_TABLE_RECORD_COUNT} and {@code tableName} to get sql for records count
 	 */
 	public static String getSqlForTableRecordCount(String tableName) {
 		ValidationUtil.checkString(tableName);
