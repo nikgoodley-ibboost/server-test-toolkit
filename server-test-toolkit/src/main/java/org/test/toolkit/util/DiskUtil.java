@@ -4,9 +4,9 @@ import java.io.File;
 
 /**
  * compute the space for disk in bytes
- *
+ * 
  * @author fu.jian
- *
+ * 
  */
 public class DiskUtil {
 
@@ -22,14 +22,17 @@ public class DiskUtil {
 		this.file = new File(filePath);
 	}
 
+	/**
+	 * @return in bytes
+	 */
 	public long getTotalSpace() {
 		return file.getTotalSpace();
 	}
 
 	/**
 	 * according to disk file path right and other control factor to compute.
-	 *
-	 * @return
+	 * 
+	 * @return in bytes
 	 */
 	public long getUsableSpace() {
 		return file.getUsableSpace();
