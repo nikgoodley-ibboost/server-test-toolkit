@@ -12,7 +12,7 @@ public class CommonSql {
 	/**
 	 * {@value}
 	 */
-	private static final String SQL_FORMAT_FOR_TABLE_RECORD_COUNT = StringUtil.concatWithSpace(
+	private final static String SQL_FORMAT_FOR_TABLE_RECORD_COUNT = StringUtil.concatWithSpace(
 			SELECT, TOTALCOUNT, FROM, "%s");
 
 	/**
