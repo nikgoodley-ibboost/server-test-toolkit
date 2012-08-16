@@ -2,6 +2,13 @@ package org.test.toolkit.multithread;
 
 import java.util.Map;
 
+/**
+ * double-checked locking for getting value from map.
+ * @author fu.jian
+ * 
+ * @param <K>
+ * @param <V>
+ */
 public abstract class AbstractSynchronizedCacheAccessor<K, V> {
 
 	private volatile Map<K, V> map;
