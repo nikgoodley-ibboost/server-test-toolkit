@@ -157,15 +157,15 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 
 	@Override
 	public List<String> deleteBulk(Collection<String> keys, long timeout, TimeUnit timeUnit) {
-		List<String> failKeys = new ArrayList<String>();
+		List<String> failedKeys = new ArrayList<String>();
 		for (String key : keys) {
 			try {
 				delete(key, timeout, timeUnit);
 			} catch (Exception e) {
-				failKeys.add(key);
+				failedKeys.add(key);
 			}
 		}
-		return failKeys;
+		return failedKeys;
 	}
 
 	@Override
