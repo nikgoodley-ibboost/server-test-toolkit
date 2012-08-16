@@ -10,13 +10,12 @@ public final class TrackIdUtil {
 
 	};
 
-
-	public static int next() {
-		THREAD_LOCAL_VARS.set(THREAD_LOCAL_VARS.get() + 1);
+	public static int current() {
 		return THREAD_LOCAL_VARS.get();
 	}
 
-	public static int current() {
+ 	public static int next() {
+		THREAD_LOCAL_VARS.set(THREAD_LOCAL_VARS.get() + 1);
 		return THREAD_LOCAL_VARS.get();
 	}
 

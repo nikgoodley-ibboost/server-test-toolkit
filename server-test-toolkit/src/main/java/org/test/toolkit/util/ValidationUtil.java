@@ -84,7 +84,7 @@ public final class ValidationUtil {
 	}
 
 	/**
-	 * Checks for effective data element
+	 * Checks if effective data : length>0
 	 *
 	 * @param data
 	 */
