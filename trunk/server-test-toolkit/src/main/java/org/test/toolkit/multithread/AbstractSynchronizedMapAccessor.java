@@ -9,11 +9,11 @@ import java.util.Map;
  * @param <K>
  * @param <V>
  */
-public abstract class AbstractSynchronizedCacheAccessor<K, V> {
+public abstract class AbstractSynchronizedMapAccessor<K, V> {
 
 	private volatile Map<K, V> map;
 
-	protected AbstractSynchronizedCacheAccessor(Map<K, V> map) {
+	protected AbstractSynchronizedMapAccessor(Map<K, V> map) {
 		super();
 		this.map = map;
 	}
