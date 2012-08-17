@@ -16,7 +16,7 @@ public abstract class SftpCommand {
 
 	private final Session session;
 
- 	public SftpCommand(Session session) {
+	public SftpCommand(Session session) {
 		ValidationUtil.checkNull(session);
 		this.session = session;
 	}
@@ -25,9 +25,9 @@ public abstract class SftpCommand {
 		return session;
 	}
 
-	public void execute(){
+	public void execute() {
 		_execute();
- 	}
+	}
 
 	protected Object _execute() {
 		ChannelSftp channelSftp = null;
@@ -37,8 +37,6 @@ public abstract class SftpCommand {
 		} catch (Exception e1) {
 			LOGGER.error(e1.getMessage(), e1);
 			throw new CommandExecuteException(e1.getMessage(), e1);
-		} finally {
-			JSchChannelUtil.disconnect(channelSftp);
 		}
 	}
 
