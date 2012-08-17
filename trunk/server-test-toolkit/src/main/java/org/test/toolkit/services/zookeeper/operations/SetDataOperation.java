@@ -29,7 +29,7 @@ public class SetDataOperation extends AbstractZookeeperOperation<Stat> {
 	}
 
 	@Override
-	public String operationName() {
+	public String getOperationName() {
 		return "set data path: " + path;
 	}
 }

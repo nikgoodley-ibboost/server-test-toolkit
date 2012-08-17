@@ -33,7 +33,7 @@ public class CreateSequenceNodeOperation extends AbstractZookeeperOperation<Stri
 	}
 
 	@Override
-	public String operationName() {
+	public String getOperationName() {
 		return "createSequenceNode path " + path;
 	}
 }

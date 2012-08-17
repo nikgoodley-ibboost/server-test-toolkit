@@ -28,7 +28,7 @@ public class ExistOperation extends AbstractZookeeperOperationWithWatcher<Stat> 
 	}
 
 	@Override
-	public String operationName() {
+	public String getOperationName() {
 		return "exist path: " + path;
 	}
 }

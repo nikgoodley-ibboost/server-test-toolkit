@@ -6,6 +6,6 @@ public interface ZookeeperOperation<T> {
 
 	T execute() throws KeeperException, InterruptedException;
 
-	String operationName();
+	String getOperationName();
 
 }

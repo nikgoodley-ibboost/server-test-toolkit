@@ -29,7 +29,7 @@ public class CreateNode extends AbstractZookeeperOperation<String> {
 	}
 
 	@Override
-	public String operationName() {
+	public String getOperationName() {
 		return "create path " + path;
 	}
 }

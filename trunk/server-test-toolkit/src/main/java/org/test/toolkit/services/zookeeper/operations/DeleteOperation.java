@@ -20,7 +20,7 @@ public class DeleteOperation extends AbstractZookeeperOperation<Object> {
 	}
 
 	@Override
-	public String operationName() {
+	public String getOperationName() {
 		return "delete path: " + path;
 	}
 }

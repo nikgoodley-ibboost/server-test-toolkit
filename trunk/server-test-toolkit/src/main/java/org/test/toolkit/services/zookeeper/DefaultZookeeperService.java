@@ -52,6 +52,7 @@ public class DefaultZookeeperService extends AbstractZookeeperService implements
 	@Override
 	public <E> E executeZookeeperOperate(ZookeeperOperation<E> operation) {
 		try {
+			LOGGER.info("[zookeeper] execute:"+operation.getOperationName());
 			return operation.execute();
 		} catch (Exception e) {
 			throw new ServiceExecuteException(e.getMessage(), e);
