@@ -6,7 +6,7 @@ import org.test.toolkit.job.exception.JobConfigException;
  * @author fu.jian
  * @date Aug 17, 2012
  * @param <T>
- * @see job.xml
+ * @see "job.xml"
  */
 public class JobEntry<T> {
 
