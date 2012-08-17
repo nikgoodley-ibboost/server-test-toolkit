@@ -40,10 +40,6 @@ public abstract class AbstractRemoteStroage implements RemoteStorage {
 
 	}
 
-	@Override
-	public String toString() {
-		return "AbstractRemoteStroage [serverUser=" + serverUser + "]";
-	}
 
 	@Override
 	public void upload(String localFilePath, String dstFolder, String dstFileName) {
@@ -57,6 +53,12 @@ public abstract class AbstractRemoteStroage implements RemoteStorage {
 		} finally {
 			IOUtils.closeQuietly(bufferedInputStream);
 		}
+	}
+	
+
+	@Override
+	public String toString() {
+		return "AbstractRemoteStroage [serverUser=" + serverUser + "]";
 	}
 
 }
