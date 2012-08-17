@@ -23,7 +23,7 @@ public class Sed extends Command {
 	 * @param line
 	 * @param newContentForLine
 	 * @param tmpFilePath
-	 * @return
+	 * @return sed command
 	 */
 	public static Sed newInstanceForModifyFile(String filePath, int line,
 			String newContentForLine, String tmpFilePath) {
@@ -49,7 +49,7 @@ public class Sed extends Command {
 	 * command: (1) sed -n '$=' /opt/webex/idmap/log/result.log (2) wc -l
 	 *
 	 * @param filePath
-	 * @return
+	 * @return sed command
 	 */
 	public static Sed newInstanceForGetLineNumber(String filePath) {
 		ValidationUtil.checkString(filePath);

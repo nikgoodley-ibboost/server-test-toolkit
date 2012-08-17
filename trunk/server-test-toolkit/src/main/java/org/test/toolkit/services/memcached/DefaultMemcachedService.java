@@ -73,7 +73,7 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 	/**
 	 * @param inetSocketAddressString
 	 *            :<b>"host:port host2:port2"</b>
-	 * @return
+	 * @return DefaultMemcachedService
 	 */
 	public static DefaultMemcachedService getInstance(String inetSocketAddressString) {
 		return new DefaultMemcachedService(inetSocketAddressString);
