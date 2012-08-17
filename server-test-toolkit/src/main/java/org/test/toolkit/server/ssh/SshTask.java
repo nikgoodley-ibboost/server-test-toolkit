@@ -85,7 +85,7 @@ public class SshTask implements Callable<SshTaskResult<String, String>> {
 
 	/**
 	 * @param inputStream
-	 * @return
+	 * @return SshTaskResult: IP:String Pair
 	 * @throws IOException
 	 */
 	private SshTaskResult<String, String> getResult(InputStream inputStream) throws IOException {
