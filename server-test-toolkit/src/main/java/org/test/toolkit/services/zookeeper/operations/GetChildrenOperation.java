@@ -6,7 +6,7 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 
-public class GetChildrenOperation extends AbsZookeeperOperationWithWatcher<List<String>> {
+public class GetChildrenOperation extends AbstractZookeeperOperationWithWatcher<List<String>> {
 
 	private final String path;
 

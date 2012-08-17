@@ -8,7 +8,7 @@ import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.ACL;
 
-public class CreateNode extends AbsZookeeperOperation<String> {
+public class CreateNode extends AbstractZookeeperOperation<String> {
 
 	private static final List<ACL> ACL = ZooDefs.Ids.OPEN_ACL_UNSAFE;
 
