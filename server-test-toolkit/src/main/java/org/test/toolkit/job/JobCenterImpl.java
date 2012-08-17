@@ -24,6 +24,14 @@ import org.test.toolkit.job.jmx.JmxMonitorImpl;
 import org.test.toolkit.job.jmx.mbean.JobCenterSchedule;
 import org.test.toolkit.util.ValidationUtil;
 
+/**
+ * main execute class for all job module. use {@linkplain JobCenterImpl#start()}
+ * can start jobs; use {@linkplain JobCenterImpl#registerMBean()} can provide
+ * simple management for jobs
+ * 
+ * @author fu.jian
+ * @date Aug 17, 2012
+ */
 public class JobCenterImpl implements JobCenter {
 
 	private static volatile JobCenter instance;
@@ -35,15 +43,16 @@ public class JobCenterImpl implements JobCenter {
 		try {
 			return getInstance(StdSchedulerFactory.getDefaultScheduler(), JobConfigImpl.getInstance());
 		} catch (SchedulerException e) {
- 			throw new JobConfigException(e);
+			throw new JobConfigException(e);
 		}
 	}
 
 	public static JobCenter getInstance(String configPath) {
 		try {
-			return getInstance(StdSchedulerFactory.getDefaultScheduler(), JobConfigImpl.getInstance(configPath));
+			return getInstance(StdSchedulerFactory.getDefaultScheduler(),
+					JobConfigImpl.getInstance(configPath));
 		} catch (SchedulerException e) {
- 			throw new JobConfigException(e);
+			throw new JobConfigException(e);
 		}
 	}
 
@@ -70,7 +79,7 @@ public class JobCenterImpl implements JobCenter {
 			JmxMonitorImpl.getInstance().registerMBean(jobCenterSchedule, name);
 		} catch (JMException e) {
 			throw new JobMonitorException(e.getMessage(), e);
- 		}
+		}
 
 	}
 
@@ -85,7 +94,7 @@ public class JobCenterImpl implements JobCenter {
 				scheduler.scheduleJobs(jobDetails, true);
 				scheduler.start();
 			} catch (SchedulerException e) {
- 				throw new JobConfigException(e.getMessage(),e);
+				throw new JobConfigException(e.getMessage(), e);
 			}
 		}
 	}
@@ -96,15 +105,14 @@ public class JobCenterImpl implements JobCenter {
 			if (scheduler.isStarted())
 				scheduler.clear();
 		} catch (SchedulerException e) {
-			throw new JobExecuteException(e.getMessage(),e);
+			throw new JobExecuteException(e.getMessage(), e);
 		}
 	}
 
 	@Override
 	public String list() {
 		try {
-			List<JobExecutionContext> currentlyExecutingJobs = scheduler
-					.getCurrentlyExecutingJobs();
+			List<JobExecutionContext> currentlyExecutingJobs = scheduler.getCurrentlyExecutingJobs();
 			StringBuffer stringBuffer = new StringBuffer();
 			for (JobExecutionContext jobExecutionContext : currentlyExecutingJobs) {
 				stringBuffer.append(jobExecutionContext.getJobDetail().getKey());
