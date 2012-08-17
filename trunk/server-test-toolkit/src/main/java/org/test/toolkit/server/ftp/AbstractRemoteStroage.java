@@ -28,14 +28,13 @@ public abstract class AbstractRemoteStroage implements RemoteStorage {
 
 	@Override
 	public void getFile(String storagePath, String localFilePath) {
+		LOGGER.info(String.format("[sftp]download file from %s to %s", storagePath, localFilePath));
 		InputStream inputStream = getFile(storagePath);
 		try {
 			IoUtil.inputStreamToFile(inputStream, localFilePath);
- 		} catch (Exception e) {
- 			String message = e.getMessage();
-			LOGGER.error(message,e);
- 			throw new CommandExecuteException(message,e);
- 		}
+		} catch (Exception e) {
+			throw new CommandExecuteException(e.getMessage(), e);
+		}
 	}
 
 	@Override
@@ -44,11 +43,12 @@ public abstract class AbstractRemoteStroage implements RemoteStorage {
 	}
 
 	@Override
-	public void storeFile(String localFilePath, String dstFolder, String dstFileName) throws FileNotFoundException {
-		BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
-				localFilePath));
+	public void storeFile(String localFilePath, String dstFolder, String dstFileName)
+			throws FileNotFoundException {
+		LOGGER.info(String.format("[sftp]update file from %s to %s", localFilePath, dstFolder));
+		BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(localFilePath));
 		try {
-			storeFile(bufferedInputStream, dstFolder,dstFileName);
+			storeFile(bufferedInputStream, dstFolder, dstFileName);
 		} finally {
 			IOUtils.closeQuietly(bufferedInputStream);
 		}

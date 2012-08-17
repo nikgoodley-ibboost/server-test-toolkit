@@ -34,13 +34,14 @@ public class FtpRemoteStorage extends AbstractRemoteStroage {
 	}
 
 	@Override
-	public InputStream getFile(String storagePath){
+	public InputStream getFile(String storagePath) {
 		try {
-			return  ftpClient.retrieveFileStream(storagePath);
- 		} catch (Exception e) {
+			return ftpClient.retrieveFileStream(storagePath);
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
-			throw new ServerConnectionException(e.getMessage(), e);		}
- 	}
+			throw new ServerConnectionException(e.getMessage(), e);
+		}
+	}
 
 	@Override
 	public void disconnect() {
@@ -48,7 +49,7 @@ public class FtpRemoteStorage extends AbstractRemoteStroage {
 			if (ftpClient != null)
 				ftpClient.disconnect();
 		} catch (IOException e) {
-			LOGGER.warn("release connection fail for: "+e.getMessage(),e);
+			LOGGER.warn("release connection fail for: " + e.getMessage(), e);
 		}
 	}
 
@@ -65,8 +66,8 @@ public class FtpRemoteStorage extends AbstractRemoteStroage {
 			}
 			ftpClient.storeFile(dstFileName, srcInputStream);
 		} catch (IOException e) {
-			LOGGER.error(e.getMessage(),e);
- 			throw new CommandExecuteException(e.getMessage(),e);
+			LOGGER.error(e.getMessage(), e);
+			throw new CommandExecuteException(e.getMessage(), e);
 		} finally {
 			IOUtils.closeQuietly(srcInputStream);
 		}
