@@ -35,7 +35,7 @@ public class GetDataOperation extends AbstractZookeeperOperationWithWatcher<byte
 	}
 
 	@Override
-	public String operationName() {
+	public String getOperationName() {
 		return "get data path: " + path;
 	}
 }
