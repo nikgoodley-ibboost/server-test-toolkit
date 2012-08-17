@@ -3,6 +3,7 @@ package org.test.toolkit.server.ftp;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.apache.log4j.Logger;
 import org.test.toolkit.server.common.user.SshUser;
 import org.test.toolkit.server.common.util.JSchUtil.JSchSessionUtil;
 import org.test.toolkit.server.ftp.command.sftp.SftpCommandWithoutResult;
@@ -13,6 +14,8 @@ import com.jcraft.jsch.Session;
 
 public class SftpRemoteStorage extends AbstractRemoteStroage {
 
+	private final static Logger LOGGER = Logger.getLogger(SftpRemoteStorage.class);
+
 	private Session session;
 
 	/**
@@ -20,7 +23,7 @@ public class SftpRemoteStorage extends AbstractRemoteStroage {
 	 */
 	public SftpRemoteStorage(SshUser sshUser) {
 		super(sshUser);
- 	}
+	}
 
 	@Override
 	public void disconnect() {
@@ -33,13 +36,16 @@ public class SftpRemoteStorage extends AbstractRemoteStroage {
 	}
 
 	@Override
-	public void download(String storagePath,OutputStream outputStream) {
+	public void download(String storagePath, OutputStream outputStream) {
+		LOGGER.info(String.format("[storage]download  %s, remotePath"));
+
 		SftpCommandWithoutResult sftpGetCommand = new SftpGetCommand(session, storagePath, outputStream);
 		sftpGetCommand.execute();
- 	}
+	}
 
 	@Override
 	public void upload(InputStream srcInputStream, String dstFolder, String dstFileName) {
+		LOGGER.info(String.format("[storage]update file to  %s as %s", dstFolder, dstFileName));
 		SftpCommandWithoutResult sftpPutCommand = new SftpPutCommand(session, srcInputStream, dstFolder,
 				dstFileName);
 		sftpPutCommand.execute();

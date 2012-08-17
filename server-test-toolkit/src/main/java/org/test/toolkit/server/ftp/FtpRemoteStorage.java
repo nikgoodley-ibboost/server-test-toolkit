@@ -52,7 +52,8 @@ public class FtpRemoteStorage extends AbstractRemoteStroage {
 
 	@Override
 	public void upload(InputStream srcInputStream, String dstFolder, String dstFileName) {
-		try {
+		LOGGER.info(String.format("[storage]upload to %s as %s", dstFolder, dstFileName));
+ 		try {
 			if (dstFolder != null) {
 				ftpClient.changeWorkingDirectory(dstFolder);
 			}
@@ -67,6 +68,8 @@ public class FtpRemoteStorage extends AbstractRemoteStroage {
 
 	@Override
 	public void download(String remotePath, OutputStream outputStream) {
+		LOGGER.info(String.format("[storage]download  %s, remotePath"));
+
 		try {
 			 InputStream inputStream = ftpClient.retrieveFileStream(remotePath);
 			 IoUtil.inputStreamToOutputStream(inputStream, outputStream);
