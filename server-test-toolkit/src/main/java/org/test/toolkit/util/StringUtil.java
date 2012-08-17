@@ -6,7 +6,7 @@ public final class StringUtil {
 
 	/**
 	 * to format such as "stringOne stringTwo stringThird" which takes the
-	 * {@value org.test.toolkit.constants.MarkConstants.MarkConstants#SPACE} as the spliter.
+	 * {@value org.test.toolkit.constants.MarkConstants#SPACE} as the spliter.
 	 * 
 	 * @param strings
 	 * @return such as a b c
@@ -38,7 +38,7 @@ public final class StringUtil {
 	}
 
 	/**
-	 * concat all strings with {@value org.test.toolkit.constants.MarkConstants.MarkConstants#SEMICOLON}
+	 * concat all strings with {@value org.test.toolkit.constants.MarkConstants#SEMICOLON}
 	 * 
 	 * @param strings
 	 * @return such as a;b;c
