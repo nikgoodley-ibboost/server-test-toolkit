@@ -8,7 +8,7 @@ public class SshTaskResult<K, V> {
 	private V result;
 
 	/**
-	 * not check result: due to allow result to be null
+	 * not check result parameter: due to  result allowed to be <code>null</code>
 	 *
 	 * @param host
 	 * @param result
