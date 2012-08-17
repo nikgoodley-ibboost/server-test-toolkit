@@ -13,7 +13,7 @@ public class TxtFile extends RandomFile {
 	}
 
 	public TxtFile(long sizeInByteUnit) {
-		super(EXTENSION, FileUtil.generateBytesBySize(sizeInByteUnit));
+		super(EXTENSION, FileUtil.generateBytes(sizeInByteUnit));
 	}
 
 }
