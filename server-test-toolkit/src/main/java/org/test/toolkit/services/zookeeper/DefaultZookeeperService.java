@@ -36,7 +36,7 @@ public class DefaultZookeeperService extends AbstractZookeeperService implements
 	}
 
 	private DefaultZookeeperService(String connectString, int sessionTimeout) {
-		super(connectString, sessionTimeout);
+ 		super(connectString, sessionTimeout);
 	}
 
 	public ZooKeeper createZookeeper(String connectString, int sessionTimeout, Watcher watcher)

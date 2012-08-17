@@ -20,71 +20,63 @@ import org.test.toolkit.services.zookeeper.operations.GetDataOperation;
 import org.test.toolkit.services.zookeeper.operations.SetDataOperation;
 import org.test.toolkit.services.zookeeper.operations.ZookeeperOperation;
 import org.test.toolkit.util.PathUtil;
+import org.test.toolkit.util.ValidationUtil;
 
-public abstract class AbstractZookeeperService implements Service,ZookeeperOperations,
-		ZookeeperConnection, Watcher {
+public abstract class AbstractZookeeperService implements Service, ZookeeperOperations, ZookeeperConnection,
+		Watcher {
 
- 	protected String connectString;
+	protected String connectString;
 	protected int sessionTimeout;
 	protected ZooKeeper zookeeper;
 	protected long sessionId;
 
-	protected AbstractZookeeperService(String connectString, int sessionTimeout)
-			{
+	protected AbstractZookeeperService(String connectString, int sessionTimeout) {
+		ValidationUtil.checkNull(connectString, sessionTimeout);
 		this.connectString = connectString;
 		this.sessionTimeout = sessionTimeout;
 		try {
 			this.zookeeper = createZookeeper(connectString, sessionTimeout, this);
 		} catch (IOException e) {
-			throw new ServerConnectionException(e.getMessage(),e);
- 		}
+			throw new ServerConnectionException(e.getMessage(), e);
+		}
 		this.sessionId = zookeeper.getSessionId();
 	}
 
 	@Override
-	public String createSequenceNode(final String parentPath,
-			final String path, final byte[] data) {
-		return executeZookeeperOperate(new CreateSequenceNodeOperation(
-				zookeeper, path, parentPath, data));
+	public String createSequenceNode(final String parentPath, final String path, final byte[] data) {
+		return executeZookeeperOperate(new CreateSequenceNodeOperation(zookeeper, path, parentPath, data));
 	}
 
-	public abstract <E> E executeZookeeperOperate(
-			ZookeeperOperation<E> operation);
+	public abstract <E> E executeZookeeperOperate(ZookeeperOperation<E> operation);
 
 	@Override
 	public String createEphemeralNode(final String path, final byte[] data) {
-		return executeZookeeperOperate(new CreateNode(zookeeper, path, data,
-				CreateMode.EPHEMERAL));
+		return executeZookeeperOperate(new CreateNode(zookeeper, path, data, CreateMode.EPHEMERAL));
 	}
 
 	@Override
 	public String createPersistentNode(final String path, final byte data[]) {
-		return executeZookeeperOperate(new CreateNode(zookeeper, path, data,
-				CreateMode.PERSISTENT));
+		return executeZookeeperOperate(new CreateNode(zookeeper, path, data, CreateMode.PERSISTENT));
 	}
 
 	@Override
 	public List<String> getChildren(final String path, final boolean watch) {
-		return executeZookeeperOperate(new GetChildrenOperation(zookeeper,
-				path, watch));
+		return executeZookeeperOperate(new GetChildrenOperation(zookeeper, path, watch));
 	}
 
 	@Override
 	public List<String> getChildren(final String path, final Watcher watcher) {
-		return executeZookeeperOperate(new GetChildrenOperation(zookeeper,
-				path, watcher));
+		return executeZookeeperOperate(new GetChildrenOperation(zookeeper, path, watcher));
 	}
 
 	@Override
 	public Stat exists(final String path, final Watcher watcher) {
-		return executeZookeeperOperate(new ExistOperation(zookeeper, path,
-				watcher));
+		return executeZookeeperOperate(new ExistOperation(zookeeper, path, watcher));
 	}
 
 	@Override
 	public Stat exists(final String path, final boolean watch) {
-		return executeZookeeperOperate(new ExistOperation(zookeeper, path,
-				watch));
+		return executeZookeeperOperate(new ExistOperation(zookeeper, path, watch));
 	}
 
 	@Override
@@ -94,22 +86,17 @@ public abstract class AbstractZookeeperService implements Service,ZookeeperOpera
 
 	@Override
 	public Stat setData(final String path, final byte data[], final int version) {
-		return executeZookeeperOperate(new SetDataOperation(zookeeper, data,
-				version, path));
+		return executeZookeeperOperate(new SetDataOperation(zookeeper, data, version, path));
 	}
 
 	@Override
-	public byte[] getData(final String path, final boolean watch,
-			final Stat stat) {
-		return executeZookeeperOperate(new GetDataOperation(zookeeper, path,
-				watch, stat));
+	public byte[] getData(final String path, final boolean watch, final Stat stat) {
+		return executeZookeeperOperate(new GetDataOperation(zookeeper, path, watch, stat));
 	}
 
 	@Override
-	public byte[] getData(final String path, final Watcher watcher,
-			final Stat stat) {
-		return executeZookeeperOperate(new GetDataOperation(zookeeper, path,
-				watcher, stat));
+	public byte[] getData(final String path, final Watcher watcher, final Stat stat) {
+		return executeZookeeperOperate(new GetDataOperation(zookeeper, path, watcher, stat));
 	}
 
 	@Override
@@ -165,7 +152,7 @@ public abstract class AbstractZookeeperService implements Service,ZookeeperOpera
 
 	@Override
 	public String getServiceName() {
- 		return "zookeeper";
+		return "zookeeper";
 	}
 
 }
