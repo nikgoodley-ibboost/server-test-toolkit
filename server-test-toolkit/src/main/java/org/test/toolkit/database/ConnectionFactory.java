@@ -22,13 +22,9 @@ public class ConnectionFactory {
 	private static volatile ConcurrentHashMap<String, ComboPooledDataSource> configNameDataSourceMap = new ConcurrentHashMap<String, ComboPooledDataSource>();
 
 	public static Connection getConnection() {
-		try {
-			LOGGER.info("use default c3p0 config");
-			ComboPooledDataSource defaultComboPoolDataSource = getDefaultComboPoolDataSource();
-			return getConnection(defaultComboPoolDataSource);
-		} catch (SQLException e) {
-			throw new DbConnectionException(e.getMessage(), e);
-		}
+		LOGGER.info("use default c3p0 config");
+		ComboPooledDataSource defaultComboPoolDataSource = getDefaultComboPoolDataSource();
+		return getConnection(defaultComboPoolDataSource);
 	}
 
 	private static ComboPooledDataSource getDefaultComboPoolDataSource() {
@@ -73,10 +69,13 @@ public class ConnectionFactory {
 		return dbConfig.getIdenticalKey();
 	}
 
-	public static Connection getConnection(ComboPooledDataSource comboPooledDataSource)
-			throws SQLException {
+	public static Connection getConnection(ComboPooledDataSource comboPooledDataSource) {
 		synchronized (getConnectionSynchronizedKey(comboPooledDataSource)) {
-			return comboPooledDataSource.getConnection();
+			try {
+				return comboPooledDataSource.getConnection();
+ 			} catch (SQLException e) {
+ 				throw new DbConnectionException(e.getMessage(), e);
+ 			}
 		}
 	}
 
@@ -94,14 +93,10 @@ public class ConnectionFactory {
 		return getConnection(configName, null);
 	}
 
-	public static Connection getConnection(String configName, String configPath) {
-		try {
-			ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(configName,
-					configPath);
-			return getConnection(comboPooledDataSource);
-		} catch (SQLException e) {
-			throw new DbConnectionException(e.getMessage(), e);
-		}
+	public static Connection getConnection(String configName, String configPath){
+		ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(configName,
+				configPath);
+		return getConnection(comboPooledDataSource);
 	}
 
 	private static ComboPooledDataSource getComboPooledDataSource(final String configName,
@@ -126,13 +121,9 @@ public class ConnectionFactory {
 		return StringUtil.concatDirectly(configName, configPath == null ? "" : configPath);
 	}
 
-	public static Connection getConnection(DbConfig dbConfig) {
-		try {
-			ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(dbConfig, null);
-			return getConnection(comboPooledDataSource);
-		} catch (SQLException e) {
-			throw new DbConnectionException(e.getMessage(), e);
-		}
+	public static Connection getConnection(DbConfig dbConfig) throws SQLException {
+		ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(dbConfig, null);
+		return getConnection(comboPooledDataSource);
 	}
 
 	private ConnectionFactory() {
