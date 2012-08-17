@@ -23,8 +23,8 @@ public final class FileUtil {
 		return DigestUtil.getDigest(inputStream, DigestAlgorithm.SHA_1);
  	}
 
-	static byte[] generateBytesBySize(long sizeByByteUnit) {
-		ValidationUtil.checkPositive(sizeByByteUnit);
+	static byte[] generateBytes(long sizeInByte) {
+		ValidationUtil.checkPositive(sizeInByte);
 
 		ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
 		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(byteOutputStream, 1024 * 512);
@@ -33,11 +33,11 @@ public final class FileUtil {
  		int storeSize = 0;
 		byte[] bytes = null;
 		try {
-			while (storeSize < sizeByByteUnit) {
+			while (storeSize < sizeInByte) {
 				byte[] array = new byte[allocateSize];
 				Arrays.fill(array, (byte) (new Random().nextInt()));
 
-				int needBytesCount = (int) (sizeByByteUnit - storeSize);
+				int needBytesCount = (int) (sizeInByte - storeSize);
 				if (allocateSize > needBytesCount)
 					bufferedOutputStream.write(array, 0, needBytesCount);
 				else
