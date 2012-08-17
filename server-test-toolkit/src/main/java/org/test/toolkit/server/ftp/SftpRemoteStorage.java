@@ -36,18 +36,18 @@ public class SftpRemoteStorage extends AbstractRemoteStroage {
 	}
 
 	@Override
-	public void download(String storagePath, OutputStream outputStream) {
-		LOGGER.info(String.format("[storage]download  %s, remotePath"));
+	public void download(String remotePath, OutputStream outputStream) {
+		LOGGER.info(String.format("[storage]download  %s", remotePath));
 
-		SftpCommandWithoutResult sftpGetCommand = new SftpGetCommand(session, storagePath, outputStream);
+		SftpCommandWithoutResult sftpGetCommand = new SftpGetCommand(session, remotePath, outputStream);
 		sftpGetCommand.execute();
 	}
 
 	@Override
-	public void upload(InputStream srcInputStream, String dstFolder, String dstFileName) {
-		LOGGER.info(String.format("[storage]update file to  %s as %s", dstFolder, dstFileName));
-		SftpCommandWithoutResult sftpPutCommand = new SftpPutCommand(session, srcInputStream, dstFolder,
-				dstFileName);
+	public void upload(InputStream srcInputStream, String remoteFolder, String remoteFileName) {
+		LOGGER.info(String.format("[storage]update file to  %s as %s", remoteFolder, remoteFileName));
+		SftpCommandWithoutResult sftpPutCommand = new SftpPutCommand(session, srcInputStream, remoteFolder,
+				remoteFileName);
 		sftpPutCommand.execute();
 	}
 
