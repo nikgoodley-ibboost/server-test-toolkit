@@ -4,7 +4,7 @@ import org.test.toolkit.util.ValidationUtil;
 
 /**
  * @author fu.jian
- * @date Jul 26, 2012
+ * date Jul 26, 2012
  */
 public class Grep extends Command {
 

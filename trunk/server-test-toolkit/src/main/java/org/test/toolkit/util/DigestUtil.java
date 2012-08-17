@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 
 /**
  * @author fu.jian
- * @date Aug 10, 2012
+ * date Aug 10, 2012
  */
 public final class DigestUtil {
 

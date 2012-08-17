@@ -2,7 +2,7 @@ package org.test.toolkit.server.ssh.command;
 
 /**
  * @author fu.jian
- * @date Jul 26, 2012
+ * date Jul 26, 2012
  */
 public final class CommandUtil {
 

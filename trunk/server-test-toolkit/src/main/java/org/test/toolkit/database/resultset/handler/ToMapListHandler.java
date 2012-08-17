@@ -12,7 +12,7 @@ import org.test.toolkit.database.exception.DbExecuteException;
 /**
  * MapList's map is column name: column value
  * @author fu.jian
- * @date Aug 13, 2012
+ * date Aug 13, 2012
  */
 public class ToMapListHandler implements ResultSetHandler<List<HashMap<String, ?>>> {
 

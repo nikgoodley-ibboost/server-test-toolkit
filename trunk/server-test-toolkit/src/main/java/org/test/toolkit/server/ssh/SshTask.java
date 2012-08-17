@@ -20,7 +20,7 @@ import com.jcraft.jsch.Session;
 
 /**
  * @author fu.jian
- * @date Jul 25, 2012
+ * date Jul 25, 2012
  */
 public class SshTask implements Callable<SshTaskResult<String, String>> {
 

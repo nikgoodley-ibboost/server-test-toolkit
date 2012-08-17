@@ -5,7 +5,7 @@ import org.apache.zookeeper.ZooKeeper;
 
 /**
  * @author fu.jian
- * @date Aug 15, 2012
+ * date Aug 15, 2012
  * @param <T>
  */
 public abstract class AbsZookeeperOperationWithWatcher<T> extends AbsZookeeperOperation<T> {

@@ -9,7 +9,7 @@ import org.test.toolkit.util.ValidationUtil;
 
 /**
  * @author fu.jian
- * @date Aug 3, 2012
+ * date Aug 3, 2012
  */
 public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcExecutable {
 

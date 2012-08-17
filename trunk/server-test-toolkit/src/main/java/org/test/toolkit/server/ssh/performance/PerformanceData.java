@@ -13,7 +13,7 @@ import org.apache.commons.beanutils.BeanUtils;
  * </pre>
  *
  * @author fu.jian
- * @date Aug 6, 2012
+ * date Aug 6, 2012
  */
 public class PerformanceData {
 

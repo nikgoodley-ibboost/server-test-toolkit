@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * @author fu.jian
- * @date Aug 3, 2012
+ * date Aug 3, 2012
  */
 public final class JavaBeanUtil {
 

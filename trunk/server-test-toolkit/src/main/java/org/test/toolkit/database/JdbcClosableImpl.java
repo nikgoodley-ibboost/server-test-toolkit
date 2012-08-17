@@ -8,7 +8,7 @@ import org.test.toolkit.database.DbUtil.DbCloseUtil;
 
 /**
  * @author fu.jian
- * @date Aug 3, 2012
+ * date Aug 3, 2012
  */
 public class JdbcClosableImpl implements JdbcClosable {
 

@@ -9,7 +9,7 @@ import org.test.toolkit.server.ssh.performance.PerformanceData;
 
 /**
  * @author fu.jian
- * @date Jul 25, 2012
+ * date Jul 25, 2012
  */
 public interface ServerOperations extends RemoteConnection {
 
