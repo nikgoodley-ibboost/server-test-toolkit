@@ -6,6 +6,11 @@ public final class MarkConstants {
 	 * {@value}
 	 */
 	public static final String SPACE = " ";
+	
+	/**
+	 * {@value}
+	 */
+	public static final String EMPTY_STRING = " ";
 
 	/**
 	 * {@value}
@@ -17,7 +22,12 @@ public final class MarkConstants {
 	 */
 	public static final String UNDERLINE = "_";
 
- 	private MarkConstants() {
+	/**
+	 * {@value}
+	 */
+	public static final String SEMICOLON = ";";
+
+	private MarkConstants() {
 	}
 
 }
