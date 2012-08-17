@@ -5,7 +5,7 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 
-public class SetDataOperation extends AbsZookeeperOperation<Stat> {
+public class SetDataOperation extends AbstractZookeeperOperation<Stat> {
 
 	private static final Logger LOGGER=Logger.getLogger(SetDataOperation.class);
 

@@ -3,7 +3,7 @@ package org.test.toolkit.services.zookeeper.operations;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooKeeper;
 
-public class DeleteOperation extends AbsZookeeperOperation<Object> {
+public class DeleteOperation extends AbstractZookeeperOperation<Object> {
 	private final String path;
 	private final int version;
 

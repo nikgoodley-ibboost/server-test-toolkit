@@ -9,7 +9,7 @@ import org.apache.zookeeper.data.Stat;
  * @author fu.jian
  * date Aug 15, 2012
  */
-public class GetDataOperation extends AbsZookeeperOperationWithWatcher<byte[]> {
+public class GetDataOperation extends AbstractZookeeperOperationWithWatcher<byte[]> {
 
 	private final String path;
 	private final Stat stat;

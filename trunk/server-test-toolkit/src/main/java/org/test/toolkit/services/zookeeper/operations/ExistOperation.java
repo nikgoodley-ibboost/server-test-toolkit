@@ -5,7 +5,7 @@ import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 
-public class ExistOperation extends AbsZookeeperOperationWithWatcher<Stat> {
+public class ExistOperation extends AbstractZookeeperOperationWithWatcher<Stat> {
 
 	private final String path;
 
