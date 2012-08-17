@@ -35,7 +35,7 @@ public final class ValidationUtil {
 	 * Checks for effective string with judgments
 	 *
 	 * @param string
-	 * @return
+	 * @return if string not null or empty return <code>true</code>
 	 */
 	public static boolean isEffectiveString(String string) {
 		return string != null && !string.isEmpty();
@@ -65,7 +65,7 @@ public final class ValidationUtil {
 	 * @param filePath
 	 * @throws IllegalArgumentException
 	 *             : filePath be null or empty
-	 * @return
+	 * @return true if file exist
 	 */
 	public static boolean hasFile(String filePath) {
 		checkString(filePath);
@@ -128,10 +128,10 @@ public final class ValidationUtil {
 	}
 
 	/**
-	 * Checks for effective string with judgments
+	 * Checks object if be <tt>null</tt>
 	 *
 	 * @param object
-	 * @return
+	 * @return return <tt>true</tt> if not null
 	 */
 	public static boolean isNull(Object object) {
 		return object == null;
