@@ -45,12 +45,11 @@ public class DefaultDbClient extends AbstractDbClient {
 	 * set c3po-config.xml's path by
 	 * <code>configPath<code>,one xml can config serveral db config, every db config in xml has one <code>configName</code>
 	 * similar with  {@linkplain DefaultDbClient#getInstanceWithDefaultXmlConfig(String)}.
-	 * 
-	 * @param configPath
 	 * @param configName
+	 * @param configPath
 	 */
-	public static DefaultDbClient getInstanceWithXmlConfig(String configPath, String configName) {
-		return new DefaultDbClient(configPath, configName);
+	public static DefaultDbClient getInstanceWithXmlConfig(String configName, String configPath) {
+		return new DefaultDbClient(configName, configPath);
 	}
 
 	public static DefaultDbClient getInstance(ComboPooledDataSource comboPooledDataSource) {
@@ -69,7 +68,7 @@ public class DefaultDbClient extends AbstractDbClient {
 		super(ConnectionFactory.getConnection(configName));
 	}
 
-	private DefaultDbClient(String configPath, String configName) {
+	private DefaultDbClient(String configName, String configPath) {
 		super(ConnectionFactory.getConnection(configName, configPath));
 	}
 
