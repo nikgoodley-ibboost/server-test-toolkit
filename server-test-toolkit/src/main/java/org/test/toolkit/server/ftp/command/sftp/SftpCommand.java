@@ -2,6 +2,7 @@ package org.test.toolkit.server.ftp.command.sftp;
 
 import org.apache.log4j.Logger;
 import org.test.toolkit.server.common.exception.CommandExecuteException;
+import org.test.toolkit.server.common.util.JSchUtil;
 import org.test.toolkit.server.common.util.JSchUtil.JSchChannelUtil;
 import org.test.toolkit.util.ValidationUtil;
 
@@ -37,6 +38,8 @@ public abstract class SftpCommand {
 		} catch (Exception e1) {
 			LOGGER.error(e1.getMessage(), e1);
 			throw new CommandExecuteException(e1.getMessage(), e1);
+		}finally{
+			JSchUtil.JSchChannelUtil.disconnect(channelSftp);
 		}
 	}
 

@@ -3,13 +3,12 @@ package org.test.toolkit.server.ftp;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.FileOutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.test.toolkit.server.common.exception.CommandExecuteException;
 import org.test.toolkit.server.common.user.ServerUser;
-import org.test.toolkit.util.IoUtil;
 
 public abstract class AbstractRemoteStroage implements RemoteStorage {
 
@@ -27,14 +26,18 @@ public abstract class AbstractRemoteStroage implements RemoteStorage {
 	}
 
 	@Override
-	public void getFile(String storagePath, String localFilePath) {
+	public void download(String storagePath, String localFilePath) {
 		LOGGER.info(String.format("[sftp]download file from %s to %s", storagePath, localFilePath));
-		InputStream inputStream = getFile(storagePath);
+		FileOutputStream outputStream = null;
 		try {
-			IoUtil.inputStreamToFile(inputStream, localFilePath);
-		} catch (Exception e) {
+			outputStream = new FileOutputStream(localFilePath);
+			download(storagePath, outputStream);
+		} catch (FileNotFoundException e) {
 			throw new CommandExecuteException(e.getMessage(), e);
+		} finally {
+			IOUtils.closeQuietly(outputStream);
 		}
+
 	}
 
 	@Override
@@ -43,12 +46,14 @@ public abstract class AbstractRemoteStroage implements RemoteStorage {
 	}
 
 	@Override
-	public void storeFile(String localFilePath, String dstFolder, String dstFileName)
-			throws FileNotFoundException {
-		LOGGER.info(String.format("[sftp]update file from %s to %s", localFilePath, dstFolder));
-		BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(localFilePath));
+	public void upload(String localFilePath, String dstFolder, String dstFileName) {
+		LOGGER.info(String.format("[sftp]upload file from %s to %s", localFilePath, dstFolder));
+		BufferedInputStream bufferedInputStream = null;
 		try {
-			storeFile(bufferedInputStream, dstFolder, dstFileName);
+			bufferedInputStream = new BufferedInputStream(new FileInputStream(localFilePath));
+			upload(bufferedInputStream, dstFolder, dstFileName);
+		} catch (FileNotFoundException e) {
+			throw new CommandExecuteException(e.getMessage(), e);
 		} finally {
 			IOUtils.closeQuietly(bufferedInputStream);
 		}

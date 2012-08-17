@@ -1,25 +1,38 @@
 package org.test.toolkit.server.ftp.command.sftp;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import org.test.toolkit.server.common.exception.CommandExecuteException;
+import org.test.toolkit.util.IoUtil;
 import org.test.toolkit.util.ValidationUtil;
 
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
-public class SftpGetCommand extends SftpCommandWithResult {
+public class SftpGetCommand extends SftpCommandWithoutResult {
 
 	private String storagePath;
+	private OutputStream outputStream;
 
-	public SftpGetCommand(Session session, String storagePath) {
+	public SftpGetCommand(Session session, String storagePath, OutputStream outputStream) {
 		super(session);
 		ValidationUtil.checkNull(storagePath);
 
 		this.storagePath = storagePath;
+		this.outputStream = outputStream;
 	}
-
+  
 	@Override
-	public Object runCommandByChannelWithResult(ChannelSftp channelSftp) throws SftpException {
-		return channelSftp.get(storagePath);
+	protected void runCommandByChannel(ChannelSftp channelSftp) throws SftpException {
+		InputStream inputStream = channelSftp.get(storagePath);
+		try {
+			IoUtil.inputStreamToOutputStream(inputStream, outputStream);
+		} catch (IOException e) {
+			throw new CommandExecuteException(e.getMessage(),e);
+ 		}		
 	}
 
 }
