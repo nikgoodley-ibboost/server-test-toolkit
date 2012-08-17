@@ -2,6 +2,12 @@ package org.test.toolkit.job.config;
 
 import org.test.toolkit.job.exception.JobConfigException;
 
+/**
+ * @author fu.jian
+ * @date Aug 17, 2012
+ * @param <T>
+ * @see job.xml
+ */
 public class JobEntry<T> {
 
 	/**
@@ -35,7 +41,7 @@ public class JobEntry<T> {
 			Class<T> clazz = (Class<T>) Class.forName(className);
 			return clazz.newInstance();
 		} catch (Exception e) {
- 			throw new JobConfigException(e.getMessage(),e);
+			throw new JobConfigException(e.getMessage(), e);
 		}
 	}
 
