@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @author fu.jian
- * @date Jul 26, 2012
+ * date Jul 26, 2012
  */
 public final class CollectionUtil {
 

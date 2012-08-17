@@ -23,7 +23,7 @@ import org.test.toolkit.util.CollectionUtil;
 
 /**
  * @author fu.jian
- * @date Jul 25, 2012
+ * date Jul 25, 2012
  */
 public abstract class AbstractServerOperations implements ServerOperations {
 

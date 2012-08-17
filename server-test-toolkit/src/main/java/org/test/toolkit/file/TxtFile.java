@@ -2,7 +2,7 @@ package org.test.toolkit.file;
 
 /**
  * @author fu.jian
- * @date Jul 31, 2012
+ * date Jul 31, 2012
  */
 public class TxtFile extends RandomFile {
 

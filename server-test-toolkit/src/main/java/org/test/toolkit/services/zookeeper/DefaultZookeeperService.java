@@ -11,7 +11,7 @@ import org.test.toolkit.services.zookeeper.operations.ZookeeperOperation;
 
 /**
  * @author fu.jian
- * @date Aug 15, 2012
+ * date Aug 15, 2012
  */
 public class DefaultZookeeperService extends AbstractZookeeperService implements Watcher {
 

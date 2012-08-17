@@ -2,7 +2,7 @@ package org.test.toolkit.server.common.exception;
 
 /**
  * @author fu.jian
- * @date Jul 25, 2012
+ * date Jul 25, 2012
  */
 public class UncheckedServerOperationException extends RuntimeException {
 

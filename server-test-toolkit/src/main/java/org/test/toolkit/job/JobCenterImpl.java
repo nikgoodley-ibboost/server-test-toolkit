@@ -30,7 +30,7 @@ import org.test.toolkit.util.ValidationUtil;
  * simple management for jobs
  * 
  * @author fu.jian
- * @date Aug 17, 2012
+ * date Aug 17, 2012
  */
 public class JobCenterImpl implements JobCenter {
 

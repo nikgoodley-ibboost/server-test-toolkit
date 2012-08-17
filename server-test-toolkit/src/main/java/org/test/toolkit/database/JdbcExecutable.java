@@ -4,7 +4,7 @@ import org.test.toolkit.database.resultset.handler.ResultSetHandler;
 
 /**
  * @author fu.jian
- * @date Aug 3, 2012
+ * date Aug 3, 2012
  */
 public interface JdbcExecutable {
 
