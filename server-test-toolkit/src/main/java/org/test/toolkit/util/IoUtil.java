@@ -1,5 +1,6 @@
 package org.test.toolkit.util;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,17 +17,23 @@ public final class IoUtil {
 	 * @throws IOException
 	 */
 	public static void inputStreamToFile(InputStream inputStream, String filePath) throws IOException {
-		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(filePath));
-		inputStreamToOutputStream(inputStream, bufferedOutputStream);
- 	}
+		FileOutputStream outputStream = new FileOutputStream(filePath);
+		try {
+			inputStreamToOutputStream(inputStream, outputStream);
+		} finally {
+			IOUtils.closeQuietly(outputStream);
+		}
+	}
 
 	public static void inputStreamToOutputStream(InputStream inputStream, OutputStream outputStream)
 			throws IOException {
+		BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
+
 		try {
-			IOUtils.copy(inputStream, outputStream);
+			IOUtils.copy(bufferedInputStream, bufferedOutputStream);
 		} finally {
-			IOUtils.closeQuietly(outputStream);
-			IOUtils.closeQuietly(inputStream);
+			IOUtils.closeQuietly(bufferedInputStream);
 		}
 	}
 
