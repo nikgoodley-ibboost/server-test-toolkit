@@ -8,7 +8,7 @@ public final class ValidationUtil {
 	/**
 	 * Checks for exist file with exception
 	 *
-	 * @param file
+	 * @param filePaths
 	 * @throws IllegalArgumentException
 	 *             : <li>file path be null or empty <li>file path not found.
 	 */
@@ -22,7 +22,7 @@ public final class ValidationUtil {
 	/**
 	 * Checks for effective string with exception
 	 *
-	 * @param str
+	 * @param strings
 	 */
 	public static void checkString(String... strings) {
 		for (String string : strings)
@@ -44,7 +44,7 @@ public final class ValidationUtil {
 	/**
 	 * Checks for exist file with exception
 	 *
-	 * @param file
+	 * @param files
 	 * @throws IllegalArgumentException
 	 */
 	public static void checkFileExist(File... files) {
@@ -130,7 +130,7 @@ public final class ValidationUtil {
 	/**
 	 * Checks for effective string with judgments
 	 *
-	 * @param str
+	 * @param object
 	 * @return
 	 */
 	public static boolean isNull(Object object) {

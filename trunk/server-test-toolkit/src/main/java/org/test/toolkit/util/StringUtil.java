@@ -6,10 +6,10 @@ public final class StringUtil {
 
 	/**
 	 * to format such as "stringOne stringTwo stringThird" which takes the
-	 * {@value MarkConstants#SPACE} as the spliter.
+	 * {@value org.test.toolkit.constants.MarkConstants.MarkConstants#SPACE} as the spliter.
 	 * 
 	 * @param strings
-	 * @return
+	 * @return such as a b c
 	 */
 	public static String concatWithSpace(String... strings) {
 		return concat(MarkConstants.SPACE, strings);
@@ -22,15 +22,15 @@ public final class StringUtil {
 			stringBuffer.append(string);
 			stringBuffer.append(spliter);
 		}
-
-		return stringBuffer.toString().trim();
-	}
+  
+		return stringBuffer.subSequence(0, stringBuffer.lastIndexOf(spliter)).toString().trim();
+ 	}
 
 	/**
 	 * concat all strings directly
 	 * 
 	 * @param strings
-	 * @return
+	 * @return such as abc
 	 */
 	public static String concatDirectly(String... strings) {
 		return concat(MarkConstants.EMPTY_STRING, strings);
@@ -38,10 +38,10 @@ public final class StringUtil {
 	}
 
 	/**
-	 * concat all strings with {@value MarkConstants#SEMICOLON}
+	 * concat all strings with {@value org.test.toolkit.constants.MarkConstants.MarkConstants#SEMICOLON}
 	 * 
 	 * @param strings
-	 * @return
+	 * @return such as a;b;c
 	 */
 	public static String concatWithSemicolon(String... strings) {
 		return concat(MarkConstants.SEMICOLON, strings);
@@ -50,4 +50,5 @@ public final class StringUtil {
 
 	private StringUtil() {
 	}
+  
 }
