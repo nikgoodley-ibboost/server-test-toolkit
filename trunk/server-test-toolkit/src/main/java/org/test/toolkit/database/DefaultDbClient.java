@@ -15,6 +15,9 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 public class DefaultDbClient extends AbstractDbClient {
 
 	private static final Logger LOGGER = Logger.getLogger(DefaultDbClient.class);
+	/**
+	 * {@value}
+	 */
 	private static final String LOG_FROMAT_FOR_SQL_EXCEPTION = "fail to execute sql : %s for %s";
 
 	/**
