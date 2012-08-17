@@ -29,7 +29,7 @@ public class GetChildrenOperation extends AbstractZookeeperOperationWithWatcher<
 	}
 
 	@Override
-	public String operationName() {
+	public String getOperationName() {
 		return "getChildren path: " + path;
 	}
 }
