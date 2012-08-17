@@ -7,11 +7,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
+
 import org.apache.commons.io.IOUtils;
 
-import com.sun.image.codec.jpeg.ImageFormatException;
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 public class JpgFile extends RandomFile {
 
@@ -19,8 +18,8 @@ public class JpgFile extends RandomFile {
 
 	private static int getRandomWidthOrHeight() {
 		return new Random().nextInt(1024);
-	}
-
+  	}
+ 
  	private static byte[] getContentBytes(int width, int height) {
 		if (width <= 0 || height <= 0)
 			throw new IllegalArgumentException(String.format("width[%d] or height[%d] < 0 "
@@ -33,13 +32,9 @@ public class JpgFile extends RandomFile {
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(byteArrayOutputStream);
 		try {
-			JPEGImageEncoder createJPEGEncoder = JPEGCodec.createJPEGEncoder(bufferedOutputStream);
-			createJPEGEncoder.encode(bufferedImage);
-			return byteArrayOutputStream.toByteArray();
-		} catch (ImageFormatException e1) {
- 			throw new RandomFileException(
-					"image format exception when generating image file content", e1);
-		} catch (IOException e2) {
+ 			ImageIO.write(bufferedImage, "jpg", bufferedOutputStream);
+  			return byteArrayOutputStream.toByteArray();
+		}  catch (IOException e2) {
  			throw new RandomFileException("io exception when generating image file content", e2);
 		} finally {
 			IOUtils.closeQuietly(bufferedOutputStream);
@@ -53,5 +48,5 @@ public class JpgFile extends RandomFile {
 	public JpgFile(int width, int height) {
 		super(EXTENSION, getContentBytes(width, height));
 	}
-
+ 
  }
