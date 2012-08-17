@@ -121,7 +121,7 @@ public class ConnectionFactory {
 		return StringUtil.concatDirectly(configName, configPath == null ? "" : configPath);
 	}
 
-	public static Connection getConnection(DbConfig dbConfig) throws SQLException {
+	public static Connection getConnection(DbConfig dbConfig){
 		ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(dbConfig, null);
 		return getConnection(comboPooledDataSource);
 	}
