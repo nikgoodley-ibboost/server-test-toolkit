@@ -16,7 +16,8 @@ public final class IoUtil {
 	 * @param filePath
 	 * @throws IOException
 	 */
-	public static void inputStreamToFile(InputStream inputStream, String filePath) throws IOException {
+	public static void inputStreamToFile(InputStream inputStream,
+			String filePath) throws IOException {
 		FileOutputStream outputStream = new FileOutputStream(filePath);
 		try {
 			inputStreamToOutputStream(inputStream, outputStream);
@@ -25,13 +26,18 @@ public final class IoUtil {
 		}
 	}
 
-	public static void inputStreamToOutputStream(InputStream inputStream, OutputStream outputStream)
-			throws IOException {
-		BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
+	public static void inputStreamToOutputStream(InputStream inputStream,
+			OutputStream outputStream) throws IOException {
+		BufferedInputStream bufferedInputStream = new BufferedInputStream(
+				inputStream);
+		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
+				outputStream);
 
 		try {
 			IOUtils.copy(bufferedInputStream, bufferedOutputStream);
+			// call flush method due to user only can close outputStream but
+			// some bytes in buffer mayn't be flush due to smaller size.
+			bufferedOutputStream.flush();
 		} finally {
 			IOUtils.closeQuietly(bufferedInputStream);
 		}
