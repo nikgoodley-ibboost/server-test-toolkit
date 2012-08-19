@@ -28,4 +28,20 @@ public class PdfFileTest {
  		Assert.assertTrue(new File(TARGET_FILE_PATH).length() > 0);
 	}
 
+	@Test
+	public void testMultiPage() {
+
+		RandomFile newRandomFile = RandomFileFactory
+				.newRandomFileForPdf(2);
+		InputStream inputStream = newRandomFile.getInputStream();
+		try {
+			System.out.println(inputStream.available());
+			IoUtil.inputStreamToFile(inputStream, TARGET_FILE_PATH);
+		} catch (IOException e) {
+			Assert.fail();
+		}
+		Assert.assertTrue(new File(TARGET_FILE_PATH).exists());
+ 		Assert.assertTrue(new File(TARGET_FILE_PATH).length() > 1000);
+	}
+
 }

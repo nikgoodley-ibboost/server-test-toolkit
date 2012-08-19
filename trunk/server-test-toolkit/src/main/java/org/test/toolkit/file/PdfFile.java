@@ -3,6 +3,7 @@ package org.test.toolkit.file;
 import java.io.ByteArrayOutputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.test.toolkit.util.ValidationUtil;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -13,17 +14,23 @@ public class PdfFile extends RandomFile {
 
 	public static final String EXTENSION = FileType.PDF.toString();
 
-	private static byte[] getContentBytes() {
+	private static byte[] getContentBytes(int pageNumber) {
+		ValidationUtil.checkPositive(pageNumber);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		try {
-			Document doc = new Document();
+			Document document = new Document();
 			try {
-				PdfWriter.getInstance(doc, byteArrayOutputStream);
-				doc.open();
-				doc.add(new Paragraph(RandomFile.newContent()));
+				PdfWriter.getInstance(document, byteArrayOutputStream);
+				document.open();
+				document.setPageCount(pageNumber);
+				document.add(new Paragraph(RandomFile.newContent()));
+				for (int i = 0; i < pageNumber - 1; i++) {
+					document.newPage();
+					document.add(new Paragraph(RandomFile.newContent()));
+				}
 			} finally {
-				if (doc != null)
-					doc.close();
+				if (document != null)
+					document.close();
 			}
 
 			return byteArrayOutputStream.toByteArray();
@@ -35,7 +42,11 @@ public class PdfFile extends RandomFile {
 	}
 
 	public PdfFile() {
-		super(EXTENSION, getContentBytes());
+		super(EXTENSION, getContentBytes(1));
+	}
+
+	public PdfFile(int pageNumber) {
+		super(EXTENSION, getContentBytes(pageNumber));
 	}
 
 }

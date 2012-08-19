@@ -16,19 +16,27 @@ public class RandomFileFactory {
 		if (fileType == FileType.PDF)
 			return new PdfFile();
 
-		throw new UnsupportedOperationException("not support this file type: " + fileType.toString());
+		throw new UnsupportedOperationException("not support this file type: "
+				+ fileType.toString());
 	}
 
 	public static RandomFile newRandomFileForTxt() {
 		return newRandomFile(FileType.TXT);
 	}
 
+	public static RandomFile newRandomFileForPdf(int pageNumber) {
+		ValidationUtil.checkPositive(pageNumber);
+		return new PdfFile(pageNumber);
+	}
+
 	public static RandomFile newRandomFileForJpg(int width, int height) {
+		ValidationUtil.checkPositive(width, height);
 		return new JpgFile(height, height);
 	}
 
-	public static RandomFile newRandomFileForTxt(long sizeByByteUnit) {
-		return new TxtFile(sizeByByteUnit);
+	public static RandomFile newRandomFileForTxt(long sizeInByte) {
+		ValidationUtil.checkPositive(sizeInByte);
+		return new TxtFile(sizeInByte);
 	}
 
 	private RandomFileFactory() {
