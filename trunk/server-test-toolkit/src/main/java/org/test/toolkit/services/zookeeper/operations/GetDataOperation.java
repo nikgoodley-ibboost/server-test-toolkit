@@ -4,6 +4,7 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
+import org.test.toolkit.util.ValidationUtil;
 
 /**
  * @author fu.jian
@@ -16,7 +17,8 @@ public class GetDataOperation extends AbstractZookeeperOperationWithWatcher<byte
 
 	public GetDataOperation(ZooKeeper zookeeper, String path, boolean watch, Stat stat) {
 		super(zookeeper, watch);
-		this.path = path;
+		ValidationUtil.checkString(path);
+ 		this.path = path;
 		this.stat = stat;
 	}
 
@@ -30,7 +32,7 @@ public class GetDataOperation extends AbstractZookeeperOperationWithWatcher<byte
 	public byte[] execute() throws KeeperException, InterruptedException {
 		if (hasExplicitWatcher)
 			return zookeeper.getData(path, watcher, stat);
-		
+
 		return zookeeper.getData(path, watch, stat);
 	}
 

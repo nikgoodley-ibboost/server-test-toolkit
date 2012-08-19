@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
+import org.test.toolkit.util.ValidationUtil;
 
 public class SetDataOperation extends AbstractZookeeperOperation<Stat> {
 
@@ -13,11 +14,14 @@ public class SetDataOperation extends AbstractZookeeperOperation<Stat> {
 	private final int version;
 	private final String path;
 
-	public SetDataOperation(ZooKeeper zookeeper,byte[] data, int version, String path) {
+	public SetDataOperation(ZooKeeper zookeeper,String path, byte[] data, int version) {
 		super(zookeeper);
-		this.data = data;
-		this.version = version;
+		ValidationUtil.checkString(path);
+		ValidationUtil.checkPositive(version);
+
 		this.path = path;
+ 		this.data = data;
+		this.version = version;
 	}
 
 	@Override

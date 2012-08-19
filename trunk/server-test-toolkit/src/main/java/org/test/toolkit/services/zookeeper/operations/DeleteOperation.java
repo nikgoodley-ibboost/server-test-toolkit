@@ -2,6 +2,7 @@ package org.test.toolkit.services.zookeeper.operations;
 
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooKeeper;
+import org.test.toolkit.util.ValidationUtil;
 
 public class DeleteOperation extends AbstractZookeeperOperation<Object> {
 	private final String path;
@@ -9,6 +10,9 @@ public class DeleteOperation extends AbstractZookeeperOperation<Object> {
 
 	public DeleteOperation(ZooKeeper zookeeper,String path, int version) {
 		super(zookeeper);
+
+		ValidationUtil.checkString(path);
+		ValidationUtil.checkPositive(version);
 		this.path = path;
 		this.version = version;
 	}
