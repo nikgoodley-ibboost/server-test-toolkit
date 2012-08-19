@@ -4,6 +4,7 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
+import org.test.toolkit.util.ValidationUtil;
 
 public class ExistOperation extends AbstractZookeeperOperationWithWatcher<Stat> {
 
@@ -11,6 +12,7 @@ public class ExistOperation extends AbstractZookeeperOperationWithWatcher<Stat> 
 
 	public ExistOperation(ZooKeeper zookeeper, String path, Watcher watcher) {
 		super(zookeeper, watcher);
+		ValidationUtil.checkString(path);
 		this.path = path;
 	}
 

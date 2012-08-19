@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
+import org.test.toolkit.util.ValidationUtil;
 
 public class GetChildrenOperation extends AbstractZookeeperOperationWithWatcher<List<String>> {
 
@@ -12,6 +13,7 @@ public class GetChildrenOperation extends AbstractZookeeperOperationWithWatcher<
 
 	public GetChildrenOperation(ZooKeeper zookeeper, String path, Watcher watcher) {
 		super(zookeeper, watcher);
+		ValidationUtil.checkString(path);
 		this.path = path;
 	}
 

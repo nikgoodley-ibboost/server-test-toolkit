@@ -7,6 +7,7 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.ACL;
+import org.test.toolkit.util.ValidationUtil;
 
 public class CreateNode extends AbstractZookeeperOperation<String> {
 
@@ -18,6 +19,10 @@ public class CreateNode extends AbstractZookeeperOperation<String> {
 
 	public CreateNode(ZooKeeper zookeeper,String path, byte[] data, CreateMode createMode) {
 		super(zookeeper);
+
+ 		ValidationUtil.checkString(path);
+		ValidationUtil.checkNull(createMode);
+
 		this.path = path;
 		this.data = data;
 		this.createMode=createMode;

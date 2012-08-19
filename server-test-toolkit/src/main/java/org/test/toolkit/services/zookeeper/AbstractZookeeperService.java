@@ -86,7 +86,7 @@ public abstract class AbstractZookeeperService implements Service, ZookeeperOper
 
 	@Override
 	public Stat setData(final String path, final byte data[], final int version) {
-		return executeZookeeperOperate(new SetDataOperation(zookeeper, data, version, path));
+		return executeZookeeperOperate(new SetDataOperation(zookeeper, path, data, version));
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package org.test.toolkit.services.zookeeper.operations;
 
 import org.apache.zookeeper.ZooKeeper;
+import org.test.toolkit.util.ValidationUtil;
 
 public abstract class AbstractZookeeperOperation<T> implements ZookeeperOperation<T> {
 
@@ -8,6 +9,7 @@ public abstract class AbstractZookeeperOperation<T> implements ZookeeperOperatio
 
 	protected AbstractZookeeperOperation(ZooKeeper zookeeper) {
 		super();
+		ValidationUtil.checkNull(zookeeper);
 		this.zookeeper = zookeeper;
 	}
 
