@@ -10,7 +10,7 @@ public final class MarkConstants {
 	/**
 	 * {@value}
 	 */
-	public static final String EMPTY_STRING = " ";
+	public static final String EMPTY_STRING = "";
 
 	/**
 	 * {@value}
