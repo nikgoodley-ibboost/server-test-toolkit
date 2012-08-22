@@ -8,12 +8,14 @@ import java.io.FileOutputStream;
 import org.apache.commons.io.IOUtils;
 import org.test.toolkit.server.common.exception.CommandExecuteException;
 import org.test.toolkit.server.common.user.ServerUser;
+import org.test.toolkit.util.ValidationUtil;
 
 public abstract class AbstractRemoteStroage implements RemoteStorage {
-  
+
 	protected ServerUser serverUser;
 
 	public AbstractRemoteStroage(ServerUser serverUser) {
+		ValidationUtil.checkNull(serverUser);
 		this.serverUser = serverUser;
 		connect();
 	}
@@ -24,6 +26,7 @@ public abstract class AbstractRemoteStroage implements RemoteStorage {
 
 	@Override
 	public void download(String storagePath, String localFilePath) {
+		ValidationUtil.checkString(storagePath, localFilePath);
 		FileOutputStream outputStream = null;
 		try {
 			outputStream = new FileOutputStream(localFilePath);
@@ -36,12 +39,14 @@ public abstract class AbstractRemoteStroage implements RemoteStorage {
 
 	}
 
-
 	@Override
-	public void upload(String localFilePath, String dstFolder, String dstFileName) {
+	public void upload(String localFilePath, String dstFolder,
+			String dstFileName) {
+		ValidationUtil.checkString(localFilePath, dstFolder, dstFileName);
 		BufferedInputStream bufferedInputStream = null;
 		try {
-			bufferedInputStream = new BufferedInputStream(new FileInputStream(localFilePath));
+			bufferedInputStream = new BufferedInputStream(new FileInputStream(
+					localFilePath));
 			upload(bufferedInputStream, dstFolder, dstFileName);
 		} catch (FileNotFoundException e) {
 			throw new CommandExecuteException(e.getMessage(), e);
@@ -49,7 +54,6 @@ public abstract class AbstractRemoteStroage implements RemoteStorage {
 			IOUtils.closeQuietly(bufferedInputStream);
 		}
 	}
-	
 
 	@Override
 	public String toString() {
