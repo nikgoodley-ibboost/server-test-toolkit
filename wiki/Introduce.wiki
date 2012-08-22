@@ -12,7 +12,7 @@
 
 （6）常用服务访问工具：提供对一些常见的服务（例如memcached/zookeeper）的访问；
 
-（7）工具类：包括常见工具类，disk/trackid/stringUtil/performanceUtil/validationUtil等，让编程更有效率，更统一。
+（7）工具类：包括常见工具类，disk/trackid/string/digest/performanceUtil/validationUtil等，让编程更有效率，更统一。
 
 
 这套工具将根据日常通用需求持续完善，希望给从事服务器应用程序的测试人员提供帮助，当然也希望更多的人参与研发，提出建设性意见。
