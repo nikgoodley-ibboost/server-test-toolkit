@@ -1,6 +1,6 @@
 package org.test.toolkit.database.config;
 
-public class MysqlConfig extends DbConfig {
+public class MysqlConfig extends ExplicitDbConfig {
 
 	/**
 	 * {@value}

@@ -1,9 +1,9 @@
 package org.test.toolkit.database;
 
-import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 
+import org.test.toolkit.database.config.DbConfig;
 import org.test.toolkit.database.resultset.handler.ToMapListHandler;
 import org.test.toolkit.util.ValidationUtil;
 
@@ -13,11 +13,11 @@ import org.test.toolkit.util.ValidationUtil;
  */
 public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcExecutable {
 
-	protected Connection connection;
+	protected DbConfig dbConfig;
 
-	protected AbstractDbClient(Connection connection) {
+	protected AbstractDbClient(DbConfig dbConfig) {
 		super();
-		this.connection = connection;
+		this.dbConfig = dbConfig;
 	}
 
 	/**
@@ -33,10 +33,6 @@ public abstract class AbstractDbClient extends JdbcClosableImpl implements JdbcE
 		Object object = hashMap.get(SqlConstants.TOTALCOUNT);
 
 		return Long.valueOf(object.toString());
-	}
-
-	public void close() {
-		closeConnection(connection);
 	}
 
 }

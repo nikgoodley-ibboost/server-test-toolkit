@@ -1,6 +1,6 @@
 package org.test.toolkit.database.config;
 
-public class OracleConfig extends DbConfig {
+public class OracleConfig extends ExplicitDbConfig {
 
 	/**
 	 * {@value}
