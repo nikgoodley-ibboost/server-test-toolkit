@@ -55,10 +55,4 @@ public class XmlDbConfig implements DbConfig {
 		return "XmlDbConfig [configPath=" + configPath + ", configName="
 				+ configName + "]";
 	}
-
-	@Override
-	public String getConfigType() {
- 		return "xml config";
- 	}
-
-}
+ }
