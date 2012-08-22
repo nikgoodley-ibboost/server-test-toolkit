@@ -1,5 +1,7 @@
 package org.test.toolkit.database;
 
+import java.sql.Connection;
+
 import org.test.toolkit.database.resultset.handler.ResultSetHandler;
 
 /**
@@ -8,11 +10,11 @@ import org.test.toolkit.database.resultset.handler.ResultSetHandler;
  */
 public interface JdbcExecutable {
 
+	Connection getConnnection();
+
 	boolean execute(String sql);
 
 	int update(String sql);
-
-	void close();
 
 	int update(String sql, Object[] params);
 

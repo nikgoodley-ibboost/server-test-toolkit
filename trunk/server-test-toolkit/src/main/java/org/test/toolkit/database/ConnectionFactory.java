@@ -6,22 +6,47 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
 import org.test.toolkit.database.config.DbConfig;
+import org.test.toolkit.database.config.ExplicitDbConfig;
+import org.test.toolkit.database.config.XmlDbConfig;
 import org.test.toolkit.database.exception.DbConfigException;
 import org.test.toolkit.database.exception.DbConnectionException;
 import org.test.toolkit.multithread.AbstractSynchronizedMapAccessor;
 import org.test.toolkit.util.StringUtil;
+import org.test.toolkit.util.ValidationUtil;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class ConnectionFactory {
 
-	private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
+	private static final Logger LOGGER = Logger
+			.getLogger(ConnectionFactory.class);
 
 	private static volatile ComboPooledDataSource defaultComboPooledDataSource;
 	private static volatile ConcurrentHashMap<String, ComboPooledDataSource> dbConfigDataSourceMap = new ConcurrentHashMap<String, ComboPooledDataSource>();
 	private static volatile ConcurrentHashMap<String, ComboPooledDataSource> configNameDataSourceMap = new ConcurrentHashMap<String, ComboPooledDataSource>();
 
-	public static Connection getConnection() {
+	static Connection getConnection(DbConfig dbConfig) {
+		ValidationUtil.checkNull(dbConfig);
+
+		if (dbConfig instanceof DefaultDbClient)
+			return getConnection();
+		if (dbConfig instanceof ExplicitDbConfig)
+			return getConnection((ExplicitDbConfig) dbConfig);
+		if (dbConfig instanceof XmlDbConfig) {
+			XmlDbConfig xmlDbConfig = (XmlDbConfig) dbConfig;
+			String configName = xmlDbConfig.getConfigName();
+			String configPath = xmlDbConfig.getConfigPath();
+			if(configName==null)
+				return getConnection();
+			if (configPath == null)
+				return getConnection(configName, configPath);
+			return getConnection(configName);
+		}
+
+		throw new UnsupportedOperationException("not supported: " + dbConfig);
+	}
+
+	private static Connection getConnection() {
 		LOGGER.info("use default c3p0 config");
 		ComboPooledDataSource defaultComboPoolDataSource = getDefaultComboPoolDataSource();
 		return getConnection(defaultComboPoolDataSource);
@@ -38,18 +63,22 @@ public class ConnectionFactory {
 			ComboPooledDataSource comboPooledDataSource = ComboPooledDataSourceFactory
 					.getDefaultComboPooledDataSource();
 			judgeIfConfigLegal(comboPooledDataSource);
-			defaultComboPooledDataSource = getComboPooledDataSource(null, comboPooledDataSource);
+			defaultComboPooledDataSource = getComboPooledDataSource(null,
+					comboPooledDataSource);
 
 			return defaultComboPooledDataSource;
 		}
 	}
 
-	private static void judgeIfConfigLegal(ComboPooledDataSource comboPooledDataSource) {
+	private static void judgeIfConfigLegal(
+			ComboPooledDataSource comboPooledDataSource) {
 		if (comboPooledDataSource.getDriverClass() == null)
-			throw new DbConfigException("no config in classPath or driverClass not configured");
+			throw new DbConfigException(
+					"no config in classPath or driverClass not configured");
 	}
 
-	private static ComboPooledDataSource getComboPooledDataSource(final DbConfig dbConfig,
+	private static ComboPooledDataSource getComboPooledDataSource(
+			final ExplicitDbConfig dbConfig,
 			final ComboPooledDataSource comboPooledDataSource) {
 		AbstractSynchronizedMapAccessor<String, ComboPooledDataSource> abstractCacheAccess = new AbstractSynchronizedMapAccessor<String, ComboPooledDataSource>(
 				dbConfigDataSourceMap) {
@@ -62,45 +91,51 @@ public class ConnectionFactory {
 		};
 		String keyForDbConfigDataSourceMap = dbConfig == null ? getKeyForDbConfigDataSourceMap(comboPooledDataSource)
 				: getKeyForDbConfigDataSourceMap(dbConfig);
-		return abstractCacheAccess.getValue(keyForDbConfigDataSourceMap, configNameDataSourceMap);
+		return abstractCacheAccess.getValue(keyForDbConfigDataSourceMap,
+				configNameDataSourceMap);
 	}
 
-	private static String getKeyForDbConfigDataSourceMap(DbConfig dbConfig) {
+	private static String getKeyForDbConfigDataSourceMap(
+			ExplicitDbConfig dbConfig) {
 		return dbConfig.getIdenticalKey();
 	}
 
-	public static Connection getConnection(ComboPooledDataSource comboPooledDataSource) {
+	private static Connection getConnection(
+			ComboPooledDataSource comboPooledDataSource) {
 		synchronized (getConnectionSynchronizedKey(comboPooledDataSource)) {
 			try {
 				return comboPooledDataSource.getConnection();
- 			} catch (SQLException e) {
- 				throw new DbConnectionException(e.getMessage(), e);
- 			}
+			} catch (SQLException e) {
+				throw new DbConnectionException(e.getMessage(), e);
+			}
 		}
 	}
 
-	private static String getConnectionSynchronizedKey(ComboPooledDataSource comboPooledDataSource) {
-		return StringUtil.concatDirectly(getKeyForDbConfigDataSourceMap(comboPooledDataSource),
+	private static String getConnectionSynchronizedKey(
+			ComboPooledDataSource comboPooledDataSource) {
+		return StringUtil.concatDirectly(
+				getKeyForDbConfigDataSourceMap(comboPooledDataSource),
 				"connection").intern();
 	}
 
-	private static String getKeyForDbConfigDataSourceMap(ComboPooledDataSource comboPooledDataSource) {
+	private static String getKeyForDbConfigDataSourceMap(
+			ComboPooledDataSource comboPooledDataSource) {
 		return StringUtil.concatDirectly(comboPooledDataSource.getJdbcUrl()
 				+ comboPooledDataSource.getUser());
 	}
 
-	public static Connection getConnection(String configName) {
+	private static Connection getConnection(String configName) {
 		return getConnection(configName, null);
 	}
 
-	public static Connection getConnection(String configName, String configPath){
-		ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(configName,
-				configPath);
+	private static Connection getConnection(String configName, String configPath) {
+		ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(
+				configName, configPath);
 		return getConnection(comboPooledDataSource);
 	}
 
-	private static ComboPooledDataSource getComboPooledDataSource(final String configName,
-			final String configPath) {
+	private static ComboPooledDataSource getComboPooledDataSource(
+			final String configName, final String configPath) {
 		AbstractSynchronizedMapAccessor<String, ComboPooledDataSource> abstractCacheAccess = new AbstractSynchronizedMapAccessor<String, ComboPooledDataSource>(
 				dbConfigDataSourceMap) {
 
@@ -113,16 +148,20 @@ public class ConnectionFactory {
 		};
 
 		return abstractCacheAccess.getValue(
-				getKeyForConfigNameDataSourceMap(configName, configPath), configNameDataSourceMap);
+				getKeyForConfigNameDataSourceMap(configName, configPath),
+				configNameDataSourceMap);
 
 	}
 
-	private static String getKeyForConfigNameDataSourceMap(String configName, String configPath) {
-		return StringUtil.concatDirectly(configName, configPath == null ? "" : configPath);
+	private static String getKeyForConfigNameDataSourceMap(String configName,
+			String configPath) {
+		return StringUtil.concatDirectly(configName, configPath == null ? ""
+				: configPath);
 	}
 
-	public static Connection getConnection(DbConfig dbConfig){
-		ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(dbConfig, null);
+	private static Connection getConnection(ExplicitDbConfig dbConfig) {
+		ComboPooledDataSource comboPooledDataSource = getComboPooledDataSource(
+				dbConfig, null);
 		return getConnection(comboPooledDataSource);
 	}
 
