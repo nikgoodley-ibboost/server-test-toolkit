@@ -286,8 +286,4 @@ public class ExplicitDbConfig implements DbConfig {
 		return builder.toString();
 	}
 
-	@Override
-	public String getConfigType() {
-		return "explicit db config";
-	}
 }
