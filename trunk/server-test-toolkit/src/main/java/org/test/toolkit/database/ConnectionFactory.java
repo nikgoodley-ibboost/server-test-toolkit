@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
 import org.test.toolkit.database.config.DbConfig;
+import org.test.toolkit.database.config.DefaultDbConfig;
 import org.test.toolkit.database.config.ExplicitDbConfig;
 import org.test.toolkit.database.config.XmlDbConfig;
 import org.test.toolkit.database.exception.DbConfigException;
@@ -28,7 +29,7 @@ public class ConnectionFactory {
 	static Connection getConnection(DbConfig dbConfig) {
 		ValidationUtil.checkNull(dbConfig);
 
-		if (dbConfig instanceof DefaultDbClient)
+		if (dbConfig instanceof DefaultDbConfig)
 			return getConnection();
 		if (dbConfig instanceof ExplicitDbConfig)
 			return getConnection((ExplicitDbConfig) dbConfig);
