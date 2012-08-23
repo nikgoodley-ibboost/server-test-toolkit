@@ -8,13 +8,11 @@ public class OracleConfig extends ExplicitDbConfig {
 	private static final String JDBC_DRIVER_FOR_ORACLE = "oracle.jdbc.driver.OracleDriver";
 	private static final String JDBC_DRIVER_FOR_INET = "com.inet.ora.OraDriver";
 
-	public static OracleConfig getInstanceForOracle(String driverClass, String url, String username,
-			String password) {
+	public static OracleConfig getInstanceForOracle(String url, String username, String password) {
 		return new OracleConfig(JDBC_DRIVER_FOR_ORACLE, url, username, password);
 	}
 
-	public static OracleConfig getInstanceForINET(String driverClass, String url, String username,
-			String password) {
+	public static OracleConfig getInstanceForInet(String url, String username, String password) {
 		return new OracleConfig(JDBC_DRIVER_FOR_INET, url, username, password);
 	}
 
