@@ -54,13 +54,20 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		<!-- should execute maven command to install the jar to local: mvn install:install-file
-			-DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.1.0.6.0 -Dpackaging=jar
+		<!-- should execute maven command to install the jar to local: mvn install:install-file 
+			-DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.1.0.6.0 -Dpackaging=jar 
 			-Dfile=D:\ojdbc6_11.1.0.6.0.jar -->
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6 </artifactId>
 			<version>11.1.0.6.0</version>
+		</dependency>
+		<!-- should execute maven command to install the jar to local: mvn install:install-file 
+			-DgroupId=inet -DartifactId=Oranxo -Dversion=3.00.01 -Dpackaging=jar -Dfile=D:\oranxo-3.00.01.jar -->
+		<dependency>
+			<groupId>inet</groupId>
+			<artifactId>Oranxo</artifactId>
+			<version>3.00.01</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-beanutils</groupId>
