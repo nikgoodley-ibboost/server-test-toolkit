@@ -19,8 +19,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class ConnectionFactory {
 
-	private static final Logger LOGGER = Logger
-			.getLogger(ConnectionFactory.class);
+	private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
 
 	private static volatile ComboPooledDataSource defaultComboPooledDataSource;
 	private static volatile ConcurrentHashMap<String, ComboPooledDataSource> dbConfigDataSourceMap = new ConcurrentHashMap<String, ComboPooledDataSource>();
@@ -37,7 +36,7 @@ public class ConnectionFactory {
 			XmlDbConfig xmlDbConfig = (XmlDbConfig) dbConfig;
 			String configName = xmlDbConfig.getConfigName();
 			String configPath = xmlDbConfig.getConfigPath();
-			if(configName==null)
+			if (configName == null)
 				return getConnection();
 			if (configPath == null)
 				return getConnection(configName, configPath);
