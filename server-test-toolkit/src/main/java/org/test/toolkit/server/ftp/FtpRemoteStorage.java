@@ -18,7 +18,7 @@ public class FtpRemoteStorage extends AbstractRemoteStroage {
 	private FTPClient ftpClient;
 
 	/**
-	 * When get instance, the connection will be created by default, but you
+	 * after instance created, the connection will be created by default, but you
 	 * should call {@link #disconnect()} to release the connection.
 	 *
 	 * @param ftpUser
