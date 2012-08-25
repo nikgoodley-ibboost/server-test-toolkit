@@ -19,7 +19,7 @@ public class SftpRemoteStorage extends AbstractRemoteStroage {
 	private Session session;
 
 	/**
-	 * When get instance, the connection will be created by default, but you should call
+	 * after instance created, the connection will be created by default, but you should call
 	 * {@link #disconnect()} to release the connection.
 	 * @param sshUser
 	 */
