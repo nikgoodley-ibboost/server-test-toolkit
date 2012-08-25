@@ -49,12 +49,12 @@ public class SshServerOperations extends AbstractServerOperations {
 	 */
 	public static SshServerOperations getInstance(SshUser atLeaseOneSshUser,
 			SshUser... otherSshUsers) throws UncheckedServerOperationException {
-		return new SshServerOperations(atLeaseOneSshUser, otherSshUsers);
+  		return new SshServerOperations(atLeaseOneSshUser, otherSshUsers);
 	}
 
 	private SshServerOperations(SshUser atLeastOneSshUser, SshUser... otherSshUsers) {
-		ValidationUtil.checkNull(atLeastOneSshUser);
-		allSshUsers = CollectionUtil.toList(atLeastOneSshUser, otherSshUsers);
+  		allSshUsers = CollectionUtil.toList(atLeastOneSshUser, otherSshUsers);
+ 		ValidationUtil.checkNull(allSshUsers);
 		connect();
 	}
 
