@@ -13,10 +13,17 @@ import org.test.toolkit.util.IoUtil;
 
 public class FtpRemoteStorage extends AbstractRemoteStroage {
 
-	private final static Logger LOGGER = Logger.getLogger(FtpRemoteStorage.class);
+	private final static Logger LOGGER = Logger
+			.getLogger(FtpRemoteStorage.class);
 
 	private FTPClient ftpClient;
 
+	/**
+	 * When get instance, the connection will be created by default, but you
+	 * should call {@link #disconnect()} to release the connection.
+	 *
+	 * @param ftpUser
+	 */
 	public FtpRemoteStorage(FtpUser ftpUser) {
 		super(ftpUser);
 	}
@@ -27,7 +34,8 @@ public class FtpRemoteStorage extends AbstractRemoteStroage {
 			ftpClient = new FTPClient();
 			try {
 				ftpClient.connect(serverUser.getHost(), serverUser.getPort());
-				ftpClient.login(serverUser.getUsername(), serverUser.getPassword());
+				ftpClient.login(serverUser.getUsername(),
+						serverUser.getPassword());
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage(), e);
 				throw new ServerConnectionException(e.getMessage(), e);
@@ -51,9 +59,11 @@ public class FtpRemoteStorage extends AbstractRemoteStroage {
 	}
 
 	@Override
-	public void upload(InputStream srcInputStream, String remoteFolder, String remoteFileName) {
-		LOGGER.info(String.format("[storage]upload to %s as %s", remoteFolder, remoteFileName));
- 		try {
+	public void upload(InputStream srcInputStream, String remoteFolder,
+			String remoteFileName) {
+		LOGGER.info(String.format("[storage]upload to %s as %s", remoteFolder,
+				remoteFileName));
+		try {
 			if (remoteFolder != null) {
 				ftpClient.changeWorkingDirectory(remoteFolder);
 			}
@@ -71,11 +81,11 @@ public class FtpRemoteStorage extends AbstractRemoteStroage {
 		LOGGER.info(String.format("[storage]download  %s", remotePath));
 
 		try {
-			 InputStream inputStream = ftpClient.retrieveFileStream(remotePath);
-			 IoUtil.inputStreamToOutputStream(inputStream, outputStream);
+			InputStream inputStream = ftpClient.retrieveFileStream(remotePath);
+			IoUtil.inputStreamToOutputStream(inputStream, outputStream);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServerConnectionException(e.getMessage(), e);
-		}		
+		}
 	}
 }
