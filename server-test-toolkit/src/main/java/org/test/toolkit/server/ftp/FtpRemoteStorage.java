@@ -13,8 +13,7 @@ import org.test.toolkit.util.IoUtil;
 
 public class FtpRemoteStorage extends AbstractRemoteStroage {
 
-	private final static Logger LOGGER = Logger
-			.getLogger(FtpRemoteStorage.class);
+	private final static Logger LOGGER = Logger.getLogger(FtpRemoteStorage.class);
 
 	private FTPClient ftpClient;
 
@@ -34,8 +33,7 @@ public class FtpRemoteStorage extends AbstractRemoteStroage {
 			ftpClient = new FTPClient();
 			try {
 				ftpClient.connect(serverUser.getHost(), serverUser.getPort());
-				ftpClient.login(serverUser.getUsername(),
-						serverUser.getPassword());
+				ftpClient.login(serverUser.getUsername(), serverUser.getPassword());
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage(), e);
 				throw new ServerConnectionException(e.getMessage(), e);
@@ -59,10 +57,8 @@ public class FtpRemoteStorage extends AbstractRemoteStroage {
 	}
 
 	@Override
-	public void upload(InputStream srcInputStream, String remoteFolder,
-			String remoteFileName) {
-		LOGGER.info(String.format("[storage]upload to %s as %s", remoteFolder,
-				remoteFileName));
+	public void upload(InputStream srcInputStream, String remoteFolder, String remoteFileName) {
+		LOGGER.info(String.format("[storage]upload to %s as %s", remoteFolder, remoteFileName));
 		try {
 			if (remoteFolder != null) {
 				ftpClient.changeWorkingDirectory(remoteFolder);
