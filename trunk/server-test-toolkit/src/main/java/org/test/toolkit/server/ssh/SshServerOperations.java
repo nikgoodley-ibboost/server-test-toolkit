@@ -39,6 +39,14 @@ public class SshServerOperations extends AbstractServerOperations {
 
 	private List<SshUser> allSshUsers;
 
+	/**
+	 * after instance created, the connections will be created by default, but you should call
+	 * {@link #disconnect()} to release the connections.
+	 * @param atLeaseOneSshUser
+	 * @param otherSshUsers
+	 * @return
+	 * @throws UncheckedServerOperationException
+	 */
 	public static SshServerOperations getInstance(SshUser atLeaseOneSshUser,
 			SshUser... otherSshUsers) throws UncheckedServerOperationException {
 		return new SshServerOperations(atLeaseOneSshUser, otherSshUsers);
