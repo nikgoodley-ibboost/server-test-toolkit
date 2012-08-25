@@ -10,9 +10,9 @@ public class DeleteOperation extends AbstractZookeeperOperation<Object> {
 
 	public DeleteOperation(ZooKeeper zookeeper,String path, int version) {
 		super(zookeeper);
-
 		ValidationUtil.checkString(path);
 		ValidationUtil.checkPositive(version);
+		
 		this.path = path;
 		this.version = version;
 	}
