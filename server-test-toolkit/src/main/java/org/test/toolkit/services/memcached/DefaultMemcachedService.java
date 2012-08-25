@@ -33,6 +33,8 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 
 		protected AbstractFutureResult(Future<M> future, long timeout, TimeUnit timeUnit) {
 			super();
+			validateTimeout(timeout, timeUnit);
+
 			this.future = future;
 			this.timeout = timeout;
 			this.timeUnit = timeUnit;
@@ -79,6 +81,11 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 		return new DefaultMemcachedService(inetSocketAddressString);
 	}
 
+	private static void validateTimeout(long timeout, TimeUnit timeUnit) {
+		ValidationUtil.checkPositive(timeout);
+		ValidationUtil.checkNull(timeUnit);
+	}
+
 	private DefaultMemcachedService(InetSocketAddress atLeastOneInetSocketAddress,
 			InetSocketAddress... otherInetSocketAddresses) {
 		ValidationUtil.checkNull(atLeastOneInetSocketAddress);
@@ -114,20 +121,28 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 
 	@Override
 	public void set(String key, Object value, int cacheTime, long timeout, TimeUnit timeUnit) {
+		validateKeyAndTimeout(key, timeout, timeUnit);
+
 		Future<Boolean> future = memcachedClient.set(key, cacheTime, value);
 		new DefaultFutureResult<Boolean>(future, timeout, timeUnit).getResult();
 	}
 
+	private void validateKeyAndTimeout(String key, long timeout, TimeUnit timeUnit) {
+		ValidationUtil.checkString(key);
+		validateTimeout(timeout, timeUnit);
+	}
+
 	@Override
 	public Object get(String key) {
+		ValidationUtil.checkString(key);
 		return memcachedClient.get(key);
 	}
 
 	@Override
 	public Object asyncGet(String key, long timeout, TimeUnit timeUnit) {
+		validateKeyAndTimeout(key, timeout, timeUnit);		
 		Future<Object> future = memcachedClient.asyncGet(key);
 		return new DefaultFutureResult<Object>(future, timeout, timeUnit).getResult();
-
 	}
 
 	@Override
@@ -137,6 +152,9 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 
 	@Override
 	public Map<String, Object> asyncGetBulk(final Collection<String> keys, long timeout, TimeUnit timeUnit) {
+		ValidationUtil.checkNull(keys);
+		validateTimeout(timeout, timeUnit);
+
 		Future<Map<String, Object>> future = memcachedClient.asyncGetBulk(keys);
 
 		return new AbstractFutureResult<Map<String, Object>, Map<String, Object>>(future, timeout, timeUnit) {
@@ -157,6 +175,9 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 
 	@Override
 	public List<String> deleteBulk(Collection<String> keys, long timeout, TimeUnit timeUnit) {
+		ValidationUtil.checkNull(keys);
+		validateTimeout(timeout, timeUnit);
+
 		List<String> failedKeys = new ArrayList<String>();
 		for (String key : keys) {
 			try {
@@ -170,6 +191,7 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 
 	@Override
 	public void delete(String key, long timeout, TimeUnit timeUnit) {
+		validateKeyAndTimeout(key, timeout, timeUnit);
 		Future<Boolean> future = memcachedClient.delete(key);
 		new DefaultFutureResult<Boolean>(future, timeout, timeUnit).getResult();
 
