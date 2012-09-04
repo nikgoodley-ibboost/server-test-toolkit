@@ -64,7 +64,7 @@ public abstract class RandomFile {
 
 	@Override
 	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder("================ ["
+		StringBuilder stringBuilder = new StringBuilder("\n================ ["
 				+ extension.toUpperCase().substring(1)
 				+ "] ================");
 		String format = "\n|| =>[%-9s]:[%s]";
