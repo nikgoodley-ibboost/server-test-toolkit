@@ -64,7 +64,7 @@ public abstract class RandomFile {
 
 	@Override
 	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder("================ ["
+		StringBuilder stringBuilder = new StringBuilder("\n================ ["
 				+ extension.toUpperCase().substring(1)
 				+ "] ================");
 		String format = "\n|| =>[%-9s]:[%s]";
@@ -73,7 +73,7 @@ public abstract class RandomFile {
 		stringBuilder.append(String.format(format, "filesize", fileSize + "B"));
 		stringBuilder.append(String.format(format, "sha", sha));
 		stringBuilder.append(String.format(format, "extension", extension));
-		stringBuilder.append("\n=======================================");
+		stringBuilder.append("\n=======================================\n");
 
 		return stringBuilder.toString();
 	}
