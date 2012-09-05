@@ -6,11 +6,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.test.toolkit.server.common.exception.CommandExecuteException;
 import org.test.toolkit.server.common.user.ServerUser;
 import org.test.toolkit.util.ValidationUtil;
 
 public abstract class AbstractRemoteStroage implements RemoteStorage {
+
+	private static final Logger LOGGER=Logger.getLogger(AbstractRemoteStroage.class);
 
 	protected ServerUser serverUser;
 
@@ -27,11 +30,12 @@ public abstract class AbstractRemoteStroage implements RemoteStorage {
 	@Override
 	public void download(String storagePath, String localFilePath) {
 		ValidationUtil.checkString(storagePath, localFilePath);
-		FileOutputStream outputStream = null;
+ 		FileOutputStream outputStream = null;
 		try {
-			outputStream = new FileOutputStream(localFilePath);
+			LOGGER.info(String.format("[storage]download  %s to %s", storagePath,localFilePath));
+ 			outputStream = new FileOutputStream(localFilePath);
 			download(storagePath, outputStream);
-		} catch (FileNotFoundException e) {
+ 		} catch (FileNotFoundException e) {
 			throw new CommandExecuteException(e.getMessage(), e);
 		} finally {
 			IOUtils.closeQuietly(outputStream);
