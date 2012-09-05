@@ -54,20 +54,10 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		<!-- should execute maven command to install the jar to local: mvn install:install-file
-			-DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.1.0.6.0 -Dpackaging=jar
-			-Dfile=D:\ojdbc6_11.1.0.6.0.jar -->
 		<dependency>
 			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6 </artifactId>
-			<version>11.1.0.6.0</version>
-		</dependency>
-		<!-- should execute maven command to install the jar to local: mvn install:install-file
-			-DgroupId=inet -DartifactId=oranxo -Dversion=3.00.01 -Dpackaging=jar -Dfile=D:\oranxo-3.00.01.jar -->
-		<dependency>
-			<groupId>inet</groupId>
-			<artifactId>oranxo</artifactId>
-			<version>3.00.01</version>
+			<artifactId>ojdbc6</artifactId>
+			<version>11.1.0.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-beanutils</groupId>
@@ -112,5 +102,22 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
+	<repositories>
+		<repository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>central</id>
+			<name>Maven Repository Switchboard</name>
+			<url>http://repo1.maven.org/maven2</url>
+		</repository>
+		<repository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>jahia</id>
+			<name>Jahia Repository</name>
+			<url>http://maven.jahia.org/maven2/</url>
+		</repository>
+	</repositories>
 </project>
-
