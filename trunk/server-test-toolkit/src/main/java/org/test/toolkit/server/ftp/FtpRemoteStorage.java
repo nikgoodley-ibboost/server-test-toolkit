@@ -27,6 +27,10 @@ public class FtpRemoteStorage extends AbstractRemoteStroage {
 		super(ftpUser);
 	}
 
+	public FTPClient getFtpClient() {
+		return ftpClient;
+	}
+
 	@Override
 	public void connect() {
 		if (ftpClient == null) {
