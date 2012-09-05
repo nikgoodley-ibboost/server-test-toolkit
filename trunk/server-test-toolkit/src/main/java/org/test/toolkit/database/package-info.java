@@ -1,8 +1,6 @@
 
 /**
- * for database operation.
- *
- * main execute class is {@link org.test.toolkit.database.DefaultDbClient}
+ * for database operation,  main execute class is {@link org.test.toolkit.database.DefaultDbClient}
  *
  * @author fu.jian
  *
