@@ -8,7 +8,7 @@ import org.quartz.Scheduler;
 import org.quartz.Trigger;
 
 /**
- * tester can implement this interface to provide serveral jobs.
+ * tester can implement this interface to provide several jobs.
  * @author fu.jian
  *
  */
