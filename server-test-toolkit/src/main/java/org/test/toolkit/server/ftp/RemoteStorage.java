@@ -39,7 +39,7 @@ public interface RemoteStorage extends RemoteConnection {
 	public void download(String remotePath, OutputStream outputStream);
 
 	/**
-	 * similar with {@linkplain #download(String, OutputStream)}. but is this
+	 * similar with {@link #download(String, OutputStream)}. but is this
 	 * method. the OutputStream is file
 	 * 
 	 * @param remotePath
