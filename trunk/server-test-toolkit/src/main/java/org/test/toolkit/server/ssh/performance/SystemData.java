@@ -1,6 +1,6 @@
 package org.test.toolkit.server.ssh.performance;
 
-public class SystemData extends Component {
+public class SystemData extends ComponentData {
 
 	private static final String TYPE = "SYSTEM";
 

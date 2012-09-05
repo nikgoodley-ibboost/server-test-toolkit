@@ -1,6 +1,6 @@
 package org.test.toolkit.server.ssh.performance;
 
-public class IoData extends Component {
+public class IoData extends ComponentData {
 
 	private static final String TYPE = "IO";
 

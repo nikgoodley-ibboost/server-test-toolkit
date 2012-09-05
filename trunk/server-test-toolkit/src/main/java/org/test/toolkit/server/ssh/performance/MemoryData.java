@@ -1,6 +1,6 @@
 package org.test.toolkit.server.ssh.performance;
 
-public class MemoryData extends Component {
+public class MemoryData extends ComponentData {
 
 	private static final String TYPE = "MEMORY";
 
