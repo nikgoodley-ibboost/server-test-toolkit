@@ -39,7 +39,7 @@ public class SftpRemoteStorage extends AbstractRemoteStroage {
 
 	@Override
 	public void download(String remotePath, OutputStream outputStream) {
-		LOGGER.info(String.format("[storage]download  %s", remotePath));
+		LOGGER.info(String.format("[storage]download from %s", remotePath));
 
 		SftpCommandWithoutResult sftpGetCommand = new SftpGetCommand(session, remotePath, outputStream);
 		sftpGetCommand.execute();
