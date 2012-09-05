@@ -25,10 +25,11 @@ import org.test.toolkit.job.jmx.mbean.JobCenterSchedule;
 import org.test.toolkit.util.ValidationUtil;
 
 /**
+ * job center is for start/monitor jobs. 
  * main execute class for all job module. use {@linkplain JobCenterImpl#start()}
  * can start jobs; use {@linkplain JobCenterImpl#registerMBean()} can provide
  * simple management for jobs
- * 
+ *
  * @author fu.jian
  * date Aug 17, 2012
  */
