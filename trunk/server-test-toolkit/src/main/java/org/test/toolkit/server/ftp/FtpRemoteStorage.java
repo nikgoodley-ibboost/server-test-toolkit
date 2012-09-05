@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.test.toolkit.server.common.exception.CommandExecuteException;
 import org.test.toolkit.server.common.exception.ServerConnectionException;
 import org.test.toolkit.util.IoUtil;
+import org.test.toolkit.util.ValidationUtil;
 
 public class FtpRemoteStorage extends AbstractRemoteStroage {
 
@@ -87,5 +88,17 @@ public class FtpRemoteStorage extends AbstractRemoteStroage {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServerConnectionException(e.getMessage(), e);
 		}
+	}
+
+	@Override
+	public void mkdir(String path) {
+		ValidationUtil.checkString(path);
+		LOGGER.info(String.format("[storage]create path %s",path));
+
+		try {
+			ftpClient.mkd(path);
+		} catch (IOException e) {
+			throw new CommandExecuteException(e.getMessage(), e);
+ 		}
 	}
 }

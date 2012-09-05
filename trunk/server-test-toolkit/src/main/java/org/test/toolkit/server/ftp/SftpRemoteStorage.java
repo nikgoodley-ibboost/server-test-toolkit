@@ -8,7 +8,9 @@ import org.test.toolkit.server.common.user.SshUser;
 import org.test.toolkit.server.common.util.JSchUtil.JSchSessionUtil;
 import org.test.toolkit.server.ftp.command.sftp.SftpCommandWithoutResult;
 import org.test.toolkit.server.ftp.command.sftp.SftpGetCommand;
+import org.test.toolkit.server.ftp.command.sftp.SftpMkdirCommand;
 import org.test.toolkit.server.ftp.command.sftp.SftpPutCommand;
+import org.test.toolkit.util.ValidationUtil;
 
 import com.jcraft.jsch.Session;
 
@@ -60,6 +62,15 @@ public class SftpRemoteStorage extends AbstractRemoteStroage {
 	@Override
 	public String toString() {
 		return super.toString();
+	}
+
+	@Override
+	public void mkdir(String path) {
+		ValidationUtil.checkString(path);
+		LOGGER.info(String.format("[storage]create path %s",path));
+
+		SftpCommandWithoutResult sftpPutCommand = new SftpMkdirCommand(session, path);
+		sftpPutCommand.execute();
 	}
 
 }
