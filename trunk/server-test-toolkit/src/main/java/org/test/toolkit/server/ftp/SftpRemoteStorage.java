@@ -18,13 +18,17 @@ public class SftpRemoteStorage extends AbstractRemoteStroage {
 
 	private Session session;
 
-	/**
+ 	/**
 	 * after instance created, the connection will be created by default, but you should call
 	 * {@link #disconnect()} to release the connection.
 	 * @param sshUser
 	 */
 	public SftpRemoteStorage(SshUser sshUser) {
 		super(sshUser);
+	}
+
+	public Session getSession() {
+		return session;
 	}
 
 	@Override
