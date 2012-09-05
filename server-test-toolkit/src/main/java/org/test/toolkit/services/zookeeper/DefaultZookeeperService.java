@@ -29,7 +29,7 @@ public class DefaultZookeeperService extends AbstractZookeeperService implements
 	 *            "/app/a/foo/bar" (from the server perspective).
 	 * @param sessionTimeout
 	 *            session timeout in milliseconds
-	 * @return
+	 * @return DefaultZookeeperService instance
 	 */
 	public static ZookeeperOperations getInstance(String connectString, int sessionTimeout) {
 		return new DefaultZookeeperService(connectString, sessionTimeout);
