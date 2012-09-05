@@ -18,7 +18,7 @@ public class SshServerOperationsTest {
 	@Test
 	public void testExecuteInnerCommandSingleServer() throws UncheckedServerOperationException,
 			TimeoutException {
-		SshUser sshUserOne = new SshUser("10.224.95.207", 333, "logs", "pass");
+		SshUser sshUserOne = new SshUser("10.224.95.207", 333, "root", "pass");
 
 		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne);
 		Map<String, String> lsResult = serverOperations.ls("/usr");
@@ -28,8 +28,8 @@ public class SshServerOperationsTest {
 
 	@Test
 	public void testExecuteInnerCommand() throws UncheckedServerOperationException, TimeoutException {
-		SshUser sshUserOne = new SshUser("10.224.95.207", 333, "logs", "pass");
-		SshUser sshUserTwo = new SshUser("10.224.95.209", 333, "logs", "pass");
+		SshUser sshUserOne = new SshUser("10.224.95.207", 333, "root", "pass");
+		SshUser sshUserTwo = new SshUser("10.224.95.209", 333, "root", "pass");
 		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne, sshUserTwo);
 		Map<String, String> lsResult = serverOperations.ls("/usr");
 		System.out.println(lsResult);
@@ -39,8 +39,8 @@ public class SshServerOperationsTest {
 	@Test
 	public void testDirectlyExecuteCommandWithResult() throws UncheckedServerOperationException,
 			TimeoutException {
-		SshUser sshUserOne = new SshUser("10.224.95.207", 333, "logs", "pass");
-		SshUser sshUserTwo = new SshUser("10.224.95.209", 333, "logs", "pass");
+		SshUser sshUserOne = new SshUser("10.224.95.207", 333, "root", "pass");
+		SshUser sshUserTwo = new SshUser("10.224.95.209", 333, "root", "pass");
 		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne, sshUserTwo);
 
 		Map<String, String> executeCommandWithResult = serverOperations.executeCommandWithResult(Ls
@@ -53,8 +53,8 @@ public class SshServerOperationsTest {
 	@Test
 	public void testDirectlyExecuteCommandWithoutResult() throws UncheckedServerOperationException,
 			TimeoutException {
-		SshUser sshUserOne = new SshUser("10.224.95.207", 333, "logs", "pass");
-		SshUser sshUserTwo = new SshUser("10.224.95.209", 333, "logs", "pass");
+		SshUser sshUserOne = new SshUser("10.224.95.207", 333, "root", "pass");
+		SshUser sshUserTwo = new SshUser("10.224.95.209", 333, "root", "pass");
 		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne, sshUserTwo);
 
 		serverOperations.executeCommandWithoutResult(Ls.newInstanceLsPath("/usr"));
@@ -63,7 +63,7 @@ public class SshServerOperationsTest {
 	@Test
 	public void testDirectlyExecuteCommandWithError() throws UncheckedServerOperationException,
 			TimeoutException {
-		SshUser sshUserOne = new SshUser("10.224.95.207", 333, "logs", "pass");
+		SshUser sshUserOne = new SshUser("10.224.95.207", 333, "root", "pass");
 
 		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne);
 		Exception e=null;
@@ -83,8 +83,7 @@ public class SshServerOperationsTest {
 	@Test
 	public void testExecuteInnerGetLineCommand() throws UncheckedServerOperationException, TimeoutException {
 		SshUser sshUserOne = new SshUser("10.224.57.207", 333, "root", "Aa1234");
-//		SshUser sshUserTwo = new SshUser("10.224.95.209", 333, "logs", "pass");
-		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne);
+ 		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne);
 		Map<String, Long> lsResult = serverOperations.getLineNumberForFile("/usr/local/nginx/conf/idmap.conf");
 		System.out.println(lsResult);
 		Assert.assertNotNull(lsResult);
@@ -93,8 +92,7 @@ public class SshServerOperationsTest {
 	@Test
 	public void testExecuteInnerGrepCommand() throws UncheckedServerOperationException, TimeoutException {
 		SshUser sshUserOne = new SshUser("10.224.57.207", 333, "root", "Aa1234");
-//		SshUser sshUserTwo = new SshUser("10.224.95.209", 333, "logs", "pass");
-		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne);
+ 		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne);
 		Map<String, String> lsResult = serverOperations.getContentWithKeywords("/usr/local/nginx/conf/idmap.conf", "Timeou","5");
 		System.out.println(lsResult);
 		Assert.assertNotNull(lsResult);
