@@ -24,7 +24,7 @@ public class XmlDbConfig implements DbConfig {
 	/**
 	 * set c3po-config.xml's path by
 	 * <code>configPath<code>,one xml can config serveral db config, every db config in xml has one <code>configName</code>
-	 * similar with  {@linkplain XmlDbConfig#XmlDbConfig(String)}.
+	 * similar with  {@link XmlDbConfig#XmlDbConfig(String)}.
 	 * @param configPath c3po_config.xml path
 	 * @param configName
 	 */
