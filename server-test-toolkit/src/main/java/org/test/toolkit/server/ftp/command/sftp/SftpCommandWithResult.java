@@ -4,7 +4,7 @@ import com.jcraft.jsch.Session;
 
 public abstract class SftpCommandWithResult extends SftpCommand {
 
-	public SftpCommandWithResult(Session session) {
+	protected SftpCommandWithResult(Session session) {
 		super(session);
 	}
 

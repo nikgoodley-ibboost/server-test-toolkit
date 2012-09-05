@@ -6,7 +6,7 @@ import com.jcraft.jsch.SftpException;
 
 public abstract class SftpCommandWithoutResult extends SftpCommand {
 
-	public SftpCommandWithoutResult(Session session) {
+	protected SftpCommandWithoutResult(Session session) {
 		super(session);
 	}
 

@@ -17,7 +17,7 @@ public abstract class SftpCommand {
 
 	private final Session session;
 
-	public SftpCommand(Session session) {
+	protected SftpCommand(Session session) {
 		ValidationUtil.checkNull(session);
 		this.session = session;
 	}
