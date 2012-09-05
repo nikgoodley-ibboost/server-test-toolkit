@@ -31,7 +31,6 @@ public class ToJavabeanListHandler<T> implements ResultSetHandler<List<T>> {
 				for (int index = 1; index <= columnCount; index++) {
 					String key = resultSetMetaData.getColumnName(index);
 					Object value = resultSet.getObject(index);
-					System.out.println(value.getClass());
 					if (LOGGER.isDebugEnabled()) {
 						String msg = String.format("[DB][Column][Key:Value][%s:%s]", key, value);
 						LOGGER.debug(msg);
