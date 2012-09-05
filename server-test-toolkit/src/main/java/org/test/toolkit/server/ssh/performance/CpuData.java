@@ -1,6 +1,6 @@
 package org.test.toolkit.server.ssh.performance;
 
-public class CpuData extends Component {
+public class CpuData extends ComponentData {
 
 	private static final String TYPE = "CPU";
 

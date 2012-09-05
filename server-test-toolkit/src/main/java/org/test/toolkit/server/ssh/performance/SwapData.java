@@ -1,6 +1,6 @@
 package org.test.toolkit.server.ssh.performance;
 
-public class SwapData extends Component {
+public class SwapData extends ComponentData {
 
 	private static final String TYPE = "SWAP";
 

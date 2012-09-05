@@ -1,6 +1,6 @@
 package org.test.toolkit.server.ssh.performance;
 
-public abstract class Component {
+public abstract class ComponentData {
 
 	protected String type;
 
@@ -12,7 +12,7 @@ public abstract class Component {
 		this.type = type;
 	}
 
-	protected Component(String type) {
+	protected ComponentData(String type) {
 		super();
 		this.type = type;
 	}
