@@ -44,6 +44,9 @@ public abstract class RandomFile {
 		return extension;
 	}
 
+	/**
+	 * @return bufferedInputStream
+	 */
 	public InputStream getInputStream() {
 		return new BufferedInputStream(new ByteArrayInputStream(byteArray));
 	}
