@@ -19,7 +19,7 @@ public interface RemoteStorage extends RemoteConnection {
 	public void upload(InputStream srcInputStream, String remoteFolder, String remoteFileName);
 
 	/**
-	 * upload file to remotefolder with name <tt>remoteFileName</tt>
+	 * upload file to remote folder with name <tt>remoteFileName</tt>
 	 * 
 	 * @param localFilePath
 	 * @param remoteFolder
