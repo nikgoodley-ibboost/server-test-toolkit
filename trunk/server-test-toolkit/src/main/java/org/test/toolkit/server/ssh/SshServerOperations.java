@@ -44,7 +44,7 @@ public class SshServerOperations extends AbstractServerOperations {
 	 * {@link #disconnect()} to release the connections.
 	 * @param atLeaseOneSshUser
 	 * @param otherSshUsers
-	 * @return
+	 * @return SshServerOperations
 	 * @throws UncheckedServerOperationException
 	 */
 	public static SshServerOperations getInstance(SshUser atLeaseOneSshUser,
