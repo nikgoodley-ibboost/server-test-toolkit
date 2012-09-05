@@ -20,7 +20,7 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>jsch</groupId>
+			<groupId>com.jcraft</groupId>
 			<artifactId>jsch</artifactId>
 			<version>0.1.29</version>
 			<type>jar</type>
