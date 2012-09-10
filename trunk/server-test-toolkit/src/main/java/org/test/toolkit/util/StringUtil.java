@@ -23,7 +23,7 @@ public final class StringUtil {
 			stringBuffer.append(spliter);
 		}
   
-		return stringBuffer.subSequence(0, stringBuffer.lastIndexOf(spliter)).toString().trim();
+		return stringBuffer.subSequence(0, stringBuffer.lastIndexOf(spliter)).toString();
  	}
 
 	/**
