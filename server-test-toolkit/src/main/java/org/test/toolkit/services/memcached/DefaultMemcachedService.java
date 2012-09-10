@@ -15,6 +15,7 @@ import java.util.concurrent.TimeoutException;
 import net.spy.memcached.AddrUtil;
 import net.spy.memcached.MemcachedClient;
 
+import org.apache.log4j.Logger;
 import org.test.toolkit.server.common.exception.ServerConnectionException;
 import org.test.toolkit.services.exception.ServiceExecuteException;
 import org.test.toolkit.services.exception.ServiceTimeoutException;
@@ -22,6 +23,8 @@ import org.test.toolkit.util.CollectionUtil;
 import org.test.toolkit.util.ValidationUtil;
 
 public class DefaultMemcachedService extends AbstractMemcachedService {
+
+	private final static Logger LOGGER=Logger.getLogger(DefaultMemcachedService.class);
 
 	private final MemcachedClient memcachedClient;
 
@@ -140,7 +143,7 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 
 	@Override
 	public Object asyncGet(String key, long timeout, TimeUnit timeUnit) {
-		validateKeyAndTimeout(key, timeout, timeUnit);		
+		validateKeyAndTimeout(key, timeout, timeUnit);
 		Future<Object> future = memcachedClient.asyncGet(key);
 		return new DefaultFutureResult<Object>(future, timeout, timeUnit).getResult();
 	}
@@ -206,6 +209,7 @@ public class DefaultMemcachedService extends AbstractMemcachedService {
 	public void shutdown() {
 		if (memcachedClient != null) {
 			memcachedClient.shutdown();
+			LOGGER.info("memcached shutdown success");
 		}
 	}
 }
