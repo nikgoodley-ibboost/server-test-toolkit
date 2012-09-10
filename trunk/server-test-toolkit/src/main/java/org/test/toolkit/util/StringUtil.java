@@ -7,7 +7,7 @@ public final class StringUtil {
 	/**
 	 * to format such as "stringOne stringTwo stringThird" which takes the
 	 * {@value org.test.toolkit.constants.MarkConstants#SPACE} as the spliter.
-	 * 
+	 *
 	 * @param strings
 	 * @return such as a b c
 	 */
@@ -15,20 +15,20 @@ public final class StringUtil {
 		return concat(MarkConstants.SPACE, strings);
 	}
 
-	private static String concat(String spliter, String... strings) {
+	public static String concat(String spliter, String... strings) {
 		ValidationUtil.checkNull(strings);
 		StringBuffer stringBuffer = new StringBuffer();
 		for (String string : strings) {
 			stringBuffer.append(string);
 			stringBuffer.append(spliter);
 		}
-  
+
 		return stringBuffer.subSequence(0, stringBuffer.lastIndexOf(spliter)).toString();
  	}
 
 	/**
 	 * concat all strings directly
-	 * 
+	 *
 	 * @param strings
 	 * @return such as abc
 	 */
@@ -39,7 +39,7 @@ public final class StringUtil {
 
 	/**
 	 * concat all strings with {@value org.test.toolkit.constants.MarkConstants#SEMICOLON}
-	 * 
+	 *
 	 * @param strings
 	 * @return such as a;b;c
 	 */
@@ -50,5 +50,5 @@ public final class StringUtil {
 
 	private StringUtil() {
 	}
-  
+
 }
