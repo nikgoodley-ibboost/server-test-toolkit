@@ -2,10 +2,14 @@ package org.test.toolkit.util;
 
 import static org.test.toolkit.constants.MarkConstants.*;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author fu.jian
  */
 public final class PathUtil {
+
+	private final static Logger LOGGER = Logger.getLogger(PathUtil.class);
 
 	/**
 	 * path formatted to : /xx/yy/zz
@@ -21,6 +25,8 @@ public final class PathUtil {
 		if (returnPath.endsWith(SPLIT))
 			returnPath = returnPath.substring(0, returnPath.length() - 1);
 
+		LOGGER.info(String
+					.format("[util]convert [%s] to [%s]", path, returnPath));
 		return returnPath;
 	}
 
