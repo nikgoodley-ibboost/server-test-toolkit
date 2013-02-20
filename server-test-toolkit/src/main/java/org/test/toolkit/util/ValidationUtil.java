@@ -93,6 +93,7 @@ public final class ValidationUtil {
 	}
 
 	/**
+	 * if <=0 ,throws {@code IllegalArgumentException}
 	 * @param numbers
 	 * @throws IllegalArgumentException
 	 */
