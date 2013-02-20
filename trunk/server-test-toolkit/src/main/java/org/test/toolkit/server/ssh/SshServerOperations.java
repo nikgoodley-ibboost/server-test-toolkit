@@ -83,6 +83,8 @@ public class SshServerOperations extends AbstractServerOperations {
 
 	private Collection<SshTask> formatSshTasks(String command, boolean returnResult) {
 		int initialCapacity = ipSessionMap.size();
+     ValidationUtil.checkPositive(initialCapacity);
+
 		Collection<SshTask> sshTasks = new ArrayList<SshTask>(initialCapacity);
 		for (Entry<String, Session> ipSession : ipSessionMap.entrySet()) {
 			Session session = ipSession.getValue();
