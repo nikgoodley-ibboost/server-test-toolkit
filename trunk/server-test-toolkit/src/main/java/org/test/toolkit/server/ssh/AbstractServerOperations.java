@@ -1,6 +1,8 @@
 package org.test.toolkit.server.ssh;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,6 +123,15 @@ public abstract class AbstractServerOperations implements ServerOperations {
 	}
 
 	@Override
+	public void modifyFile(String path, int lineNumber,
+			String newContentForLine){
+		String currentTimeStr = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		String backupPath=new StringBuffer(path).append("_backup").append(currentTimeStr).toString();
+
+		modifyFile( path,  lineNumber,  newContentForLine,  backupPath);
+	}
+
+	@Override
 	public void modifyFile(String path, int lineNumber, String newContentForLine, String backupPath) {
 		GroupCommands groupCommands = GroupCommandFactory.changeFile(path, lineNumber, newContentForLine,
 				backupPath);
@@ -163,4 +174,5 @@ public abstract class AbstractServerOperations implements ServerOperations {
 	public Map<String, String> executeCommandWithResult(String command) {
 		return executeCommand(command, true);
 	}
+
 }
