@@ -1,5 +1,8 @@
 package org.test.toolkit.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.test.toolkit.constants.MarkConstants;
 
 public final class StringUtil {
@@ -47,7 +50,7 @@ public final class StringUtil {
 		return concat(MarkConstants.SEMICOLON, strings);
 
 	}
-   
+
        /**
      * @param str
      * @param regexContainedStr
