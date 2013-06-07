@@ -47,6 +47,23 @@ public final class StringUtil {
 		return concat(MarkConstants.SEMICOLON, strings);
 
 	}
+   
+       /**
+     * @param str
+     * @param regexContainedStr
+     * @return  the count of regexContainedStr in str
+     */
+  public static int getCountForContainedStr(String str,String regexContainedStr)
+    {
+    	 Pattern compile = Pattern.compile(regexContainedStr);
+    	 Matcher matcher = compile.matcher(str);
+    	 int count=0;
+    	 while(matcher.find()){
+    		 count++;
+    	 }
+
+    	 return count;
+     }
 
 	private StringUtil() {
 	}
