@@ -37,7 +37,8 @@ public class DbUtil {
 
 		public static void closeResultSet(ResultSet resultSet) {
 			try {
-				resultSet.close();
+        if (connection != null)
+				  resultSet.close();
 			} catch (SQLException e) {
 				DbUtil.LOGGER.warn("close resultSet fail for: " + e.getMessage(), e);
 			}
