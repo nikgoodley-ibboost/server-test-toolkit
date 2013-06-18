@@ -8,8 +8,7 @@ import java.sql.Statement;
 import org.apache.log4j.Logger;
 
 /**
- * @author fu.jian
- * date Aug 4, 2012
+ * @author fu.jian date Aug 4, 2012
  */
 public class DbUtil {
 
@@ -37,14 +36,14 @@ public class DbUtil {
 
 		public static void closeResultSet(ResultSet resultSet) {
 			try {
-        if (connection != null)
-				  resultSet.close();
+				if (resultSet != null)
+					resultSet.close();
 			} catch (SQLException e) {
 				DbUtil.LOGGER.warn("close resultSet fail for: " + e.getMessage(), e);
 			}
 		}
 
-		private DbCloseUtil(){
+		private DbCloseUtil() {
 
 		}
 
