@@ -102,7 +102,7 @@ public class SshTask implements Callable<SshTaskResult<String, String>> {
 
 	private void logError(Exception e) {
 		String errorMsg = String.format("[Server] [Execute command] [End] [Fail] command (%s) for (%s)",
-				command, e.getMessage());
+				command, e);
  		LOGGER.error(errorMsg, e);
  	}
 
