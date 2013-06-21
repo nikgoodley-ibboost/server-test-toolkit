@@ -1,4 +1,4 @@
-package org.test.toolkit.file;
+package org.test.toolkit.unittest.file;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,6 +6,9 @@ import java.io.InputStream;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.test.toolkit.file.FileType;
+import org.test.toolkit.file.RandomFile;
+import org.test.toolkit.file.RandomFileFactory;
 import org.test.toolkit.util.IoUtil;
 
 public class PdfFileTest {

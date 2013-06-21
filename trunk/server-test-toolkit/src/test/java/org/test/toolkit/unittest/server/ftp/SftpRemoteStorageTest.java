@@ -1,7 +1,8 @@
-package org.test.toolkit.server.ftp;
+package org.test.toolkit.unittest.server.ftp;
 
 import org.junit.Test;
 import org.test.toolkit.server.common.user.SshUser;
+import org.test.toolkit.server.ftp.SftpRemoteStorage;
 
 public class SftpRemoteStorageTest {
 
