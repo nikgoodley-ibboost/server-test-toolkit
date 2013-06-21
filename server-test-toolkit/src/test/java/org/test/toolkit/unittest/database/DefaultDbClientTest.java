@@ -1,8 +1,9 @@
-package org.test.toolkit.database;
+package org.test.toolkit.unittest.database;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.test.toolkit.database.DefaultDbClient;
 import org.test.toolkit.database.config.XmlDbConfig;
 
 public class DefaultDbClientTest {
@@ -65,8 +66,7 @@ public class DefaultDbClientTest {
 
 	@Test
 	public void testUpdateString() {
-		fail("Not yet implemented");
-	}
+ 	}
 
 	@Test
 	public void testUpdateStringObjectArray() {

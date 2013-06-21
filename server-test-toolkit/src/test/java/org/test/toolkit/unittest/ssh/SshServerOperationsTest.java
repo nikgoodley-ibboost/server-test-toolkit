@@ -1,4 +1,4 @@
-package org.test.toolkit.ssh;
+package org.test.toolkit.unittest.ssh;
 
 import java.util.Map;
 import java.util.concurrent.TimeoutException;

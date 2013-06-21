@@ -1,8 +1,10 @@
-package org.test.toolkit.file;
+package org.test.toolkit.unittest.file;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.test.toolkit.file.RandomFile;
+import org.test.toolkit.file.RandomFileFactory;
 
 public class RandomFileFactoryTest {
 
