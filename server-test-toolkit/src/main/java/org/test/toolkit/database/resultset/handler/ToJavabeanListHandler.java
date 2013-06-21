@@ -9,6 +9,13 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.test.toolkit.database.exception.DbExecuteException;
 
+/**
+ * java bean definition can refer to:
+  <a ref="http://docs.oracle.com/cd/B19306_01/java.102/b14188/datamap.htm#CHDBJAGH">SQL and PL/SQL Data Type to Oracle and JDBC Mapping Classes</a>
+ * @author jiafu
+ *
+ * @param <T>
+ */
 public class ToJavabeanListHandler<T> implements ResultSetHandler<List<T>> {
 
 	private static final Logger LOGGER = Logger.getLogger(ToJavabeanListHandler.class);
