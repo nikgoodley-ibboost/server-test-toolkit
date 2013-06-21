@@ -1,7 +1,7 @@
 package org.test.toolkit.unittest.util;
 
-import junit.framework.Assert;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.test.toolkit.util.StringUtil;
 

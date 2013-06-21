@@ -3,8 +3,8 @@ package org.test.toolkit.unittest.ssh;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-import junit.framework.Assert;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.test.toolkit.server.common.exception.UncheckedServerOperationException;
 import org.test.toolkit.server.common.user.SshUser;
