@@ -47,10 +47,10 @@ public class ToJavabeanListHandler<T> implements ResultSetHandler<List<T>> {
 				}
 				list.add(entity);
 			}
-			LOGGER.info("[DB][ToJavabeanListHandle][END][SUCCESS]");
+			LOGGER.info("[DB][ToJavabeanListHandle][END][SUCCESS][SIZE:"+list.size()+"]");
 			return list;
 		} catch (Exception e) {
-			LOGGER.error("[DB][ToJavabeanListHandle][END][FAIL] " + e.getMessage(), e);
+			LOGGER.error("[DB][ToJavabeanListHandle][END][FAIL] " + e, e);
 			throw new DbExecuteException(e.getMessage(), e);
 		}
 	}
