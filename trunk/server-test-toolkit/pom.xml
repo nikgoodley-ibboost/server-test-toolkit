@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.test.toolkit</groupId>
 	<artifactId>server-test-toolkit</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<packaging>jar</packaging>
 	<name>server-test-toolkit</name>
 	<description>one open source project which is designed for test automation of server applications.</description>
@@ -19,7 +19,7 @@
 		<url>scm:svn:http://server-test-toolkit.googlecode.com/svn/trunk/</url>
 		<connection>scm:svn:http://server-test-toolkit.googlecode.com/svn/trunk/</connection>
 		<developerConnection>scm:svn:http://server-test-toolkit.googlecode.com/svn/trunk/</developerConnection>
- 	</scm>
+	</scm>
 	<developers>
 		<developer>
 			<id>fujian1115</id>
@@ -137,6 +137,21 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-gpg-plugin</artifactId>
+			<executions>
+				<execution>
+					<id>sign-artifacts</id>
+					<phase>verify</phase>
+					<goals>
+						<goal>sign</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins>
 	<repositories>
 		<repository>
 			<snapshots>
