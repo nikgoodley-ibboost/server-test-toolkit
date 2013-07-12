@@ -2,8 +2,30 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.test.toolkit</groupId>
-	<artifactId>server</artifactId>
+	<artifactId>server-test-toolkit</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>server-test-toolkit</name>
+	<description>one open source project which is designed for test automation of server applications.</description>
+	<url>http://code.google.com/p/server-test-toolkit/</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<url>https://server-test-toolkit.googlecode.com/svn/trunk/</url>
+		<connection>https://server-test-toolkit.googlecode.com/svn/trunk/</connection>
+	</scm>
+	<developers>
+		<developer>
+			<id>fujian1115</id>
+			<name>fu.jian</name>
+			<email>fujian1115@gmail.com</email>
+		</developer>
+	</developers>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
