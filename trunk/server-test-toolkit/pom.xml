@@ -16,9 +16,10 @@
 		</license>
 	</licenses>
 	<scm>
-		<url>https://server-test-toolkit.googlecode.com/svn/trunk/</url>
-		<connection>https://server-test-toolkit.googlecode.com/svn/trunk/</connection>
-	</scm>
+		<url>scm:svn:http://server-test-toolkit.googlecode.com/svn/trunk/</url>
+		<connection>scm:svn:http://server-test-toolkit.googlecode.com/svn/trunk/</connection>
+		<developerConnection>scm:svn:http://server-test-toolkit.googlecode.com/svn/trunk/</developerConnection>
+ 	</scm>
 	<developers>
 		<developer>
 			<id>fujian1115</id>
@@ -26,6 +27,11 @@
 			<email>fujian1115@gmail.com</email>
 		</developer>
 	</developers>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
