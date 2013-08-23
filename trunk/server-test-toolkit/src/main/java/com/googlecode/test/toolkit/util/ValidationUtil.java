@@ -100,7 +100,7 @@ public final class ValidationUtil {
 	public static void checkPositive(Number... numbers) {
 		for (Number number : numbers)
 			if (!isPositive(number))
-				throw new IllegalArgumentException("number shouldn't < 0, current number is: "
+				throw new IllegalArgumentException("number shouldn't <= 0, current number is: "
 						+ number);
 	}
 
