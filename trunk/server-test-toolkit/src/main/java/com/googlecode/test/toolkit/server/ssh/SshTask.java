@@ -28,15 +28,17 @@ public class SshTask implements Callable<SshTaskResult<String, String>> {
 
 	private String command;
 	private boolean isReturnResult;
+	private boolean isHanged;
 	private Session session;
 
-	SshTask(Session session, String command, boolean returnResult) {
+	SshTask(Session session, String command, boolean returnResult, boolean isHanged) {
 		ValidationUtil.checkString(command);
 		ValidationUtil.checkNull(session);
 
 		this.session = session;
 		this.command = command;
 		this.isReturnResult = returnResult;
+		this.isHanged=isHanged;
 	}
 
 	@Override
@@ -54,7 +56,9 @@ public class SshTask implements Callable<SshTaskResult<String, String>> {
 
 			inputStream = channelExec.getInputStream();
 			errStream = channelExec.getErrStream();
-			judgeIfCommandExecuteError(errStream);
+
+			if(!isHanged)
+				judgeIfCommandExecuteError(errStream);
 
 			return getResult(inputStream);
 		} catch (UncheckedServerOperationException e) {

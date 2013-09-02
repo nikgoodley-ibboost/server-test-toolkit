@@ -17,6 +17,8 @@ public interface ServerOperations extends RemoteConnection {
 
 	public void executeCommandWithoutResult(String command);
 
+	public void executeCommandHanged(String command);
+
 	public Map<String, String> executeCommandWithResult(Command command);
 
 	public void executeCommandWithoutResult(Command command);
