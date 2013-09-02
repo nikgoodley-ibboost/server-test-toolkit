@@ -73,22 +73,28 @@ public class SshServerOperations extends AbstractServerOperations {
 		LOGGER.info("[Server] [Complete Init IP-Session Map] " + ipSessionMap);
 	}
 
+
+	@Override
+	public void executeCommandHanged(String command) {
+		executeCommand(command, false, true);
+	}
+
  	@Override
-	public Map<String, String> executeCommand(String command, boolean returnResult) {
+	public Map<String, String> executeCommand(String command, boolean returnResult, boolean isHanged) {
 		ValidationUtil.checkString(command);
 
-		Collection<SshTask> sshTasks = formatSshTasks(command, returnResult);
+		Collection<SshTask> sshTasks = formatSshTasks(command, returnResult, isHanged);
 		return invokeSshTasks(sshTasks);
 	}
 
-	private Collection<SshTask> formatSshTasks(String command, boolean returnResult) {
+	private Collection<SshTask> formatSshTasks(String command, boolean returnResult, boolean isHanged) {
 		int initialCapacity = ipSessionMap.size();
-     ValidationUtil.checkPositive(initialCapacity);
+		ValidationUtil.checkPositive(initialCapacity);
 
 		Collection<SshTask> sshTasks = new ArrayList<SshTask>(initialCapacity);
 		for (Entry<String, Session> ipSession : ipSessionMap.entrySet()) {
 			Session session = ipSession.getValue();
-			sshTasks.add(new SshTask(session, command, returnResult));
+			sshTasks.add(new SshTask(session, command, returnResult, isHanged));
 		}
 
 		return sshTasks;

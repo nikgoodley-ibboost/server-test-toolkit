@@ -44,10 +44,10 @@ public abstract class AbstractServerOperations implements ServerOperations {
 
 	@Override
 	public void executeCommandWithoutResult(String command) {
-		executeCommand(command, false);
+		executeCommand(command, false, false);
 	}
 
-	abstract Map<String, String> executeCommand(String command, boolean returnResult);
+	abstract Map<String, String> executeCommand(String command, boolean returnResult, boolean isHanged);
 
 	@Override
 	public Map<String, String> ls(String path) {
@@ -172,7 +172,7 @@ public abstract class AbstractServerOperations implements ServerOperations {
 
 	@Override
 	public Map<String, String> executeCommandWithResult(String command) {
-		return executeCommand(command, true);
+		return executeCommand(command, true, false);
 	}
 
 }
