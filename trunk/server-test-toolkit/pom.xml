@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.server-test-toolkit</groupId>
 	<artifactId>server-test-toolkit</artifactId>
-	<version>1.0.4</version>
+	<version>1.1.0</version>
 	<packaging>jar</packaging>
 	<name>server-test-toolkit</name>
 	<description>one open source project which is designed for test automation of server applications.</description>
