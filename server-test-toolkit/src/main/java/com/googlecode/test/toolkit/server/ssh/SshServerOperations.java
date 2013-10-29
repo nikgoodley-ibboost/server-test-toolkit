@@ -133,8 +133,8 @@ public class SshServerOperations extends AbstractServerOperations {
 	public void disconnect() {
 		LOGGER.info("[Server] [Release connnection] " + ipSessionMap.keySet().toString());
 
-		clearConnectionMap();
 		disconnectSessions();
+    clearConnectionMap();
 	}
 
 	private void clearConnectionMap() {
