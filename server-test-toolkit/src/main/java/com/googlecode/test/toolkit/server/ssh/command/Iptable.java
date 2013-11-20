@@ -32,7 +32,7 @@ public class Iptable extends Command {
 	 * @param port
 	 * @return
 	 */
-	public static Iptable newInstanceForDisablePort(int port) {
+	public static Iptable newInstanceForBlockPort(int port) {
 	        ValidationUtil.checkPositive(port);
 	        String command1="iptables -A INPUT -p tcp --dport "+port+" -j DROP";
 	        String command2="iptables -A INPUT -p udp --dport "+port+" -j DROP";

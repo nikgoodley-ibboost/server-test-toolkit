@@ -22,6 +22,7 @@ import com.googlecode.test.toolkit.server.ssh.command.Touch;
 import com.googlecode.test.toolkit.server.ssh.command.Vmstat;
 import com.googlecode.test.toolkit.server.ssh.performance.PerformanceData;
 import com.googlecode.test.toolkit.util.CollectionUtil;
+import com.googlecode.test.toolkit.util.ValidationUtil;
 
 /**
  * @author fu.jian
@@ -121,6 +122,13 @@ public abstract class AbstractServerOperations implements ServerOperations {
 			executeCommandWithoutResult(command);
 		}
 	}
+
+    @Override
+    public void blockPort(int port) {
+        ValidationUtil.checkPositive(port);
+        Iptable command = Iptable.newInstanceForBlockPort(port);
+        executeCommandWithoutResult(command);
+    }
 
 	@Override
 	public void modifyFile(String path, int lineNumber,
