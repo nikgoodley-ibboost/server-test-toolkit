@@ -1,5 +1,7 @@
 package com.googlecode.test.toolkit.server.ssh.command;
 
+import com.googlecode.test.toolkit.util.ValidationUtil;
+
 /**
  * @author fu.jian
  * date Jul 26, 2012
@@ -19,6 +21,28 @@ public class Iptable extends Command {
 
 		return new Iptable(comandStr);
  	}
+
+	/**
+	 <pre>
+	iptables -A OUTPUT -p tcp --sport 80 -j DROP
+    iptables -A OUTPUT -p udp --sport 80 -j DROP
+    iptables -A INPUT -p tcp --dport 80 -j DROP
+    iptables -A INPUT -p udp --dport 80 -j DROP
+	 </pre>
+	 * @param port
+	 * @return
+	 */
+	public static Iptable newInstanceForDisablePort(int port) {
+	        ValidationUtil.checkPositive(port);
+	        String command1="iptables -A INPUT -p tcp --dport "+port+" -j DROP";
+	        String command2="iptables -A INPUT -p udp --dport "+port+" -j DROP";
+	        String command3="iptables -A OUTPUT -p tcp --sport "+port+" -j DROP";
+	        String command4="iptables -A OUTPUT -p udp --sport "+port+" -j DROP";
+	        String command=String.format("%s;%s;%s;%s", command1,command2,command3,command4);
+
+ 	        return new Iptable(command);
+	    }
+
 
 	private Iptable(String commandStr) {
 		super(commandStr);
