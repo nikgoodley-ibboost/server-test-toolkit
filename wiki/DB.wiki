@@ -13,6 +13,5 @@ OracleConfig oracleConfig = new OracleConfig("jdbc:oracle:thin:@2.2.6.30:1523:ta
 defaultDbClient.execute("select count(*) from mtgconference");
 ResultSetHandler<List<HashMap<String, ?>>> resultSetHandler=new ToMapListHandler();
 List<HashMap<String, ?>> query = defaultDbClient.query("select * from mtgconference where rownum=1", resultSetHandler);
-		System.out.println(query);
 
 }}}
