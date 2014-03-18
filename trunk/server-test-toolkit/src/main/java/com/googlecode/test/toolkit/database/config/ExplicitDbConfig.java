@@ -36,6 +36,10 @@ public class ExplicitDbConfig implements DbConfig {
 	protected boolean testConnectionOnCheckin;
 	protected boolean testConnectionOnCheckout;
 
+	/**
+	 * add this no-arg construter is to make this class to java bean.
+	 * if not using java bean, suggest to use {@link this#ExplicitDbConfig(String, String, String, String)}
+	 */
 	public ExplicitDbConfig() {
 		super();
 	}
