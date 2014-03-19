@@ -1,11 +1,13 @@
-#summary One-sentence summary of this page.
+#how to use database tool
 
 = Introduction =
 
 Add your content here.
 
 
-= Details =
+= How to handle query result =
+
+convert to map list: one DB record is one map.
 
 {{{
 OracleConfig oracleConfig = new OracleConfig("jdbc:oracle:thin:@2.2.6.30:1523:taweb", "test", "pass");
@@ -14,4 +16,13 @@ defaultDbClient.execute("select count(*) from mtgconference");
 ResultSetHandler<List<HashMap<String, ?>>> resultSetHandler=new ToMapListHandler();
 List<HashMap<String, ?>> query = defaultDbClient.query("select * from mtgconference where rownum=1", resultSetHandler);
 
+}}}
+
+convert to java bean list: one DB record is one java bean object.
+
+{{{
+String sql = "select * from TEST.TABLE_MQ order by createtime desc";
+ToJavabeanListHandler<TABLE_MQ> toJavabeanListHandler = new ToJavabeanListHandler<TABLE_MQ>(
+TABLE_MQ.class);
+List<TABLE_MQ> result = defaultDbClient.query(sql, toJavabeanListHandler);
 }}}
