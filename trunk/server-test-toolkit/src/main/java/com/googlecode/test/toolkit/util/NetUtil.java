@@ -17,7 +17,7 @@ public class NetUtil {
         }
     }
 
-    public static String toIp(String dnsName) {
+    public static String toIpFromDns(String dnsName) {
         try {
             return InetAddress.getByName(dnsName).getHostAddress();
         } catch (UnknownHostException e) {
