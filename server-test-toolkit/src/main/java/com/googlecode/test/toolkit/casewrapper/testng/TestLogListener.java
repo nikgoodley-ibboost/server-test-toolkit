@@ -19,7 +19,7 @@ import org.testng.ITestResult;
                         <property>
                             <name>usedefaultlisteners</name>
                             <value>true</value>
-                            disabling default listeners is optional
+                            <!--  disabling default listeners is optional --> 
                         </property>
                         <property>
                             <name>listener</name>
