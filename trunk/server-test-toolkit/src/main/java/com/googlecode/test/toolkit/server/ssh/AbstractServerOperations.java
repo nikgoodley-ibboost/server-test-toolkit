@@ -33,7 +33,7 @@ public abstract class AbstractServerOperations implements ServerOperations {
 	private static final String REGEX = "\n";
 
 	@Override
-	public void cp(String toPath, String fromPath) {
+	public void cp(String fromPath, String toPath) {
 		Command cp = Cp.newInstance(fromPath, toPath);
 		executeCommandWithoutResult(cp);
 	}
