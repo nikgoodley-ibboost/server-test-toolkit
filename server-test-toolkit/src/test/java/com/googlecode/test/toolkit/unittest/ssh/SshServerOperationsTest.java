@@ -21,7 +21,7 @@ public class SshServerOperationsTest {
 			TimeoutException {
 		SshUser sshUserOne = new SshUser("10.224.95.207", 333, "root", "pass");
 
-		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne);
+		ServerOperations serverOperations = new SshServerOperations(sshUserOne);
 		Map<String, String> lsResult = serverOperations.ls("/usr");
 		System.out.println(lsResult);
 		Assert.assertNotNull(lsResult);
@@ -31,7 +31,7 @@ public class SshServerOperationsTest {
 	public void testExecuteInnerCommand() throws UncheckedServerOperationException, TimeoutException {
 		SshUser sshUserOne = new SshUser("10.224.95.207", 333, "root", "pass");
 		SshUser sshUserTwo = new SshUser("10.224.95.209", 333, "root", "pass");
-		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne, sshUserTwo);
+		ServerOperations serverOperations = new SshServerOperations(sshUserOne, sshUserTwo);
 		Map<String, String> lsResult = serverOperations.ls("/usr");
 		System.out.println(lsResult);
 		Assert.assertNotNull(lsResult);
@@ -42,7 +42,7 @@ public class SshServerOperationsTest {
 			TimeoutException {
 		SshUser sshUserOne = new SshUser("10.224.95.207", 333, "root", "pass");
 		SshUser sshUserTwo = new SshUser("10.224.95.209", 333, "root", "pass");
-		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne, sshUserTwo);
+		ServerOperations serverOperations = new SshServerOperations(sshUserOne, sshUserTwo);
 
 		Map<String, String> executeCommandWithResult = serverOperations.executeCommandWithResult(Ls
 				.newInstanceLsPath("/usr"));
@@ -56,7 +56,7 @@ public class SshServerOperationsTest {
 			TimeoutException {
 		SshUser sshUserOne = new SshUser("10.224.95.207", 333, "root", "pass");
 		SshUser sshUserTwo = new SshUser("10.224.95.209", 333, "root", "pass");
-		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne, sshUserTwo);
+		ServerOperations serverOperations = new SshServerOperations(sshUserOne, sshUserTwo);
 
 		serverOperations.executeCommandWithoutResult(Ls.newInstanceLsPath("/usr"));
 	}
@@ -66,7 +66,7 @@ public class SshServerOperationsTest {
 			TimeoutException {
 		SshUser sshUserOne = new SshUser("10.224.95.207", 333, "root", "pass");
 
-		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne);
+		ServerOperations serverOperations = new SshServerOperations(sshUserOne);
 		Exception e=null;
 		try {
 			Map<String, String> executeCommandWithResult = serverOperations.executeCommandWithResult(Ls
@@ -84,7 +84,7 @@ public class SshServerOperationsTest {
 	@Test
 	public void testExecuteInnerGetLineCommand() throws UncheckedServerOperationException, TimeoutException {
 		SshUser sshUserOne = new SshUser("10.224.57.207", 333, "root", "Aa1234");
- 		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne);
+ 		ServerOperations serverOperations = new SshServerOperations(sshUserOne);
 		Map<String, Long> lsResult = serverOperations.getLineNumberForFile("/usr/local/nginx/conf/idmap.conf");
 		System.out.println(lsResult);
 		Assert.assertNotNull(lsResult);
@@ -93,7 +93,7 @@ public class SshServerOperationsTest {
 	@Test
 	public void testExecuteInnerGrepCommand() throws UncheckedServerOperationException, TimeoutException {
 		SshUser sshUserOne = new SshUser("10.224.57.207", 333, "root", "Aa1234");
- 		ServerOperations serverOperations = SshServerOperations.getInstance(sshUserOne);
+ 		ServerOperations serverOperations = new SshServerOperations(sshUserOne);
 		Map<String, String> lsResult = serverOperations.getContentWithKeywords("/usr/local/nginx/conf/idmap.conf", "Timeou","5");
 		System.out.println(lsResult);
 		Assert.assertNotNull(lsResult);
