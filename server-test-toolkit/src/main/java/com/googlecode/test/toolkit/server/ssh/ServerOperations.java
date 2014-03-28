@@ -63,18 +63,20 @@ public interface ServerOperations extends RemoteConnection {
 
 	public void blockPort(int port);
 
-	public void modifyFile(String path, int lineNumber,
+	public void modifyFile(String editPath, int lineNumber,
 			String newContentForLine, String backupPath);
 
 	/**
 	 * call {@link #modifyFile(String, int, String, String)} with {@code backupPath}=path+"_backup_"+current time;
-	 * @param path
+	 * @param editPath
 	 * @param lineNumber
 	 * @param newContentForLine
 	 */
-	public void modifyFile(String path, int lineNumber,
+	public void modifyFile(String editPath, int lineNumber,
 			String newContentForLine);
-
+	
+	public void modifyFile(String editPath, String originalContent, String newContent, String backupPath);
+ 
 	public Map<String, List<String>> getLineNumbersWithKeyword(String filePath,
 			String keyword);
 

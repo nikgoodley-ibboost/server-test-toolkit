@@ -140,9 +140,15 @@ public abstract class AbstractServerOperations implements ServerOperations {
 	}
 
 	@Override
-	public void modifyFile(String path, int lineNumber, String newContentForLine, String backupPath) {
-		GroupCommands groupCommands = GroupCommandFactory.changeFile(path, lineNumber, newContentForLine,
+	public void modifyFile(String editPath, int lineNumber, String newContentForLine, String backupPath) {
+		GroupCommands groupCommands = GroupCommandFactory.changeFile(editPath, lineNumber, newContentForLine,
 				backupPath);
+		executeCommandWithoutResult(groupCommands);
+	}
+	
+	@Override
+	public void modifyFile(String editPath, String originalContent, String newContent, String backupPath) {
+		GroupCommands groupCommands = GroupCommandFactory.changeFile(editPath, originalContent, newContent, backupPath);
 		executeCommandWithoutResult(groupCommands);
 	}
 
