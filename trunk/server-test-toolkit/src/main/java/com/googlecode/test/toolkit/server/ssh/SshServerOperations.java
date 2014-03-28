@@ -47,12 +47,7 @@ public class SshServerOperations extends AbstractServerOperations {
 	 * @return SshServerOperations
 	 * @throws UncheckedServerOperationException
 	 */
-	public static SshServerOperations getInstance(SshUser atLeaseOneSshUser,
-			SshUser... otherSshUsers) throws UncheckedServerOperationException {
-  		return new SshServerOperations(atLeaseOneSshUser, otherSshUsers);
-	}
-
-	private SshServerOperations(SshUser atLeastOneSshUser, SshUser... otherSshUsers) {
+	public SshServerOperations(SshUser atLeastOneSshUser, SshUser... otherSshUsers) {
   		allSshUsers = CollectionUtil.toList(atLeastOneSshUser, otherSshUsers);
  		ValidationUtil.checkNull(allSshUsers);
 		connect();
