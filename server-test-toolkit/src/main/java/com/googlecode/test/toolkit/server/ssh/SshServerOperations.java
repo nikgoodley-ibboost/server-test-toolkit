@@ -34,9 +34,9 @@ public class SshServerOperations extends AbstractServerOperations {
 
 	private static final int COMMAND_EXECUTE_TIME_OUT_SECONDS = 60;
 
-	private static volatile Map<String, Session> ipSessionMap = new ConcurrentHashMap<String, Session>();
 	private static ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();
-
+	
+	private volatile Map<String, Session> ipSessionMap = new ConcurrentHashMap<String, Session>();
 	private List<SshUser> allSshUsers;
 
 	/**
