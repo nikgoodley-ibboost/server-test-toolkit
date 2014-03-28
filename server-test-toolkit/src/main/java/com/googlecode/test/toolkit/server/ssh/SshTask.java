@@ -43,7 +43,7 @@ public class SshTask implements Callable<SshTaskResult<String, String>> {
 
 	@Override
 	public SshTaskResult<String, String> call() throws Exception {
-		LOGGER.info("[Server] [Execute command] [Begin] command is: (" + command + ")");
+		LOGGER.info("[Server] ["+session.getHost()+"] [Execute command] [Begin] command is: (" + command + ")");
 
 		InputStream inputStream = null;
 		InputStream errStream = null;
@@ -82,7 +82,7 @@ public class SshTask implements Callable<SshTaskResult<String, String>> {
 	private void judgeIfCommandExecuteError(InputStream errStream) throws IOException {
 		String errorString = IOUtils.toString(errStream);
 		if (!errorString.isEmpty()) {
-			LOGGER.error("[Server] [Execute command] [End] [Fail] " + errorString);
+			LOGGER.error("[Server] ["+session.getHost()+"] [Execute command] [End] [Fail] " + errorString);
 			throw new CommandExecuteException(errorString);
 		}
 	}
@@ -99,13 +99,13 @@ public class SshTask implements Callable<SshTaskResult<String, String>> {
 			judgeIfOverSize(inputStream);
 			operationResult.setResult(IOUtils.toString(inputStream));
 		}
-		LOGGER.info("[Server] [Execute command] [End] [Success] command is: (" + command + ")");
+		LOGGER.info("[Server] ["+session.getHost()+"] [Execute command] [End] [Success] command is: (" + command + ")");
 
 		return operationResult;
 	}
 
 	private void logError(Exception e) {
-		String errorMsg = String.format("[Server] [Execute command] [End] [Fail] command (%s) for (%s)",
+		String errorMsg = String.format("[Server] ["+session.getHost()+"] [Execute command] [End] [Fail] command (%s) for (%s)",
 				command, e);
  		LOGGER.error(errorMsg, e);
  	}
