@@ -77,8 +77,9 @@ public final class ConditionWaitUtil {
             }
         }
 
-        LOGGER.info("[util][wait][end][fail]after(ms): "+timeoutInMilliseconds);
-        throw new WaitTimeoutException("[util][wait][fail] Fail to wait condition ["+condition+"] after (ms): "+timeoutInMilliseconds);
+        String logfailMsg = "[util][wait][end][fail]condition:["+condition+"] after "+timeoutInMilliseconds+"(ms)";
+		LOGGER.info(logfailMsg);
+        throw new WaitTimeoutException(logfailMsg);
     }
 
 }
