@@ -33,6 +33,24 @@ public class Sed extends Command {
 				newContentForLine, filePath, tmpFilePath);
 		return new Sed(commandStr);
 	}
+	
+	/**
+	 * 
+	 * sed "s/originalContent/newContent/g" file
+	 * @param filePath
+	 * @param originalContent
+	 * @param newContent
+	 * @param tmpFilePath
+	 * @return
+	 */
+	public static Sed newInstanceForModifyFile(String filePath, String originalContent,
+			String newContent, String tmpFilePath) {
+		ValidationUtil.checkNull(filePath, tmpFilePath);
+
+		String commandStr = String.format("sed \"s/%s/%s/g\" %s >%s ", originalContent,newContent, filePath, tmpFilePath);
+		return new Sed(commandStr);
+	}
+	
 
 	public static Sed newInstanceForGetContentBetweenLines(String filePath,
 			int startLine, int endLine, String... keywords) {
