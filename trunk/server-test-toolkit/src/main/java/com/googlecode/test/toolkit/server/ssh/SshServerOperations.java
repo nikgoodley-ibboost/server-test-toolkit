@@ -31,13 +31,12 @@ import com.jcraft.jsch.Session;
 public class SshServerOperations extends AbstractServerOperations {
 
 	private static final Logger LOGGER = Logger.getLogger(SshServerOperations.class);
-
-	private static final int COMMAND_EXECUTE_TIME_OUT_SECONDS = 60;
-
-	private static ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();
 	
+	private ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();	
 	private volatile Map<String, Session> ipSessionMap = new ConcurrentHashMap<String, Session>();
 	private List<SshUser> allSshUsers;
+	private int commandTimeOutTime = 60;
+
 
 	/**
 	 * after instance created, the connections will be created by default, but you should call
@@ -68,6 +67,17 @@ public class SshServerOperations extends AbstractServerOperations {
 		LOGGER.info("[Server] [Complete Init IP-Session Map] " + ipSessionMap);
 	}
 
+	public int getCommandTimeOutTime() {
+		return commandTimeOutTime;
+	}
+
+	public void setCommandTimeOutTime(int commandTimeOutTime) {
+		this.commandTimeOutTime = commandTimeOutTime;
+	}
+
+	public List<SshUser> getAllSshUsers() {
+		return allSshUsers;
+	}
 
 	@Override
 	public void executeCommandHanged(String command) {
@@ -99,12 +109,12 @@ public class SshServerOperations extends AbstractServerOperations {
 		Map<String, String> resultMap = new HashMap<String, String>();
 		List<Future<SshTaskResult<String, String>>> futures = new ArrayList<Future<SshTaskResult<String, String>>>();
 		try {
-			futures = newCachedThreadPool.invokeAll(commandTasks, COMMAND_EXECUTE_TIME_OUT_SECONDS,
+			futures = newCachedThreadPool.invokeAll(commandTasks, commandTimeOutTime,
 					TimeUnit.SECONDS);
 			for (Future<SshTaskResult<String, String>> future : futures) {
 				if (future.isCancelled()) {
 					String message = String.format(" not return after: [%d][%s]",
-							COMMAND_EXECUTE_TIME_OUT_SECONDS, TimeUnit.SECONDS.toString());
+							commandTimeOutTime, TimeUnit.SECONDS.toString());
 					throw new ServerTimeoutException(message);
 				}
 				SshTaskResult<String, String> operationResult = future.get();
