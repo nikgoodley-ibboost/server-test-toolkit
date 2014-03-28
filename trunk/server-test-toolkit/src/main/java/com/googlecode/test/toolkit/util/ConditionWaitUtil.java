@@ -53,6 +53,12 @@ public final class ConditionWaitUtil {
     }
 
 
+    /**
+     * consume time is not real consume time, it depends on intervalInMilliseconds.
+     * @param condition
+     * @param intervalInMilliseconds
+     * @param timeoutInMilliseconds
+     */
     public static void wait(Condition condition,long intervalInMilliseconds, long timeoutInMilliseconds) {
         LOGGER.info("[util][wait][start]"+condition);
         long startTime = System.currentTimeMillis();
