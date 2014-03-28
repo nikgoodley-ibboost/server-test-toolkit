@@ -29,7 +29,7 @@ public final class ConditionWaitUtil {
 
     public static abstract class Condition{
         protected abstract boolean checkCondition();
-    }
+     }
 
     public static class WaitTimeoutException extends RuntimeException{
 
@@ -54,25 +54,25 @@ public final class ConditionWaitUtil {
 
 
     public static void wait(Condition condition,long intervalInMilliseconds, long timeoutInMilliseconds) {
-        LOGGER.info("[util][wait][start]");
+        LOGGER.info("[util][wait][start]"+condition);
         long start = System.currentTimeMillis();
         long end = start + timeoutInMilliseconds;
 
         while (System.currentTimeMillis() < end) {
             if (condition.checkCondition()) {
-                LOGGER.info("[util][wait][end][success]");
+                LOGGER.info("[util][wait][end][success]"+condition);
                 return;
             }
             try {
                 TimeUnit.MILLISECONDS.sleep(intervalInMilliseconds);
             } catch (InterruptedException e) {
-                LOGGER.info("[util][wait][end][fail]");
+                LOGGER.info("[util][wait][end][fail]"+condition);
                 throw new RuntimeException(e);
             }
         }
 
         LOGGER.info("[util][wait][end][fail]after(ms): "+timeoutInMilliseconds);
-        throw new WaitTimeoutException("[util][wait][fail] Fail to wait condition after (ms): "+timeoutInMilliseconds);
+        throw new WaitTimeoutException("[util][wait][fail] Fail to wait condition ["+condition+"] after (ms): "+timeoutInMilliseconds);
     }
 
 }
