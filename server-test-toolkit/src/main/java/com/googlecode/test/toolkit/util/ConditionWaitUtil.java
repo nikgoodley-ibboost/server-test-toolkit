@@ -55,12 +55,12 @@ public final class ConditionWaitUtil {
 
     public static void wait(Condition condition,long intervalInMilliseconds, long timeoutInMilliseconds) {
         LOGGER.info("[util][wait][start]"+condition);
-        long start = System.currentTimeMillis();
-        long end = start + timeoutInMilliseconds;
+        long startTime = System.currentTimeMillis();
+        long endTime = startTime + timeoutInMilliseconds;
 
-        while (System.currentTimeMillis() < end) {
+        while (System.currentTimeMillis() < endTime) {
             if (condition.checkCondition()) {
-                LOGGER.info("[util][wait][end][success]"+condition);
+                LOGGER.info("[util][wait][end][success]condition:["+condition+"] consumed "+(System.currentTimeMillis()-startTime)+"(ms)");
                 return;
             }
             try {
