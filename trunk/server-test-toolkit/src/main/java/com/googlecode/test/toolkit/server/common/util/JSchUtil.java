@@ -59,7 +59,7 @@ public final class JSchUtil {
 						.info("[Server] [Create connnection] [End] [Success]: " + serverUser);
 			} catch (JSchException e) {
 				String errorMsg = String.format(
-						"[Server] [Create connnection] [End] [Fail] with: [%s] for]", serverUser);
+						"[Server] [Create connnection] [End] [Fail] with: [%s] for %s", serverUser,e.getMessage());
 				ServerConnectionException serverConnnectionException = JSchExceptionUtil
 						.jSchExceptionToUncheckedServerConnectionException(errorMsg, e,
 								ServerConnectionException.class);
