@@ -12,7 +12,6 @@ public class TestRetryAnalyzer implements IRetryAnalyzer {
 	private boolean needRetry = true;
 
 	public synchronized boolean retry(ITestResult result) {
-
 		if (needRetry) {
 			LOGGER.info(String.format(LogConstants.LOG_FORMAT_FOR_WITHOUT_CONSUMED_TIME,
 					getTestMethodName(result), "[retry]"));
