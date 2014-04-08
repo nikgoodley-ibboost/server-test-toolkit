@@ -25,4 +25,14 @@ public class TestRetryAnalyzer implements IRetryAnalyzer {
 		return iTestResult.getTestClass().getRealClass().getName() + "."
 				+ iTestResult.getMethod().getMethodName();
 	}
+
+	public boolean isNeedRetry() {
+		return needRetry;
+	}
+
+	public void setNeedRetry(boolean needRetry) {
+		this.needRetry = needRetry;
+	}
+	
+	
 }
