@@ -60,7 +60,7 @@ public class TestLogListener implements ITestListener {
     }
 
     private void logWithoutConsumedTime(ITestResult iTestResult, String currentMethodName) {
-        LOGGER.info(String.format(LOG_FORMAT_FOR_WITHOUT_CONSUMED_TIME, getTestMethodName(iTestResult), currentMethodName,iTestResult.getEndMillis()-iTestResult.getStartMillis()));
+        LOGGER.info(String.format(LOG_FORMAT_FOR_WITHOUT_CONSUMED_TIME, getTestMethodName(iTestResult), currentMethodName));
     }
 
     private void logWithConsumedTime(ITestResult arg0, String currentMethodName) {
