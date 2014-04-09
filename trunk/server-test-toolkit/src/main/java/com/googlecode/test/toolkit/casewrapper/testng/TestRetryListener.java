@@ -105,6 +105,9 @@ public class TestRetryListener implements IAnnotationTransformer, ITestListener 
 			paramITestContext.getPassedTests().removeResult(iTestResult);
 			paramITestContext.getFailedTests().removeResult(iTestResult);
 			paramITestContext.getSkippedTests().removeResult(iTestResult);
+			paramITestContext.getPassedConfigurations().removeResult(iTestResult);
+			paramITestContext.getFailedConfigurations().removeResult(iTestResult);
+			paramITestContext.getSkippedConfigurations().removeResult(iTestResult);
 		}
 
 	}
