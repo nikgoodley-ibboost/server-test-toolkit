@@ -1,6 +1,6 @@
 package com.googlecode.test.toolkit.database.config;
 
-public class XmlDbConfig implements DbConfig {
+public class C3p0XmlDbConfig implements DbConfig {
 
 	private String configPath;
 	private String configName;
@@ -8,7 +8,7 @@ public class XmlDbConfig implements DbConfig {
  	/**
  	 * use default c3po-config.xml
  	 */
- 	public XmlDbConfig() {
+ 	public C3p0XmlDbConfig() {
   	}
 
  	/**
@@ -16,7 +16,7 @@ public class XmlDbConfig implements DbConfig {
 	 * xml can config serveral db configs, every db config in xml has one
  	 * @param configName
  	 */
- 	public XmlDbConfig(String configName) {
+ 	public C3p0XmlDbConfig(String configName) {
 		super();
 		this.configName = configName;
 	}
@@ -24,11 +24,11 @@ public class XmlDbConfig implements DbConfig {
 	/**
 	 * set c3po-config.xml's path by
 	 * <code>configPath<code>,one xml can config serveral db config, every db config in xml has one <code>configName</code>
-	 * similar with  {@link XmlDbConfig#XmlDbConfig(String)}.
+	 * similar with  {@link C3p0XmlDbConfig#XmlDbConfig(String)}.
 	 * @param configPath c3po_config.xml path
 	 * @param configName
 	 */
-	public XmlDbConfig(String configPath, String configName) {
+	public C3p0XmlDbConfig(String configPath, String configName) {
 		super();
 		this.configPath = configPath;
 		this.configName = configName;
