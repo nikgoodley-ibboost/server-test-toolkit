@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.test.toolkit.database.config.DbConfig;
 import com.googlecode.test.toolkit.database.config.DefaultDbConfig;
 import com.googlecode.test.toolkit.database.config.ExplicitDbConfig;
-import com.googlecode.test.toolkit.database.config.XmlDbConfig;
+import com.googlecode.test.toolkit.database.config.C3p0XmlDbConfig;
 import com.googlecode.test.toolkit.database.exception.DbConfigException;
 import com.googlecode.test.toolkit.database.exception.DbConnectionException;
 import com.googlecode.test.toolkit.multithread.AbstractSynchronizedMapAccessor;
@@ -32,8 +32,8 @@ public class ConnectionFactory {
 			return getConnection();
 		if (dbConfig instanceof ExplicitDbConfig)
 			return getConnection((ExplicitDbConfig) dbConfig);
-		if (dbConfig instanceof XmlDbConfig) {
-			XmlDbConfig xmlDbConfig = (XmlDbConfig) dbConfig;
+		if (dbConfig instanceof C3p0XmlDbConfig) {
+			C3p0XmlDbConfig xmlDbConfig = (C3p0XmlDbConfig) dbConfig;
 			String configName = xmlDbConfig.getConfigName();
 			String configPath = xmlDbConfig.getConfigPath();
 			if (configName == null)
