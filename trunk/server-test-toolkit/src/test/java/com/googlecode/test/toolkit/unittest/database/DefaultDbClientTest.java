@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.googlecode.test.toolkit.database.DefaultDbClient;
-import com.googlecode.test.toolkit.database.config.XmlDbConfig;
+import com.googlecode.test.toolkit.database.config.C3p0XmlDbConfig;
 
 public class DefaultDbClientTest {
 
@@ -17,21 +17,21 @@ public class DefaultDbClientTest {
 
 	@Test
 	public void testDefaultDbClient2() {
- 		DefaultDbClient defaultDbClient = new DefaultDbClient(new XmlDbConfig(
+ 		DefaultDbClient defaultDbClient = new DefaultDbClient(new C3p0XmlDbConfig(
 				"test"));
 		defaultDbClient.getConnnection();
  	}
 
 	@Test
 	public void testDefaultDbClient3() {
- 		DefaultDbClient defaultDbClient = new DefaultDbClient(new XmlDbConfig(
+ 		DefaultDbClient defaultDbClient = new DefaultDbClient(new C3p0XmlDbConfig(
 				"default"));
 		defaultDbClient.getConnnection();
  	}
 
 	@Test
 	public void testDefaultDbClient4() {
- 		DefaultDbClient defaultDbClient = new DefaultDbClient(new XmlDbConfig());
+ 		DefaultDbClient defaultDbClient = new DefaultDbClient(new C3p0XmlDbConfig());
 		defaultDbClient.getConnnection();
  	}
 
