@@ -98,7 +98,7 @@ public class SshServerOperations extends AbstractServerOperations {
 		return invokeSshTasks(sshTasks);
 	}
 
-	private Collection<SshTask> formatSshTasks(String command, boolean returnResult, boolean isHanged) {
+	private synchronized Collection<SshTask> formatSshTasks(String command, boolean returnResult, boolean isHanged) {
 		int initialCapacity = ipSessionMap.size();
 		ValidationUtil.checkPositive(initialCapacity);
 
