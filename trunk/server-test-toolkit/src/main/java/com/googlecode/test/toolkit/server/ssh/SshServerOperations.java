@@ -108,7 +108,6 @@ public class SshServerOperations extends AbstractServerOperations {
   			SessionWrapper availableSessionWrapper = getAvailableSessionWrapper(sessionWrappers);
   			availableSessionWrapper.increaseUsingChannelNumber();
 			sshTasks.add(new SshTask(availableSessionWrapper, command, returnResult, isHanged));
-
 		}
 
  		return sshTasks;
