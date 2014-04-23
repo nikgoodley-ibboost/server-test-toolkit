@@ -126,6 +126,8 @@ public class SshServerOperations extends AbstractServerOperations {
 		SessionWrapper sessionWrapper = JSchSessionUtil.getSessionWrapper(serverUser);
 		ipSessionMap.get(serverUser.getHost()).add(sessionWrapper);
 
+		LOGGER.info("[Server] [Dynamic Update IP-Session Map] " + ipSessionMap);
+
 		return sessionWrapper;
 	}
 
