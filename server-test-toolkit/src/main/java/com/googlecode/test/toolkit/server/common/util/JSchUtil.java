@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.test.toolkit.server.common.exception.ServerConnectionException;
 import com.googlecode.test.toolkit.server.common.exception.UncheckedServerOperationException;
 import com.googlecode.test.toolkit.server.common.user.ServerUser;
+import com.googlecode.test.toolkit.server.ssh.SessionWrapper;
 import com.googlecode.test.toolkit.util.ValidationUtil;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
@@ -40,6 +41,10 @@ public final class JSchUtil {
 	}
 
 	public static class JSchSessionUtil {
+
+		public static SessionWrapper getSessionWrapper(ServerUser serverUser) {
+ 			return new SessionWrapper(getSession(serverUser),10);
+		}
 
 		public static Session getSession(ServerUser serverUser) {
 			ValidationUtil.checkNull(serverUser);
