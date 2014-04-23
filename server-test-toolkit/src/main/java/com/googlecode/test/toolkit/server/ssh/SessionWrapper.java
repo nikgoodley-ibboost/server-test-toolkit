@@ -57,6 +57,10 @@ public class SessionWrapper {
 		return this.usingChannelNumber < maxChannelNumber;
 	}
 
+	public void disconnect() {
+ 			 this.session.disconnect();
+ 	}
+
 	@Override
 	public String toString() {
 		return "SessionWrapper [session=" + session + ", channelNumber="
