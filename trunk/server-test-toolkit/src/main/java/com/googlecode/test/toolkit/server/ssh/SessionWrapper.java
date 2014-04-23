@@ -83,11 +83,12 @@ public class SessionWrapper {
 		return this.session.getHost();
 	}
 
+
 	@Override
 	public String toString() {
-		return "SessionWrapper [session=" + session + ", channelNumber="
-				+ usingChannelNumber + ", maxChannelNumber=" + maxChannelNumber
-				+ "]";
+		return "SessionWrapper [session=" + session + ", serverUser="
+				+ serverUser + ", usingChannelNumber=" + usingChannelNumber
+				+ ", maxChannelNumber=" + maxChannelNumber + "]";
 	}
 
 }
