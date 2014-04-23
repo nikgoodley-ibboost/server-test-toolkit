@@ -1,15 +1,32 @@
 package com.googlecode.test.toolkit.server.ssh;
 
+import com.googlecode.test.toolkit.server.common.user.ServerUser;
 import com.jcraft.jsch.Session;
 
 public class SessionWrapper {
 
 	private Session session;
+	private ServerUser serverUser;
+
+	public ServerUser getServerUser() {
+		return serverUser;
+	}
+
+
+	public void setServerUser(ServerUser serverUser) {
+		this.serverUser = serverUser;
+	}
+
+
+	public void setUsingChannelNumber(int usingChannelNumber) {
+		this.usingChannelNumber = usingChannelNumber;
+	}
+
 	private int usingChannelNumber;
 	private int maxChannelNumber;
 
 
-	public SessionWrapper(Session session, int maxChannelNumber) {
+	public SessionWrapper(Session session, ServerUser serverUser, int maxChannelNumber) {
 		super();
 		this.session = session;
 		this.maxChannelNumber = maxChannelNumber;
@@ -60,6 +77,10 @@ public class SessionWrapper {
 	public void disconnect() {
  			 this.session.disconnect();
  	}
+
+	public String getHost() {
+		return this.session.getHost();
+	}
 
 	@Override
 	public String toString() {
