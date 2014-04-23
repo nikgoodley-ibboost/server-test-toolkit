@@ -36,6 +36,7 @@ public class SshServerOperations extends AbstractServerOperations {
 	private volatile Map<String, List<SessionWrapper>> ipSessionMap = new ConcurrentHashMap<String, List<SessionWrapper>>();
 	private List<SshUser> allSshUsers;
 	private int commandTimeOutTime = 60;
+	private int maxChannelNumberForEachSession=10;
 
 
 	/**
@@ -59,7 +60,7 @@ public class SshServerOperations extends AbstractServerOperations {
 			if (isNotExistSessionForSshUser(host))
 				synchronized (host.intern()) {
 					if (isNotExistSessionForSshUser(host)) {
-						SessionWrapper session = JSchSessionUtil.getSessionWrapper(sshUser,10);
+						SessionWrapper session = JSchSessionUtil.getSessionWrapper(sshUser,maxChannelNumberForEachSession);
 						List<SessionWrapper> list=new ArrayList<SessionWrapper>();
 						list.add(session);
 						ipSessionMap.put(host, list);
@@ -79,6 +80,14 @@ public class SshServerOperations extends AbstractServerOperations {
 
 	public void setCommandTimeOutTime(int commandTimeOutTime) {
 		this.commandTimeOutTime = commandTimeOutTime;
+	}
+
+ 	public int getMaxChannelNumberForEachSession() {
+		return maxChannelNumberForEachSession;
+	}
+
+	public void setMaxChannelNumberForEachSession(int maxChannelNumberForEachSession) {
+		this.maxChannelNumberForEachSession = maxChannelNumberForEachSession;
 	}
 
 	public List<SshUser> getAllSshUsers() {
@@ -121,7 +130,7 @@ public class SshServerOperations extends AbstractServerOperations {
 		}
 
 		ServerUser serverUser = sessionWrappers.get(0).getServerUser();
-		SessionWrapper sessionWrapper = JSchSessionUtil.getSessionWrapper(serverUser,10);
+		SessionWrapper sessionWrapper = JSchSessionUtil.getSessionWrapper(serverUser,maxChannelNumberForEachSession);
 		ipSessionMap.get(serverUser.getHost()).add(sessionWrapper);
 
 		LOGGER.info("[Server] [Dynamic Update IP-Session Map] " + ipSessionMap);
