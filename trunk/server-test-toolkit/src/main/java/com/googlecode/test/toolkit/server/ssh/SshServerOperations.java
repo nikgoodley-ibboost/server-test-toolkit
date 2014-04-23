@@ -59,7 +59,7 @@ public class SshServerOperations extends AbstractServerOperations {
 			if (isNotExistSessionForSshUser(host))
 				synchronized (host.intern()) {
 					if (isNotExistSessionForSshUser(host)) {
-						SessionWrapper session = JSchSessionUtil.getSessionWrapper(sshUser);
+						SessionWrapper session = JSchSessionUtil.getSessionWrapper(sshUser,10);
 						List<SessionWrapper> list=new ArrayList<SessionWrapper>();
 						list.add(session);
 						ipSessionMap.put(host, list);
@@ -121,7 +121,7 @@ public class SshServerOperations extends AbstractServerOperations {
 		}
 
 		ServerUser serverUser = sessionWrappers.get(0).getServerUser();
-		SessionWrapper sessionWrapper = JSchSessionUtil.getSessionWrapper(serverUser);
+		SessionWrapper sessionWrapper = JSchSessionUtil.getSessionWrapper(serverUser,10);
 		ipSessionMap.get(serverUser.getHost()).add(sessionWrapper);
 
 		LOGGER.info("[Server] [Dynamic Update IP-Session Map] " + ipSessionMap);
