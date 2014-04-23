@@ -16,7 +16,6 @@ import com.googlecode.test.toolkit.util.ValidationUtil;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 
 /**
  * @author fu.jian
@@ -29,13 +28,13 @@ public class SshTask implements Callable<SshTaskResult<String, String>> {
 	private String command;
 	private boolean isReturnResult;
 	private boolean isHanged;
-	private Session session;
+	private SessionWrapper session;
 
-	SshTask(Session session, String command, boolean returnResult, boolean isHanged) {
+	SshTask(SessionWrapper sessionWrapper, String command, boolean returnResult, boolean isHanged) {
 		ValidationUtil.checkString(command);
-		ValidationUtil.checkNull(session);
+		ValidationUtil.checkNull(sessionWrapper);
 
-		this.session = session;
+		this.session = sessionWrapper;
 		this.command = command;
 		this.isReturnResult = returnResult;
 		this.isHanged=isHanged;
@@ -68,7 +67,11 @@ public class SshTask implements Callable<SshTaskResult<String, String>> {
 			logError(e);
  			throw new UncheckedServerOperationException(e.getMessage(),e);
 		} finally {
-			closeChannelAndStream(channelExec, inputStream, errStream);
+			try{
+				closeChannelAndStream(channelExec, inputStream, errStream);
+ 			}finally{
+ 				session.decreaseUsingChannelNumber();
+  			}
 		}
 	}
 
