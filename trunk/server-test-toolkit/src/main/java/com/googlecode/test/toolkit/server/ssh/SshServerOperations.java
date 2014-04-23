@@ -172,9 +172,11 @@ public class SshServerOperations extends AbstractServerOperations {
 	@Override
 	public void disconnect() {
 		LOGGER.info("[Server] [Release connnection] " + ipSessionMap.keySet().toString());
-
-		disconnectSessions();
-        clearConnectionMap();
+		try{
+			disconnectSessions();
+ 		}finally{
+	        clearConnectionMap();
+ 		}
 	}
 
 	private void clearConnectionMap() {
@@ -183,8 +185,12 @@ public class SshServerOperations extends AbstractServerOperations {
 
 	private void disconnectSessions() {
 		for (List<SessionWrapper> sessionWrapperList : ipSessionMap.values())
-			for(SessionWrapper sessionWrapper:sessionWrapperList)
-			JSchSessionUtil.disconnect(sessionWrapper.getSession());
+			for(SessionWrapper sessionWrapper:sessionWrapperList){
+ 				String host = sessionWrapper.getHost();
+				String sessionStr = sessionWrapper.getSession().toString();
+  				JSchSessionUtil.disconnect(sessionWrapper.getSession());
+				LOGGER.info(String.format("[Server] [Release connnection] [Detail] [host: %s, session: %s]", host,sessionStr));
+			}
 	}
 
 	@Override
