@@ -8,6 +8,9 @@ public class SessionWrapper {
 	private Session session;
 	private ServerUser serverUser;
 
+	private int usingChannelNumber;
+	private int maxChannelNumber;
+
 	public ServerUser getServerUser() {
 		return serverUser;
 	}
@@ -22,8 +25,6 @@ public class SessionWrapper {
 		this.usingChannelNumber = usingChannelNumber;
 	}
 
-	private int usingChannelNumber;
-	private int maxChannelNumber;
 
 
 	public SessionWrapper(Session session, ServerUser serverUser, int maxChannelNumber) {
