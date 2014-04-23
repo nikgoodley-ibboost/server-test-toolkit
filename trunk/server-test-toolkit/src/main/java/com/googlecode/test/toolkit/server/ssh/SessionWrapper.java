@@ -8,8 +8,8 @@ public class SessionWrapper {
 	private Session session;
 	private ServerUser serverUser;
 
-	private int usingChannelNumber;
-	private int maxChannelNumber;
+	private volatile int usingChannelNumber;
+	private volatile int maxChannelNumber;
 
 	public SessionWrapper(Session session, ServerUser serverUser, int maxChannelNumber) {
 		super();
@@ -31,33 +31,27 @@ public class SessionWrapper {
 		this.usingChannelNumber = usingChannelNumber;
 	}
 
-
-
 	public Session getSession() {
 		return session;
 	}
-
 
 	public void setSession(Session session) {
 		this.session = session;
 	}
 
-
 	public int getUsingChannelNumber() {
 		return usingChannelNumber;
 	}
-
 
 	public void setChannelNumber(int channelNumber) {
 		this.usingChannelNumber = channelNumber;
 	}
 
-
-	public void increaseUsingChannelNumber() {
+	public synchronized void increaseUsingChannelNumber() {
 		this.usingChannelNumber += 1;
 	}
 
-	public void decreaseUsingChannelNumber() {
+	public synchronized void decreaseUsingChannelNumber() {
 		this.usingChannelNumber -= 1;
 	}
 
