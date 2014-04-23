@@ -18,11 +18,11 @@ import org.apache.log4j.Logger;
 import com.googlecode.test.toolkit.server.common.exception.CommandExecuteException;
 import com.googlecode.test.toolkit.server.common.exception.ServerTimeoutException;
 import com.googlecode.test.toolkit.server.common.exception.UncheckedServerOperationException;
+import com.googlecode.test.toolkit.server.common.user.ServerUser;
 import com.googlecode.test.toolkit.server.common.user.SshUser;
 import com.googlecode.test.toolkit.server.common.util.JSchUtil.JSchSessionUtil;
 import com.googlecode.test.toolkit.util.CollectionUtil;
 import com.googlecode.test.toolkit.util.ValidationUtil;
-import com.jcraft.jsch.Session;
 
 /**
  * @author fu.jian
@@ -31,9 +31,9 @@ import com.jcraft.jsch.Session;
 public class SshServerOperations extends AbstractServerOperations {
 
 	private static final Logger LOGGER = Logger.getLogger(SshServerOperations.class);
-	
-	private ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();	
-	private volatile Map<String, Session> ipSessionMap = new ConcurrentHashMap<String, Session>();
+
+	private ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();
+	private volatile Map<String, List<SessionWrapper>> ipSessionMap = new ConcurrentHashMap<String, List<SessionWrapper>>();
 	private List<SshUser> allSshUsers;
 	private int commandTimeOutTime = 60;
 
@@ -56,15 +56,21 @@ public class SshServerOperations extends AbstractServerOperations {
 	public void connect() {
 		for (SshUser sshUser : allSshUsers) {
 			String host = sshUser.getHost();
-			if (!ipSessionMap.containsKey(host))
+			if (isNotExistSessionForSshUser(host))
 				synchronized (host.intern()) {
-					if (!ipSessionMap.containsKey(host)) {
-						Session session = JSchSessionUtil.getSession(sshUser);
-						ipSessionMap.put(host, session);
+					if (isNotExistSessionForSshUser(host)) {
+						SessionWrapper session = JSchSessionUtil.getSessionWrapper(sshUser);
+						List<SessionWrapper> list=new ArrayList<SessionWrapper>();
+						list.add(session);
+						ipSessionMap.put(host, list);
 					}
-				}
+ 				}
 		}
 		LOGGER.info("[Server] [Complete Init IP-Session Map] " + ipSessionMap);
+	}
+
+	private boolean isNotExistSessionForSshUser(String host) {
+		return !ipSessionMap.containsKey(host)||(ipSessionMap.get(host)!=null&&ipSessionMap.get(host).size()==0);
 	}
 
 	public int getCommandTimeOutTime() {
@@ -97,13 +103,33 @@ public class SshServerOperations extends AbstractServerOperations {
 		ValidationUtil.checkPositive(initialCapacity);
 
 		Collection<SshTask> sshTasks = new ArrayList<SshTask>(initialCapacity);
-		for (Entry<String, Session> ipSession : ipSessionMap.entrySet()) {
-			Session session = ipSession.getValue();
-			sshTasks.add(new SshTask(session, command, returnResult, isHanged));
+		for (Entry<String, List<SessionWrapper>> ipSession : ipSessionMap.entrySet()) {
+			List<SessionWrapper> sessionWrappers = ipSession.getValue();
+  			SessionWrapper availableSessionWrapper = getAvailableSessionWrapper(sessionWrappers);
+  			availableSessionWrapper.increaseUsingChannelNumber();
+			sshTasks.add(new SshTask(availableSessionWrapper, command, returnResult, isHanged));
+
 		}
 
-		return sshTasks;
+ 		return sshTasks;
 	}
+
+	public SessionWrapper getAvailableSessionWrapper(List<SessionWrapper> sessionWrappers){
+		for(SessionWrapper sessionWrapper:sessionWrappers){
+			if(sessionWrapper.isSessionAvailable()){
+				return sessionWrapper;
+			}
+
+		}
+
+		ServerUser serverUser = sessionWrappers.get(0).getServerUser();
+		SessionWrapper sessionWrapper = JSchSessionUtil.getSessionWrapper(serverUser);
+		ipSessionMap.get(serverUser.getHost()).add(sessionWrapper);
+
+		return sessionWrapper;
+	}
+
+
 
 	private Map<String, String> invokeSshTasks(Collection<SshTask> commandTasks) {
 		Map<String, String> resultMap = new HashMap<String, String>();
@@ -147,8 +173,9 @@ public class SshServerOperations extends AbstractServerOperations {
 	}
 
 	private void disconnectSessions() {
-		for (Session session : ipSessionMap.values())
-			JSchSessionUtil.disconnect(session);
+		for (List<SessionWrapper> sessionWrapperList : ipSessionMap.values())
+			for(SessionWrapper sessionWrapper:sessionWrapperList)
+			JSchSessionUtil.disconnect(sessionWrapper.getSession());
 	}
 
 	@Override
