@@ -42,6 +42,10 @@ public final class JSchUtil {
 
 	public static class JSchSessionUtil {
 
+ 		public static SessionWrapper getSessionWrapper(ServerUser serverUser, int maxChannelNumber) {
+ 			return getSessionWrapper(serverUser,maxChannelNumber);
+		}
+
 		public static SessionWrapper getSessionWrapper(ServerUser serverUser) {
  			return new SessionWrapper(getSession(serverUser),serverUser,10);
 		}
