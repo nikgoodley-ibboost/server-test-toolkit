@@ -11,12 +11,18 @@ public class SessionWrapper {
 	private int usingChannelNumber;
 	private int maxChannelNumber;
 
+	public SessionWrapper(Session session, ServerUser serverUser, int maxChannelNumber) {
+		super();
+		this.session = session;
+		this.maxChannelNumber = maxChannelNumber;
+		this.serverUser=serverUser;
+	}
+
 	public ServerUser getServerUser() {
 		return serverUser;
 	}
 
-
-	public void setServerUser(ServerUser serverUser) {
+ 	public void setServerUser(ServerUser serverUser) {
 		this.serverUser = serverUser;
 	}
 
@@ -25,13 +31,6 @@ public class SessionWrapper {
 		this.usingChannelNumber = usingChannelNumber;
 	}
 
-
-
-	public SessionWrapper(Session session, ServerUser serverUser, int maxChannelNumber) {
-		super();
-		this.session = session;
-		this.maxChannelNumber = maxChannelNumber;
-	}
 
 
 	public Session getSession() {
