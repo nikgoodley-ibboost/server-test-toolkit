@@ -88,6 +88,10 @@ public final class JSchUtil {
 
 	public static class JSchChannelUtil {
 
+		public static ChannelExec getExecChannel(SessionWrapper sessionWrapper) {
+			return (ChannelExec) getChannel(sessionWrapper.getSession(), "exec");
+		}
+
 		public static ChannelExec getExecChannel(Session session) {
 			return (ChannelExec) getChannel(session, "exec");
 		}
