@@ -43,7 +43,7 @@ public final class JSchUtil {
 	public static class JSchSessionUtil {
 
 		public static SessionWrapper getSessionWrapper(ServerUser serverUser) {
- 			return new SessionWrapper(getSession(serverUser),10);
+ 			return new SessionWrapper(getSession(serverUser),serverUser,10);
 		}
 
 		public static Session getSession(ServerUser serverUser) {
