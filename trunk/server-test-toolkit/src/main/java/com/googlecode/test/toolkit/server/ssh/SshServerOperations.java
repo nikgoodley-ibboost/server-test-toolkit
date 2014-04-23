@@ -118,7 +118,6 @@ public class SshServerOperations extends AbstractServerOperations {
 			if(sessionWrapper.isSessionAvailable()){
 				return sessionWrapper;
 			}
-
 		}
 
 		ServerUser serverUser = sessionWrappers.get(0).getServerUser();
