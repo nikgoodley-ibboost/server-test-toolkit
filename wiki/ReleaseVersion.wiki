@@ -1,7 +1,8 @@
 Version 2.2.6(April 24, 2014)
-•   Fix bug issued by Nimon:  When multithread run the ssh tool by >10 threads will popup exception: the root cause is linux’s SSHD only allow 10 channel for every session, so fix it:  if found the opened session using channel >10, will new one new session.
+•   Fix bug issued:  When multithread run the ssh tool by >10 threads will popup exception: the root cause is linux’s SSHD only allow 10 channel for every session, so fix it:  if found the opened session using channel >10, will new one new session.
 Add log:
-08:48:50,474  INFO SshServerOperations:136 - [Server] [Dynamic Update IP-Session Map] {10.224.56.67=[SessionWrapper [session=com.jcraft.jsch.Session@c2a132, serverUser=ServerUser [host=10.224.56.67, port=22, username=root, password=webexlinux], usingChannelNumber=5, maxChannelNumber=10], SessionWrapper [session=com.jcraft.jsch.Session@26d4f1, serverUser=ServerUser [host=10.224.56.67, port=22, username=root, password=webexlinux], usingChannelNumber=10, maxChannelNumber=10], SessionWrapper [session=com.jcraft.jsch.Session@cf40f5, serverUser=ServerUser [host=10.224.56.67, port=22, username=root, password=webexlinux], usingChannelNumber=0, maxChannelNumber=10]]}
+
+08:48:50,474  INFO SshServerOperations:136 - [Server] [Dynamic Update IP-Session Map]
 
 •   Add remote common pool client into it
 com.googlecode.common.remote.pool.client.CommonRemotePoolClient.CommonRemotePoolClient(String)
