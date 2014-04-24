@@ -1,8 +1,12 @@
 Version 2.2.6(April 24, 2014)
+
+<pre>
 •   Fix bug issued:  When multithread run the ssh tool by >10 threads will popup exception: the root cause is linux’s SSHD only allow 10 channel for every session, so fix it:  if found the opened session using channel >10, will new one new session.
 Add log:
 
 08:48:50,474  INFO SshServerOperations:136 - [Server] [Dynamic Update IP-Session Map]
+
+</pre>
 
 •   Add remote common pool client into it
 com.googlecode.common.remote.pool.client.CommonRemotePoolClient.CommonRemotePoolClient(String)
