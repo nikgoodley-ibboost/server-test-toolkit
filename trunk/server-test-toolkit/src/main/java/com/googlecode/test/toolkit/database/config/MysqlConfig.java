@@ -8,7 +8,7 @@ public class MysqlConfig extends ExplicitDbConfig {
 	private static final String JDBC_DRIVER_FOR_MYSQL = "com.mysql.jdbc.Driver";
 
 	/**
-	 * @param url  jdbc:mysql://localhost:3306:test
+	 * @param url  jdbc:mysql://localhost:3306/databaseName
 	 * @param username
 	 * @param password
 	 */
