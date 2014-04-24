@@ -6,10 +6,12 @@ Add log:
 
 08:48:50,474  INFO SshServerOperations:136 - [Server] [Dynamic Update IP-Session Map]
 
-</pre>
+
 
 •   Add remote common pool client into it
 com.googlecode.common.remote.pool.client.CommonRemotePoolClient.CommonRemotePoolClient(String)
 com.googlecode.common.remote.pool.client.CommonRemotePoolClient.borrowObject(Class)
 com.googlecode.common.remote.pool.client.CommonRemotePoolClient.returnObject(Object)
 com.googlecode.common.remote.pool.client.CommonRemotePoolClient.addObject(Object...)
+
+</pre>
