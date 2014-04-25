@@ -57,6 +57,7 @@ public class ExplicitDbConfig implements DbConfig {
 
 	private void setDefaultConfig() {
 		this.maxPoolSize = DEFAULT_MAX_POOL_SIZE;
+		this.acquireRetryAttempts=3;
 	}
 
 	public String getDriverClass() {
