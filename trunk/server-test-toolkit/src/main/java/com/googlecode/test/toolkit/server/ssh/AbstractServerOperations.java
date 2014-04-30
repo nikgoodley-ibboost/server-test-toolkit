@@ -123,6 +123,24 @@ public abstract class AbstractServerOperations implements ServerOperations {
 		}
 	}
 
+	@Override
+	public void blockConnectionsExceptIp(String atLeastOneIp, String... otherIps) {
+		blockConnectionsExceptIp(true, atLeastOneIp, otherIps);
+	}
+
+	@Override
+	public void blockConnectionsExceptIp(boolean isOutput, String atLeastOneIp, String... otherIps) {
+		List<String> allIps = CollectionUtil.toList(atLeastOneIp, otherIps);
+
+		for (String ip : allIps) {
+			Command command = Iptable.newInstanceForAcceptConnections(isOutput, ip);
+			executeCommandWithoutResult(command);
+		}
+
+		Command command = Iptable.newInstanceForBlockAllConnections(isOutput);
+ 		executeCommandWithoutResult(command);
+	}
+
     @Override
     public void blockPort(int port) {
         ValidationUtil.checkPositive(port);
@@ -145,7 +163,7 @@ public abstract class AbstractServerOperations implements ServerOperations {
 				backupPath);
 		executeCommandWithoutResult(groupCommands);
 	}
-	
+
 	@Override
 	public void modifyFile(String editPath, String originalContent, String newContent, String backupPath) {
 		GroupCommands groupCommands = GroupCommandFactory.changeFile(editPath, originalContent, newContent, backupPath);

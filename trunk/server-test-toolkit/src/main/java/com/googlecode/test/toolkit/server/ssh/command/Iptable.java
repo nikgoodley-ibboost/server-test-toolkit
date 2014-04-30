@@ -9,7 +9,10 @@ import com.googlecode.test.toolkit.util.ValidationUtil;
 public class Iptable extends Command {
 
 	private static final String IPTABLE_COMMAND_FORMAT_FOR_BLOCK_CONNECTIONS = "/sbin/iptables -t filter -A %s %s -j DROP";
-	private static final String IPTABLE_COMMAND_FORMAT_FOR_CLEAR_RULES = "/sbin/iptables -F";
+	private static final String IPTABLE_COMMAND_FORMAT_FOR_BLOCK_ALL_CONNECTIONS = "/sbin/iptables -t filter -A %s -j DROP";
+
+	private static final String IPTABLE_COMMAND_FORMAT_FOR_ACCEPT_CONNECTIONS = "/sbin/iptables -t filter -A %s %s -j ACCEPT";
+ 	private static final String IPTABLE_COMMAND_FORMAT_FOR_CLEAR_RULES = "/sbin/iptables -F";
 
  	public static Iptable newInstanceForClearIptables() {
 		return new Iptable(IPTABLE_COMMAND_FORMAT_FOR_CLEAR_RULES);
@@ -18,6 +21,20 @@ public class Iptable extends Command {
 	public static Iptable newInstanceForBlockConnections(boolean isOutput, String ip) {
 		String forword = isOutput ? "INPUT -s" : "OUTPUT -d";
 		String comandStr = String.format(IPTABLE_COMMAND_FORMAT_FOR_BLOCK_CONNECTIONS, forword, ip);
+
+		return new Iptable(comandStr);
+ 	}
+
+	public static Iptable newInstanceForBlockAllConnections(boolean isOutput) {
+		String forword = isOutput ? "INPUT" : "OUTPUT";
+		String comandStr = String.format(IPTABLE_COMMAND_FORMAT_FOR_BLOCK_ALL_CONNECTIONS, forword);
+
+		return new Iptable(comandStr);
+ 	}
+
+ 	public static Iptable newInstanceForAcceptConnections(boolean isOutput, String ip) {
+		String forword = isOutput ? "INPUT -s" : "OUTPUT -d";
+		String comandStr = String.format(IPTABLE_COMMAND_FORMAT_FOR_ACCEPT_CONNECTIONS, forword, ip);
 
 		return new Iptable(comandStr);
  	}
