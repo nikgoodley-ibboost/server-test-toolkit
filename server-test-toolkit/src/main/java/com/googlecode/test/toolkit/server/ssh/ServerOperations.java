@@ -15,12 +15,23 @@ public interface ServerOperations extends RemoteConnection {
 
 	public Map<String, String> executeCommandWithResult(String command);
 
+
+	/**
+	 * though not read the command's result, but it will judge if the command be executed success.
+	 * So if the command is hanged without return, it should use {@link #executeCommandHanged(String)}
+	 * @param command
+	 */
 	public void executeCommandWithoutResult(String command);
 
 	public void executeCommandHanged(String command);
 
 	public Map<String, String> executeCommandWithResult(Command command);
 
+    /**
+     * though not read the command's result, but it will judge if the command be executed success.
+     * So if the command is hanged without return, it should use {@link #executeCommandHanged(String)}
+     * @param command
+     */
 	public void executeCommandWithoutResult(Command command);
 
 	public void cp(String fromPath, String toPath);
@@ -74,9 +85,9 @@ public interface ServerOperations extends RemoteConnection {
 	 */
 	public void modifyFile(String editPath, int lineNumber,
 			String newContentForLine);
-	
+
 	public void modifyFile(String editPath, String originalContent, String newContent, String backupPath);
- 
+
 	public Map<String, List<String>> getLineNumbersWithKeyword(String filePath,
 			String keyword);
 
