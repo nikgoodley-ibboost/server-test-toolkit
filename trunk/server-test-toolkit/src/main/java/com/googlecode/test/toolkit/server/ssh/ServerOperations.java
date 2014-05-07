@@ -101,4 +101,29 @@ public interface ServerOperations extends RemoteConnection {
 
 	public Map<String, PerformanceData> getPerformanceData();
 
+	/**
+	 * seconds since 1970-01-01 00:00:00 UTC
+	 * @return {10.224.38.166=1399442275}
+	 */
+	public Map<String, Long> getCurrentTimeSeconds();
+
+	/**
+	 * @return {10.224.38.166=Wed May  7 05:57:55 GMT 2014}
+	 */
+	public Map<String, String> getCurrentTime();
+
+	/**
+	 * @param format  such as "%y/%m/%d_%H:%M:%S" can see linux command date's help
+	 * @return  {[ip]=14/05/07_05:57:55}
+	 */
+	public Map<String, String> getCurrentTime(String format);
+
+	public void modifyCurrentTime(int timeOffsetInSeconds);
+
+	/**
+	 * /etc/init.d/ntpd stop;ntpdate 10.224.38.24; /etc/init.d/ntpd start
+	 * @param ip
+	 */
+	public void syncNtp(String ip);
+
 }
