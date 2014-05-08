@@ -103,12 +103,12 @@ public interface ServerOperations extends RemoteConnection {
 
 	/**
 	 * seconds since 1970-01-01 00:00:00 UTC
-	 * @return {10.224.38.166=1399442275}
+	 * @return {[ip]=1399442275}
 	 */
 	public Map<String, Long> getCurrentTimeSeconds();
 
 	/**
-	 * @return {10.224.38.166=Wed May  7 05:57:55 GMT 2014}
+	 * @return {[ip]=Wed May  7 05:57:55 GMT 2014}
 	 */
 	public Map<String, String> getCurrentTime();
 
@@ -118,12 +118,15 @@ public interface ServerOperations extends RemoteConnection {
 	 */
 	public Map<String, String> getCurrentTime(String format);
 
+	/**
+	 * @param timeOffsetInSeconds: >0 mean set time after now, <0 mean time before now
+	 */
 	public void modifyCurrentTime(int timeOffsetInSeconds);
 
 	/**
-	 * /etc/init.d/ntpd stop;ntpdate 10.224.38.24; /etc/init.d/ntpd start
-	 * @param ip
+	 * use command format: /etc/init.d/ntpd stop;ntpdate 10.224.38.24; /etc/init.d/ntpd start
+	 * @param ntpServerHost
 	 */
-	public void syncNtp(String ip);
+	public void syncNtp(String ntpServerHost);
 
 }
