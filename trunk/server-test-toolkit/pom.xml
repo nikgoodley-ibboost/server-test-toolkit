@@ -216,7 +216,12 @@
 		</plugins>
 	</build>
 	<repositories>
-		<repository>
+         <repository>
+            <id>jboss</id>
+            <name>jboss repo</name>
+            <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+        </repository>
+ 		<repository>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
