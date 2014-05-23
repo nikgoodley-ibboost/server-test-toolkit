@@ -39,6 +39,10 @@ public class Iptable extends Command {
 		return new Iptable(comandStr);
  	}
 
+ 	public void convertAddRuleToDeleteRule(){
+ 	    this.setCommandStr(getCommandStr().replace(" -A ", " -D "));
+   	}
+
 	/**
 	 <pre>
 	iptables -A OUTPUT -p tcp --sport 80 -j DROP
