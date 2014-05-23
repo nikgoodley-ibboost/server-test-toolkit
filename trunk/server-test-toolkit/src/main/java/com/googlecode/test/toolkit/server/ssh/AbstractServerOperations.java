@@ -112,13 +112,31 @@ public abstract class AbstractServerOperations implements ServerOperations {
 
     @Override
     public void blockConnectionsWithIp(boolean isOutput, String atLeastOneIp, String... otherIps) {
+        addOrDeleteRuleForBlockConnectionsWithIp(false,isOutput,atLeastOneIp,otherIps);
+    }
+
+    @Override
+    public void unblockConnectionsWithIp(String atLeastOneIp, String... otherIps) {
+        unblockConnectionsWithIp(true, atLeastOneIp, otherIps);
+    }
+
+
+    @Override
+    public void unblockConnectionsWithIp(boolean isOutput, String atLeastOneIp, String... otherIps) {
+        addOrDeleteRuleForBlockConnectionsWithIp(true,isOutput,atLeastOneIp,otherIps);
+    }
+
+    private void addOrDeleteRuleForBlockConnectionsWithIp(boolean isDeleteRule,boolean isOutput, String atLeastOneIp, String... otherIps) {
         List<String> allIps = CollectionUtil.toList(atLeastOneIp, otherIps);
 
         for (String ip : allIps) {
-            Command command = Iptable.newInstanceForBlockConnections(isOutput, ip);
+            Iptable command = Iptable.newInstanceForBlockConnections(isOutput, ip);
+            if(isDeleteRule)
+                command.convertAddRuleToDeleteRule();
             executeCommandWithoutResult(command);
         }
     }
+
 
     @Override
     public void blockConnectionsExceptIp(String atLeastOneIp, String... otherIps) {
@@ -127,22 +145,53 @@ public abstract class AbstractServerOperations implements ServerOperations {
 
     @Override
     public void blockConnectionsExceptIp(boolean isOutput, String atLeastOneIp, String... otherIps) {
+        addOrDeleteRuleForBlockConnectionsExceptIp(false,isOutput,atLeastOneIp,otherIps);
+     }
+
+
+    @Override
+    public void unblockConnectionsExceptIp(String atLeastOneIp, String... otherIps) {
+        unblockConnectionsExceptIp(true, atLeastOneIp, otherIps);
+    }
+
+    @Override
+    public void unblockConnectionsExceptIp(boolean isOutput, String atLeastOneIp, String... otherIps) {
+        addOrDeleteRuleForBlockConnectionsExceptIp(true,isOutput,atLeastOneIp,otherIps);
+    }
+
+
+    private void addOrDeleteRuleForBlockConnectionsExceptIp(boolean isDeleteRule,boolean isOutput, String atLeastOneIp, String... otherIps){
         List<String> allIps = CollectionUtil.toList(atLeastOneIp, otherIps);
 
         for (String ip : allIps) {
-            Command command = Iptable.newInstanceForAcceptConnections(isOutput, ip);
+            Iptable command = Iptable.newInstanceForAcceptConnections(isOutput, ip);
+            if(isDeleteRule)
+                command.convertAddRuleToDeleteRule();
             executeCommandWithoutResult(command);
         }
 
-        Command command = Iptable.newInstanceForBlockAllConnections(isOutput);
+        Iptable command = Iptable.newInstanceForBlockAllConnections(isOutput);
+        if(isDeleteRule)
+            command.convertAddRuleToDeleteRule();
+        executeCommandWithoutResult(command);
+    }
+
+    @Override
+    public void unblockPort(int port) {
+        addOrDeleteRuleForBlockPort(true,port);
+    }
+
+    private void addOrDeleteRuleForBlockPort(boolean isDeleteRule,int port) {
+        ValidationUtil.checkPositive(port);
+        Iptable command = Iptable.newInstanceForBlockPort(port);
+        if(isDeleteRule)
+            command.convertAddRuleToDeleteRule();
         executeCommandWithoutResult(command);
     }
 
     @Override
     public void blockPort(int port) {
-        ValidationUtil.checkPositive(port);
-        Iptable command = Iptable.newInstanceForBlockPort(port);
-        executeCommandWithoutResult(command);
+        addOrDeleteRuleForBlockPort(false,port);
     }
 
     @Override

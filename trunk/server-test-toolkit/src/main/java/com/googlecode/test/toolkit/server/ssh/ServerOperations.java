@@ -78,6 +78,17 @@ public interface ServerOperations extends RemoteConnection {
 
 	public void blockConnectionsExceptIp(boolean isOutput,String atLeastOneIp, String... otherIps);
 
+  	public void unblockConnectionsWithIp(boolean isOutput, String atLeastOneIp,
+	            String... otherIps);
+
+	public void unblockPort(int port);
+
+	public void unblockConnectionsExceptIp(String atLeastOneIp, String... otherIps);
+
+	public void unblockConnectionsExceptIp(boolean isOutput,String atLeastOneIp, String... otherIps);
+
+	public void unblockConnectionsWithIp(String atLeastOneIp, String... otherIps);
+
 	public void modifyFile(String editPath, int lineNumber,
 			String newContentForLine, String backupPath);
 
