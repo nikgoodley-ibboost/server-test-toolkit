@@ -51,7 +51,7 @@ public class ToJavabeanListHandler<T> implements ResultSetHandler<List<T>> {
 			LOGGER.info("[DB][ToJavabeanListHandle][END][SUCCESS][SIZE:"+list.size()+"]");
 			return list;
 		} catch (Exception e) {
-			LOGGER.error("[DB][ToJavabeanListHandle][END][FAIL] " + e, e);
+			LOGGER.error("[DB][ToJavabeanListHandle][END][FAIL] for" + e.getMessage(), e);
 			throw new DbExecuteException(e.getMessage(), e);
 		}
 	}
