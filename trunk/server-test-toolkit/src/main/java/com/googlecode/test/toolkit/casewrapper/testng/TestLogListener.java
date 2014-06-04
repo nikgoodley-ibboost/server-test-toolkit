@@ -19,7 +19,7 @@ import org.testng.ITestResult;
                         <property>
                             <name>usedefaultlisteners</name>
                             <value>true</value>
-                            <!--  disabling default listeners is optional --> 
+                            <!--  disabling default listeners is optional -->
                         </property>
                         <property>
                             <name>listener</name>
@@ -40,9 +40,9 @@ public class TestLogListener implements ITestListener {
 
      @Override
     public void onStart(ITestContext arg0) {
-         LOGGER.info(String.format(LogConstants.LOG_FORMAT_FOR_TEST_START,arg0.getEndDate()));
+         LOGGER.info(String.format(LogConstants.LOG_FORMAT_FOR_TEST_START,arg0.getStartDate()));
     }
-    
+
     @Override
     public void onFinish(ITestContext arg0) {
          LOGGER.info(String.format(LogConstants.LOG_FORMAT_FOR_TEST_FINISH,arg0.getEndDate()));
