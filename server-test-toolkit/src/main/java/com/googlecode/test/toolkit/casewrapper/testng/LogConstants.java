@@ -14,6 +14,6 @@ public final class LogConstants {
 	static final String LOG_FORMAT_FOR_TEST_START = "\n" + LOG_FORMAT_SPLIT_STRING
 			+ "Test Start at %s" + LOG_FORMAT_SPLIT_STRING + "\n";
 	static final String LOG_FORMAT_FOR_TEST_FINISH = "\n" + LOG_FORMAT_SPLIT_STRING
-			+ "Test Finish at %s" + LOG_FORMAT_SPLIT_STRING + "\n";
+			+ "Test Finish at %s consumed %d(s)" + LOG_FORMAT_SPLIT_STRING + "\n";
 
 }
