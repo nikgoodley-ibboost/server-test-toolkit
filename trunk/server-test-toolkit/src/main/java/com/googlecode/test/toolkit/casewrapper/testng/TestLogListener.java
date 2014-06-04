@@ -45,7 +45,7 @@ public class TestLogListener implements ITestListener {
 
     @Override
     public void onFinish(ITestContext arg0) {
-         LOGGER.info(String.format(LogConstants.LOG_FORMAT_FOR_TEST_FINISH,arg0.getEndDate()));
+         LOGGER.info(String.format(LogConstants.LOG_FORMAT_FOR_TEST_FINISH,arg0.getEndDate(), (arg0.getEndDate().getTime()-arg0.getStartDate().getTime())/1000));
     }
 
     @Override
