@@ -82,7 +82,12 @@ public class CommonRemotePoolClient {
 
     }
 
-    public <T> List<T> listAll(Class<T> classType) {
+    /**
+     * list all objects be added into pools
+     * @param classType
+     * @return
+     */
+    public <T> List<T> listAdded(Class<T> classType) {
         ResteasyClient client = new ResteasyClientBuilder().build();
         try {
             ResteasyWebTarget target = client.target(url + "service/object/listAdd");
