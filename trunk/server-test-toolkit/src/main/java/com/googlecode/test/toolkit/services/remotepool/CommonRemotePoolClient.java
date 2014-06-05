@@ -1,5 +1,6 @@
 package com.googlecode.test.toolkit.services.remotepool;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.client.Entity;
@@ -75,6 +76,34 @@ public class CommonRemotePoolClient {
 
             T readEntity = response.readEntity(classType);
             return readEntity;
+         } finally {
+            client.close();
+        }
+
+    }
+
+    public <T> List<T> listAll(Class<T> classType) {
+        ResteasyClient client = new ResteasyClientBuilder().build();
+        try {
+            ResteasyWebTarget target = client.target(url + "service/object/listAdd");
+            Response response =  target.request().get();
+
+            if (response.getStatus() == 404)
+                return null;
+
+           List<T> added=new ArrayList<T>();
+          	String readEntity = response.readEntity(String.class);
+          	if(!readEntity.startsWith("["))
+          		return added;
+
+            JSONArray array=JSONArray.fromObject(readEntity);
+            @SuppressWarnings("unchecked")
+			T[] products=(T[]) JSONArray.toArray(array,classType);
+            for(T t:products){
+                   added.add(t);
+            }
+
+            return added;
          } finally {
             client.close();
         }
