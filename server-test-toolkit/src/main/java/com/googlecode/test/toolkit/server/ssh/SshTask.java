@@ -70,7 +70,8 @@ public class SshTask implements Callable<SshTaskResult<String, String>> {
 			try{
 				closeChannelAndStream(channelExec, inputStream, errStream);
  			}finally{
- 				session.decreaseUsingChannelNumber();
+ 				if(!isHanged)
+ 					session.decreaseUsingChannelNumber();
   			}
 		}
 	}
