@@ -139,5 +139,9 @@ public interface ServerOperations extends RemoteConnection {
 	 * @param ntpServerHost
 	 */
 	public void syncNtp(String ntpServerHost);
-
-}
+	
+	public void setCommandTimeOutTime(int commandTimeOutTime);
+	
+	public void setMaxChannelNumberForEachSession(int maxChannelNumberForEachSession);
+ 
+ }
