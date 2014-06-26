@@ -13,9 +13,15 @@ public class Iptable extends Command {
 
 	private static final String IPTABLE_COMMAND_FORMAT_FOR_ACCEPT_CONNECTIONS = "/sbin/iptables -t filter -A %s %s -j ACCEPT";
  	private static final String IPTABLE_COMMAND_FORMAT_FOR_CLEAR_RULES = "/sbin/iptables -F";
+ 	private static final String IPTABLE_COMMAND_FORMAT_FOR_RESART = "service iptables restart";
+
 
  	public static Iptable newInstanceForClearIptables() {
 		return new Iptable(IPTABLE_COMMAND_FORMAT_FOR_CLEAR_RULES);
+	}
+ 	
+ 	public static Iptable newInstanceForRestartIptables() {
+		return new Iptable(IPTABLE_COMMAND_FORMAT_FOR_RESART);
 	}
 
 	public static Iptable newInstanceForBlockConnections(boolean isOutput, String ip) {
