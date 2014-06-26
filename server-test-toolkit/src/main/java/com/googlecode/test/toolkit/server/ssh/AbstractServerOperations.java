@@ -281,6 +281,11 @@ public abstract class AbstractServerOperations implements ServerOperations {
     public void syncNtp(String ntpServerIp){
         executeCommandWithoutResult(com.googlecode.test.toolkit.server.ssh.command.Ntpdate.newInstance(ntpServerIp));
     }
-
-
+    
+    @Override
+	public void restartIptables(){
+        Command command = Iptable.newInstanceForRestartIptables();
+        executeCommandWithoutResult(command);
+	}
+ 
 }
