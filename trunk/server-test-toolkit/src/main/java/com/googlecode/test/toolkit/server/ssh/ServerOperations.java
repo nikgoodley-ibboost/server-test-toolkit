@@ -109,6 +109,11 @@ public interface ServerOperations extends RemoteConnection {
 	public void createPath(String path);
 
 	public void cancelIptables();
+	
+	/**
+	 * service iptables restart
+	 */
+	public void restartIptables();
 
 	public Map<String, PerformanceData> getPerformanceData();
 
