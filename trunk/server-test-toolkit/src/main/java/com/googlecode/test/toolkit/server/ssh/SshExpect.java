@@ -25,12 +25,12 @@ public abstract class SshExpect {
 
 	}
 
-	protected abstract void executeExpect(Expect expect);
+	protected abstract void executeExpect(Expect expect) throws Exception;
 
-	public void run() {
+	public void run() throws Exception {
 		try {
 			 executeExpect(expect);
- 		} finally {
+ 		}  finally {
 			try{
 				expect.close();
  			}finally{
