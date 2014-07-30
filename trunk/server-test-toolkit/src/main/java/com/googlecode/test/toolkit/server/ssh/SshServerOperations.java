@@ -55,10 +55,8 @@ public class SshServerOperations extends AbstractServerOperations {
 	
 	
 	/**
-	 * after instance created, the connections will be created by default, but you should call
-	 * {@link #disconnect()} to release the connections.
-	 * @param atLeaseOneSshUser
-	 * @param otherSshUsers
+	 * @see #SshServerOperations(SshUser, SshUser...)
+ 	 * @param sshUsers size should > 0
 	 * @return SshServerOperations
 	 * @throws UncheckedServerOperationException
 	 */
