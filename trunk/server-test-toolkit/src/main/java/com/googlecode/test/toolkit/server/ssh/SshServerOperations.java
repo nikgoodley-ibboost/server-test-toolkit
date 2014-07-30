@@ -52,6 +52,24 @@ public class SshServerOperations extends AbstractServerOperations {
  		ValidationUtil.checkNull(allSshUsers);
 		connect();
 	}
+	
+	
+	/**
+	 * after instance created, the connections will be created by default, but you should call
+	 * {@link #disconnect()} to release the connections.
+	 * @param atLeaseOneSshUser
+	 * @param otherSshUsers
+	 * @return SshServerOperations
+	 * @throws UncheckedServerOperationException
+	 */
+	public SshServerOperations(List<SshUser> sshUsers) {
+		if(sshUsers.size()==0)
+			throw new IllegalArgumentException("sshUsers's size should > 0");
+  		allSshUsers =sshUsers;
+ 		ValidationUtil.checkNull(allSshUsers);
+		connect();
+	}
+	
 
 	@Override
 	public void connect() {
