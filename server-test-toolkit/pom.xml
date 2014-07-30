@@ -3,11 +3,33 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.server-test-toolkit</groupId>
 	<artifactId>server-test-toolkit</artifactId>
-	<version>2.4.0</version>
+	<version>2.4.1</version>
 	<packaging>jar</packaging>
 	<name>server-test-toolkit</name>
 	<description>one open source project which is designed for test automation of server applications.</description>
 	<url>http://code.google.com/p/server-test-toolkit/</url>
+	<!-- mvn -X clean deploy -Dgpg.passphrase=password  --> 
+	<!-- 
+		setting.xml
+		 <servers>
+	     <server>
+	      <id>sonatype-nexus-snapshots</id>
+	      <username>fujian1115</username>
+	      <password>password</password>
+	    </server>
+	    <server>
+	      <id>sonatype-nexus-staging</id>
+	      <username>fujian1115</username>
+	      <password>password</password>
+	    </server>
+	    <server>
+	      <id>maven.jenkins-ci.org</id>  
+	      <username>fujian</username>
+	      <password>password</password>
+	    </server>
+ 
+  </servers> 
+	 -->
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
