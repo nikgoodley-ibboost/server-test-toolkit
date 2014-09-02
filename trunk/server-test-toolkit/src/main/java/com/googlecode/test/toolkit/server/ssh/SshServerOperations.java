@@ -37,6 +37,7 @@ public class SshServerOperations extends AbstractServerOperations {
 	private List<SshUser> allSshUsers;
 	private int commandTimeOutTime = 60;
 	private int maxChannelNumberForEachSession=10;
+	private boolean enableSudo;
 
 
 	/**
@@ -52,22 +53,6 @@ public class SshServerOperations extends AbstractServerOperations {
  		ValidationUtil.checkNull(allSshUsers);
 		connect();
 	}
-	
-	
-	/**
-	 * @see #SshServerOperations(SshUser, SshUser...)
- 	 * @param sshUsers size should > 0
-	 * @return SshServerOperations
-	 * @throws UncheckedServerOperationException
-	 */
-	public SshServerOperations(List<SshUser> sshUsers) {
-		if(sshUsers.size()==0)
-			throw new IllegalArgumentException("sshUsers's size should > 0");
-  		allSshUsers =sshUsers;
- 		ValidationUtil.checkNull(allSshUsers);
-		connect();
-	}
-	
 
 	@Override
 	public void connect() {
@@ -97,6 +82,14 @@ public class SshServerOperations extends AbstractServerOperations {
 	public void setCommandTimeOutTime(int commandTimeOutTime) {
 		this.commandTimeOutTime = commandTimeOutTime;
 	}
+	 
+	public boolean enableSudo() {
+		return enableSudo;
+	}
+
+	public void disableSudo(boolean enableSudo) {
+		this.enableSudo = enableSudo;
+	}
 
  	public int getMaxChannelNumberForEachSession() {
 		return maxChannelNumberForEachSession;
@@ -118,6 +111,9 @@ public class SshServerOperations extends AbstractServerOperations {
  	@Override
 	public Map<String, String> executeCommand(String command, boolean returnResult, boolean isHanged) {
 		ValidationUtil.checkString(command);
+		
+		if(enableSudo)
+			command="sudo "+command;
 
 		Collection<SshTask> sshTasks = formatSshTasks(command, returnResult, isHanged);
 		return invokeSshTasks(sshTasks);
