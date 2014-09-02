@@ -53,6 +53,21 @@ public class SshServerOperations extends AbstractServerOperations {
  		ValidationUtil.checkNull(allSshUsers);
 		connect();
 	}
+	
+	/**
+	 * @see #SshServerOperations(SshUser, SshUser...)
+ 	 * @param sshUsers size should > 0
+	 * @return SshServerOperations
+	 * @throws UncheckedServerOperationException
+	 */
+	public SshServerOperations(List<SshUser> sshUsers) {
+		if(sshUsers.size()==0)
+			throw new IllegalArgumentException("sshUsers's size should > 0");
+  		allSshUsers =sshUsers;
+ 		ValidationUtil.checkNull(allSshUsers);
+		connect();
+	}
+	
 
 	@Override
 	public void connect() {
