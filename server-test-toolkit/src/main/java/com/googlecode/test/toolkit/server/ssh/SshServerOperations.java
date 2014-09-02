@@ -102,7 +102,7 @@ public class SshServerOperations extends AbstractServerOperations {
 		this.enableSudo=true;
 	}
 
-	public void disableSudo(boolean enableSudo) {
+	public void disableSudo() {
 		this.enableSudo = false;
 	}
 
