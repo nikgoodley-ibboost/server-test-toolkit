@@ -83,12 +83,12 @@ public class SshServerOperations extends AbstractServerOperations {
 		this.commandTimeOutTime = commandTimeOutTime;
 	}
 	 
-	public boolean enableSudo() {
-		return enableSudo;
+	public void enableSudo() {
+		this.enableSudo=true;
 	}
 
 	public void disableSudo(boolean enableSudo) {
-		this.enableSudo = enableSudo;
+		this.enableSudo = false;
 	}
 
  	public int getMaxChannelNumberForEachSession() {
