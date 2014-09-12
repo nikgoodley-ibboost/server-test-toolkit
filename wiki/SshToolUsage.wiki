@@ -1,0 +1,44 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+
+
+
+= Details =
+{{{
+        SshUser sshUserOne = new SshUser("10.224.95.207", 333, "root", "pass");
+        ServerOperations serverOperations = new SshServerOperations(sshUserOne);
+        Map<String, String> lsResult = serverOperations.ls("/usr");      
+        
+        String mergeValues = CollectionUtil.mergeValues(lsResult);
+}}}
+
+what's more,there are some common methods except above methods.
+
+
+{{{
+
+	public Map<String, String> executeCommandWithResult(String command);
+
+
+    /**
+     *  It will judge if the command be executed success though without reading the command's result,
+     * So if the command is hanged without return, it should use {@link #executeCommandHanged(String)}
+     * @param command
+     */
+	public void executeCommandWithoutResult(String command);
+
+    /**
+     *  It will judge if the command be executed success though without reading the command's result,
+     * So if the command is hanged without return, it should use {@link #executeCommandHanged(String)}
+     * @param command
+     */
+	public void executeCommandWithoutResult(Command command);
+
+	public void executeCommandHanged(String command);
+
+	public Map<String, String> executeCommandWithResult(Command command);
+
+
+}}}
