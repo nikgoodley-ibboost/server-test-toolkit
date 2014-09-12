@@ -7,7 +7,9 @@ Add your content here.
 
 = How to handle query result =
 
-convert to map list: one DB record is one map.
+There are two methods to handle the result:
+
+1. convert to map list: one DB record is one map.
 
 {{{
 OracleConfig oracleConfig = new OracleConfig("jdbc:oracle:thin:@2.2.6.30:1523:taweb", "test", "pass");
@@ -18,8 +20,10 @@ List<HashMap<String, ?>> query = defaultDbClient.query("select * from mtgconfere
 
 }}}
 
-convert to java bean list: one DB record is one java bean object.
+2. convert to java bean list: one DB record is one java bean object.
 
+create one java bean class such as TABLE_MQ to represent db table:
+then we can write code as followed: 
 {{{
 String sql = "select * from TEST.TABLE_MQ order by createtime desc";
 ToJavabeanListHandler<TABLE_MQ> toJavabeanListHandler = new ToJavabeanListHandler<TABLE_MQ>(
