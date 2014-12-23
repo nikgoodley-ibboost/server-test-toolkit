@@ -26,7 +26,9 @@ mysql/oracle
 
 There are two methods to handle the result:
 
-==1. convert to map list: one DB record is one map.==
+==1. convert to map list==
+
+one DB record is one map
 
 
 {{{
@@ -38,8 +40,9 @@ List<HashMap<String, ?>> query = defaultDbClient.query("select * from mtgconfere
 
 }}}
 
-==2. convert to java bean list: one DB record is one java bean object.==
+==2. convert to java bean list==
 
+one DB record is one java bean object
 
 create one java bean class such as TABLE_MQ to represent db table:
 then we can write code as followed: 
