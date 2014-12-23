@@ -1,8 +1,5 @@
 #how to use database tool
 
-= Introduction =
-
-Add your content here.
 
 =DB Support=
 mysql/oracle
