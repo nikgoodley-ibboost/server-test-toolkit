@@ -50,3 +50,7 @@ List<TABLE_MQ> result = defaultDbClient.query(sql, toJavabeanListHandler);
 
 	<T> T query(String sql, ResultSetHandler<T> resultSetHandler);
 }}}
+
+
+=DB Support=
+mysql/oracle
