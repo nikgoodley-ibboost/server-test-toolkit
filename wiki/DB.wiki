@@ -9,7 +9,8 @@ Add your content here.
 
 There are two methods to handle the result:
 
-1. convert to map list: one DB record is one map.
+==1. convert to map list: one DB record is one map.==
+
 
 {{{
 OracleConfig oracleConfig = new OracleConfig("jdbc:oracle:thin:@2.2.6.30:1523:taweb", "test", "pass");
@@ -20,7 +21,8 @@ List<HashMap<String, ?>> query = defaultDbClient.query("select * from mtgconfere
 
 }}}
 
-2. convert to java bean list: one DB record is one java bean object.
+==2. convert to java bean list: one DB record is one java bean object.==
+
 
 create one java bean class such as TABLE_MQ to represent db table:
 then we can write code as followed: 
