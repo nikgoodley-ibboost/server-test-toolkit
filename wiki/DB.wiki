@@ -32,3 +32,21 @@ ToJavabeanListHandler<TABLE_MQ> toJavabeanListHandler = new ToJavabeanListHandle
 TABLE_MQ.class);
 List<TABLE_MQ> result = defaultDbClient.query(sql, toJavabeanListHandler);
 }}}
+
+=All methods support=
+
+{{{
+	Connection getConnnection();
+
+	boolean execute(String sql);
+
+	int update(String sql);
+
+	int update(String sql, Object[] params);
+
+	boolean execute(String sql, Object[] params);
+
+	<T> T query(String sql, Object[] params, ResultSetHandler<T> resultSetHandler);
+
+	<T> T query(String sql, ResultSetHandler<T> resultSetHandler);
+}}}
