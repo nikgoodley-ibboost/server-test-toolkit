@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
+
 import com.googlecode.test.toolkit.server.ssh.command.Command;
 import com.googlecode.test.toolkit.server.ssh.command.Cp;
 import com.googlecode.test.toolkit.server.ssh.command.Grep;
@@ -28,8 +30,12 @@ import com.googlecode.test.toolkit.util.ValidationUtil;
  * @author fu.jian date Jul 25, 2012
  */
 public abstract class AbstractServerOperations implements ServerOperations {
+	
+	
+	private final static Logger LOG=Logger.getLogger(AbstractServerOperations.class);
 
     private static final String REGEX = "\n";
+    
 
     @Override
     public void cp(String fromPath, String toPath) {
@@ -274,7 +280,8 @@ public abstract class AbstractServerOperations implements ServerOperations {
 
     @Override
     public void modifyCurrentTime(int timeOffsetInSeconds){
-         executeCommandWithoutResult(com.googlecode.test.toolkit.server.ssh.command.Date.newInstanceForModify(timeOffsetInSeconds));
+         Map<String, String> executeCommandWithResult = executeCommandWithResult(com.googlecode.test.toolkit.server.ssh.command.Date.newInstanceForModify(timeOffsetInSeconds));
+         LOG.info(executeCommandWithResult);
     }
 
     @Override

@@ -8,12 +8,9 @@ public class Date extends Command {
     private static final String DATE_COMMAND_FORMAT_COMMON = "date";
     private static final String DATE_COMMAND_FORMAT_SECONDS = "date +%s";
     private static final String DATE_COMMAND_FORMAT_FORMAT = "date +%s";
-    private static final String DATE_COMMAND_FORMAT_MODIFY = "date --set='%d seconds';clock -w";
-
-
-
-
-
+    private static final String DATE_COMMAND_FORMAT_MODIFY = "date;date --set='%d seconds';clock -w";
+ 
+ 
     public static Date newInstanceForSeconds() {
         return new Date(DATE_COMMAND_FORMAT_SECONDS);
     }
