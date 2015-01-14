@@ -28,7 +28,7 @@ There are two methods to handle the result:
 
 ==1. convert to map list==
 
-one DB record is one map
+one DB record is one map for column and column's value. map's list is for multi DB records.
 
 
 {{{
