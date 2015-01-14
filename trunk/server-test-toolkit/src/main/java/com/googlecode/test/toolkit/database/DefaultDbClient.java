@@ -69,6 +69,7 @@ public class DefaultDbClient extends AbstractDbClient {
 	public Object query(String sql) {
 		 ToMapListHandler toMapListHandler = new ToMapListHandler();
 		 List<HashMap<String, ?>> result = query( sql,  toMapListHandler);
+		 
 		 return result.get(0).values().iterator().next();
 	}
 
