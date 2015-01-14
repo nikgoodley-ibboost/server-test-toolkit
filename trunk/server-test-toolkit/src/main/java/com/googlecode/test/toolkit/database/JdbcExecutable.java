@@ -24,4 +24,10 @@ public interface JdbcExecutable {
 
 	<T> T query(String sql, ResultSetHandler<T> resultSetHandler);
 
+	/**
+	 * @param sql the sql only return one record and one column.
+	 * @return
+	 */
+	Object query(String sql);
+
 }

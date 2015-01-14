@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -12,6 +14,7 @@ import com.googlecode.test.toolkit.database.config.DbConfig;
 import com.googlecode.test.toolkit.database.config.DefaultDbConfig;
 import com.googlecode.test.toolkit.database.exception.DbExecuteException;
 import com.googlecode.test.toolkit.database.resultset.handler.ResultSetHandler;
+import com.googlecode.test.toolkit.database.resultset.handler.ToMapListHandler;
 
 public class DefaultDbClient extends AbstractDbClient {
 
@@ -59,6 +62,14 @@ public class DefaultDbClient extends AbstractDbClient {
 	@Override
 	public Connection getConnnection() {
 		return ConnectionFactory.getConnection(dbConfig);
+	}
+	
+	
+	@Override
+	public Object query(String sql) {
+		 ToMapListHandler toMapListHandler = new ToMapListHandler();
+		 List<HashMap<String, ?>> result = query( sql,  toMapListHandler);
+		 return result.get(0).values().iterator().next();
 	}
 
 	@Override
