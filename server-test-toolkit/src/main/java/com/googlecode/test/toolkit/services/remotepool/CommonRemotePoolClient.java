@@ -1,5 +1,6 @@
 package com.googlecode.test.toolkit.services.remotepool;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.client.Entity;
@@ -23,7 +24,8 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 public class CommonRemotePoolClient {
 
     private static final String DEFAULT_BORROWER_NAME = "anonymous";
-	/**
+
+    /**
      * http://10.224.38.166:8080/common-remote-pool/
      */
     private String url;
@@ -39,6 +41,7 @@ public class CommonRemotePoolClient {
 
     }
 
+
     /**
      * @param classType
      * @return return null if now object can be borrowed.
@@ -50,7 +53,6 @@ public class CommonRemotePoolClient {
      
     /**
      * @param classType
-     * @param borrowerName
      * @return return null if now object can be borrowed.
      */
     public <T> T borrowObject(Class<T> classType, String borrowerName) {
@@ -77,7 +79,6 @@ public class CommonRemotePoolClient {
     /**
      * @param classType
      * @param scopeList  only return the object in scope.
-     * @param borrowerName
      * @return return null if now object can be borrowed.
      */
     public <T> T borrowObject(Class<T> classType, List<T> scopeList, String borrowerName) {
@@ -114,8 +115,43 @@ public class CommonRemotePoolClient {
         }
     }
 
-    public <T> boolean addObject(Object... objects) {
+    /**
+     * list all objects be added into pools
+     * @param classType
+     * @return
+     */
+    public <T> List<T> listAdded(Class<T> classType) {
         ResteasyClient client = new ResteasyClientBuilder().build();
+        try {
+            ResteasyWebTarget target = client.target(url + "service/object/listAdd");
+            Response response =  target.request().get();
+
+            if (response.getStatus() == 404)
+                return null;
+
+           List<T> added=new ArrayList<T>();
+          	String readEntity = response.readEntity(String.class);
+          	if(!readEntity.startsWith("["))
+          		return added;
+
+            JSONArray array=JSONArray.fromObject(readEntity);
+            @SuppressWarnings("unchecked")
+			T[] products=(T[]) JSONArray.toArray(array,classType);
+            for(T t:products){
+                   added.add(t);
+            }
+
+            return added;
+         } finally {
+            client.close();
+        }
+
+    }
+
+ 
+
+    public <T> boolean addObject(Object... objects) {
+         ResteasyClient client = new ResteasyClientBuilder().build();
         try {
         	for (Object object : objects) {
                 ResteasyWebTarget target = client.target(url + "service/object/add");
@@ -129,5 +165,5 @@ public class CommonRemotePoolClient {
         }
 
     }
-  
+
 }
