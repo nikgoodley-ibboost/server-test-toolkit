@@ -50,6 +50,7 @@ public class CommonRemotePoolClient {
      
     /**
      * @param classType
+     * @param borrowerName
      * @return return null if now object can be borrowed.
      */
     public <T> T borrowObject(Class<T> classType, String borrowerName) {
@@ -76,6 +77,7 @@ public class CommonRemotePoolClient {
     /**
      * @param classType
      * @param scopeList  only return the object in scope.
+     * @param borrowerName
      * @return return null if now object can be borrowed.
      */
     public <T> T borrowObject(Class<T> classType, List<T> scopeList, String borrowerName) {
